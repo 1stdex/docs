@@ -27,6 +27,7 @@
             "pages": [
               "rac/whitepaper",
               "rac/token-delivery-commitment",
+              "rac/token-delivery-commitment-template",
               "rac/vault"
             ]
           },
