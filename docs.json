@@ -11,25 +11,27 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Overview",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "overview/about",
+              "overview/non-custodial",
+              "overview/fees",
+              "overview/GTFO-DAO-LLC"
             ]
           },
           {
-            "group": "Customization",
+            "group": "RAC",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "rac/whitepaper",
+              "rac/pepa-legal-framework",
+              "rac/vault"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Trading platform",
             "pages": [
               "essentials/markdown",
               "essentials/code",
