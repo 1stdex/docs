@@ -18,8 +18,7 @@
             "pages": [
               "overview/about",
               "overview/non-custodial",
-              "overview/fees",
-              "overview/GTFO-DAO-LLC"
+              "overview/fees"
             ]
           },
           {
@@ -28,7 +27,6 @@
               "gtfo-protocol/whitepaper",
               "gtfo-protocol/token-delivery-commitment",
               "gtfo-protocol/token-delivery-commitment-template",
-              "gtfo-protocol/vault",
               "gtfo-protocol/GTFO-DAO-LLC"
             ]
           },
