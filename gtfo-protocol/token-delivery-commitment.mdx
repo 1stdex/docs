@@ -1,64 +1,67 @@
 ---
 title: "Token Delivery Commitment Framework"
-description: "Commodity Forward Structure for RAC Protocol"
+description: "Commodity Forward Structure for GTFO Protocol"
 ---
 
-## Overview
+### Overview
 
-The RAC Forward Protocol operates through a streamlined commodity forward structure using Token Delivery Commitments (TDCs). This framework creates legally enforceable forward contracts while maintaining operational simplicity and regulatory compliance.
+The GTFO Protocol operates through a streamlined commodity forward structure using Token Delivery Commitments (TDCs). This framework creates legally enforceable forward contracts while maintaining operational simplicity and regulatory compliance.
 
-<Info>
-  The Token Delivery Commitment is a commodity forward contract that requires mandatory physical delivery of digital tokens. This structure provides clear CFTC regulatory treatment while avoiding SEC securities classification.
-</Info>
+The Token Delivery Commitment is a commodity forward contract that requires mandatory physical delivery of digital tokens. This structure provides clear CFTC regulatory treatment while avoiding SEC securities classification.
 
 ## How It Works
 
 ### Basic Structure
 
-```mermaid
-graph TD
-    A[VC Fund] -->|Signs TDC| B[Legal Commitment]
-    B -->|References| C[Smart Contract Address]
-    D[GTFO DAO LLC] -->|Deploys| E[Smart Contract System]
-    E -->|Mints| F[RAC Tokens]
-    F -->|Represents| G[Forward Contract Rights]
-    A -->|Delivers Tokens| C
-    H[RAC Holders] -->|Withdraw| C
-    B -->|Enforceable by| H
+```
+VC Fund → Signs TDC → References → Smart Contract Address
+                                         ↓
+GTFO DAO LLC → Deploys → Smart Contract System
+                                         ↓
+                        Mints → MirrorTokens → Represents → Forward Contract Rights
+                                         ↓
+                        Delivers Tokens → MirrorToken Holders ← Enforceable by
+                                         ↓
+                                    Withdraw
 ```
 
 ### Step-by-Step Process
 
-1. **VC Signs Token Delivery Commitment**
-   - Creates binding legal obligation to deliver specific tokens
-   - Specifies delivery schedule, quantities, and smart contract address
-   - No counterparty signature required - unilateral commitment
-2. **GTFO DAO LLC Deploys Infrastructure**
-   - Deploys immutable smart contracts for token settlement
-   - Mints RAC tokens representing fractional forward positions
-   - Publishes documentation linking RACs to TDC
-3. **Market Trading Begins**
-   - RAC tokens trade on decentralized exchanges
-   - Each RAC represents proportional rights under the TDC
-   - Market pricing reflects forward contract value and delivery expectations
-4. **Physical Delivery Process**
-   - VC delivers tokens directly to smart contract address per TDC schedule
-   - Smart contract automatically updates available balances
-   - RAC holders can withdraw proportional token amounts
-5. **Enforcement Mechanism**
-   - If VC fails to deliver, RAC holders can sue for specific performance
-   - Direct legal relationship between VC and RAC holders
-   - GTFO DAO LLC has no liability for delivery performance
+**1. VC Signs Token Delivery Commitment**
 
----
+- Creates binding legal obligation to deliver specific tokens
+- Specifies delivery schedule, quantities, and smart contract address
+- No counterparty signature required - unilateral commitment
+
+**2. GTFO DAO LLC Deploys Infrastructure**
+
+- Deploys immutable smart contracts for token settlement
+- Mints MirrorTokens representing fractional forward positions
+- Publishes documentation linking MirrorTokens to TDC
+
+**3. Market Trading Begins**
+
+- MirrorTokens trade on decentralized exchanges
+- Each MirrorToken represents proportional rights under the TDC
+- Market pricing reflects forward contract value and delivery expectations
+
+**4. Physical Delivery Process**
+
+- VC delivers tokens directly to smart contract address per TDC schedule
+- Smart contract automatically updates available balances
+- MirrorToken holders can withdraw proportional token amounts
+
+**5. Enforcement Mechanism**
+
+- If VC fails to deliver, MirrorToken holders can sue for specific performance
+- Direct legal relationship between VC and MirrorToken holders
+- GTFO DAO LLC has no liability for delivery performance
 
 ## Legal Framework
 
 ### Commodity Forward Classification
 
-<Tip>
-  Token Delivery Commitments qualify as commodity forward contracts under CFTC regulations, providing clear regulatory treatment and avoiding SEC securities jurisdiction.
-</Tip>
+Token Delivery Commitments qualify as commodity forward contracts under CFTC regulations, providing clear regulatory treatment and avoiding SEC securities jurisdiction.
 
 **Essential Elements Present:**
 
@@ -69,13 +72,13 @@ graph TD
 
 ### Regulatory Benefits
 
-**CFTC Jurisdiction (Not SEC)**:
+**CFTC Jurisdiction (Not SEC):**
 
 - Commodity forwards fall under CFTC authority, not SEC securities regulation
 - Physical settlement provides exemptions from complex swap dealer rules
 - Established legal framework with decades of precedent
 
-**Securities Law Avoidance**:
+**Securities Law Avoidance:**
 
 - Forward contracts for commodity delivery are not securities
 - No investment contract characteristics under Howey test
@@ -83,34 +86,32 @@ graph TD
 
 ### Enforceability Structure
 
-**Direct Legal Relationships**:
+**Direct Legal Relationships:**
 
 - VC has binding delivery obligation under contract law
-- RAC holders have direct enforcement rights against VC
+- MirrorToken holders have direct enforcement rights against VC
 - No intermediary dependencies or third-party performance requirements
 
-**Specific Performance Available**:
+**Specific Performance Available:**
 
-- RAC holders can seek court orders requiring actual token delivery
+- MirrorToken holders can seek court orders requiring actual token delivery
 - Monetary damages inadequate for commodity delivery failures
 - Standard commodity forward remedies apply
 
-## RAC Token Mechanics
+## MirrorToken Mechanics
 
 ### Token Rights and Characteristics
 
-<Warning>
-  RAC tokens represent fractional interests in the underlying Token Delivery Commitment. They are NOT utility tokens or investment securities, but rather tokenized positions in commodity forward contracts.
-</Warning>
+MirrorTokens represent fractional interests in the underlying Token Delivery Commitment. They are NOT utility tokens or investment securities, but rather tokenized positions in commodity forward contracts.
 
-**Core Properties**:
+**Core Properties:**
 
-- **Proportional Delivery Rights**: Each RAC represents fixed fraction of total delivery commitment
-- **Direct Enforcement Rights**: RAC holders can legally enforce TDC against VC
+- **Proportional Delivery Rights**: Each MirrorToken represents fixed fraction of total delivery commitment
+- **Direct Enforcement Rights**: MirrorToken holders can legally enforce TDC against VC
 - **Transferable Positions**: Forward contract rights can be traded on secondary markets
 - **Physical Settlement Only**: Rights satisfied only through actual token delivery
 
-**Not Included**:
+**Not Included:**
 
 - No voting rights in any protocol or organization
 - No dividend, yield, or profit-sharing entitlements
@@ -119,17 +120,17 @@ graph TD
 
 ### Settlement Mechanics
 
-**Withdrawal Process**:
+**Withdrawal Process:**
 
-1. RAC holder calls withdrawal function on smart contract
-2. Contract calculates proportional entitlement based on delivered tokens
-3. Proportional token amount transferred automatically to holder
-4. RAC remains valid - no burning required for withdrawal
+- MirrorToken holder calls withdrawal function on smart contract
+- Contract calculates proportional entitlement based on delivered tokens
+- Proportional token amount transferred automatically to holder
+- MirrorToken remains valid - no burning required for withdrawal
 
-**Proportional Distribution**:
+**Proportional Distribution:**
 
-- Available tokens distributed proportionally among all RAC holders
-- If 100,000 tokens delivered and 1,000,000 RACs outstanding, each RAC can claim 0.1 tokens
+- Available tokens distributed proportionally among all MirrorToken holders
+- If 100,000 tokens delivered and 1,000,000 MirrorTokens outstanding, each MirrorToken can claim 0.1 tokens
 - Withdrawal calculations performed automatically by smart contract
 - No human intervention or discretionary allocation decisions
 
@@ -137,48 +138,46 @@ graph TD
 
 ### For Venture Capital Funds
 
-**Pre-Signing Requirements**:
+**Pre-Signing Requirements:**
 
 - Verify legal ownership of tokens subject to delivery commitment
 - Confirm SAFT or allocation agreement permits transfer/delivery
 - Obtain legal review of TDC terms and enforceability
 - Ensure adequate capitalization for delivery obligations
 
-**Execution Process**:
+**Execution Process:**
 
 - Complete TDC template with specific terms and delivery schedule
 - Execute document with proper corporate authorization
 - Coordinate with GTFO DAO LLC for smart contract deployment
 - Monitor delivery schedule and maintain token availability
 
-<Info>
-  VCs should treat TDCs as binding forward contracts with real delivery obligations. Failure to deliver exposes VCs to specific performance lawsuits and cover damages from RAC holders.
-</Info>
+VCs should treat TDCs as binding forward contracts with real delivery obligations. Failure to deliver exposes VCs to specific performance lawsuits and cover damages from MirrorToken holders.
 
-**Ongoing Obligations**:
+**Ongoing Obligations:**
 
 - Deliver tokens according to committed schedule
 - Maintain clear title to tokens pending delivery
 - Coordinate with smart contract system for delivery confirmation
 - Respond to any enforcement actions promptly
 
-### For RAC Token Holders
+### For MirrorToken Holders
 
-**Understanding Your Rights**:
+**Understanding Your Rights:**
 
-- RAC tokens provide contractual rights to token delivery, not ownership of underlying business
+- MirrorTokens provide contractual rights to token delivery, not ownership of underlying business
 - Rights enforceable directly against VC through legal system
 - No dependency on GTFO DAO LLC for delivery performance
-- Proportional sharing of delivered tokens with other RAC holders
+- Proportional sharing of delivered tokens with other MirrorToken holders
 
-**Risk Considerations**:
+**Risk Considerations:**
 
 - **Delivery Risk**: VC may fail to deliver tokens as committed
 - **Smart Contract Risk**: Technical bugs could affect withdrawal functionality
-- **Market Risk**: RAC values may fluctuate based on delivery expectations and underlying token performance
+- **Market Risk**: MirrorToken values may fluctuate based on delivery expectations and underlying token performance
 - **Legal Risk**: Enforcement may require legal action against defaulting VCs
 
-**Withdrawal Process**:
+**Withdrawal Process:**
 
 - Monitor smart contract for delivered token balances
 - Call withdrawal functions when tokens become available
@@ -189,14 +188,14 @@ graph TD
 
 ### Contract Architecture
 
-**Immutable Settlement System**:
+**Immutable Settlement System:**
 
 - Smart contracts deployed with predetermined logic for token settlement
 - No administrative functions or upgrade mechanisms
-- Automatic proportional distribution based on RAC ownership
+- Automatic proportional distribution based on MirrorToken ownership
 - Direct integration with Token Delivery Commitment terms
 
-**Security Features**:
+**Security Features:**
 
 - All source code publicly auditable and verified
 - Multi-signature deployment procedures for additional security
@@ -205,17 +204,17 @@ graph TD
 
 ### Technical Specifications
 
-**Supported Standards**:
+**Supported Standards:**
 
-- ERC-20 compliant RAC tokens for maximum compatibility
+- ERC-20 compliant MirrorTokens for maximum compatibility
 - Standard Ethereum/compatible blockchain integration
 - Support for tokens with various decimal precision standards
 - Gas-optimized withdrawal and distribution functions
 
-**Integration Requirements**:
+**Integration Requirements:**
 
 - Smart contract addresses must be specified in TDC documentation
-- RAC token contracts reference specific TDC commitments
+- MirrorToken contracts reference specific TDC commitments
 - Delivery confirmation through blockchain transaction verification
 - Merkle tree systems for efficient balance tracking and verification
 
@@ -223,81 +222,77 @@ graph TD
 
 ### GTFO DAO LLC Role
 
-<Info>
-  GTFO DAO LLC serves purely as technical infrastructure provider with no ongoing management role in forward contract performance or RAC holder relationships.
-</Info>
+GTFO DAO LLC serves purely as technical infrastructure provider with no ongoing management role in forward contract performance or MirrorToken holder relationships.
 
-**Limited Responsibilities**:
+**Limited Responsibilities:**
 
 - Deploy and maintain smart contract infrastructure
-- Mint RAC tokens representing TDC forward positions
-- Publish documentation linking RACs to underlying TDCs
+- Mint MirrorTokens representing TDC forward positions
+- Publish documentation linking MirrorTokens to underlying TDCs
 - Provide technical support for smart contract interfaces
 
-**Explicitly Not Responsible For**:
+**Explicitly Not Responsible For:**
 
 - VC delivery performance or compliance with TDCs
-- RAC token pricing or market-making activities
-- Dispute resolution between VCs and RAC holders
+- MirrorToken pricing or market-making activities
+- Dispute resolution between VCs and MirrorToken holders
 - Investment advice or forward contract recommendations
 
 ### Dispute Resolution
 
-**Primary Enforcement**:
+**Primary Enforcement:**
 
-- RAC holders enforce TDCs directly against VCs through legal system
+- MirrorToken holders enforce TDCs directly against VCs through legal system
 - Specific performance lawsuits for delivery failures
 - Cover damages for replacement token purchases
 - Standard commercial contract remedies available
 
-**GTFO DAO LLC Non-Involvement**:
+**GTFO DAO LLC Non-Involvement:**
 
 - No mediation or dispute resolution role
 - No liability for VC delivery failures
-- No obligation to RAC holders beyond technical infrastructure
+- No obligation to MirrorToken holders beyond technical infrastructure
 - Pure service provider relationship with all parties
 
 ## Risk Disclosures
 
 ### Primary Risks
 
-<Warning>
-  **Delivery Risk**: VCs may fail to deliver committed tokens according to schedule. This is the primary risk for RAC holders and must be evaluated based on each VC's creditworthiness and track record.
-</Warning>
+**Delivery Risk:** VCs may fail to deliver committed tokens according to schedule. This is the primary risk for MirrorToken holders and must be evaluated based on each VC's creditworthiness and track record.
 
-**VC Counterparty Risk**:
+**VC Counterparty Risk:**
 
 - VCs may become insolvent or unable to deliver tokens
 - Legal enforcement may be time-consuming and expensive
 - Recovery may be limited to VC assets and insurance coverage
 - Due diligence on VC financial strength recommended
 
-**Smart Contract Risk**:
+**Smart Contract Risk:**
 
 - Technical bugs could affect withdrawal or distribution functionality
 - Blockchain network issues may impact token delivery or withdrawal
 - Smart contract immutability means bugs cannot be easily corrected
 - Comprehensive auditing and testing mitigate but do not eliminate technical risks
 
-**Market Risk**:
+**Market Risk:**
 
-- RAC values may fluctuate based on underlying token performance and delivery expectations
-- Secondary market liquidity may be limited for some RAC positions
+- MirrorToken values may fluctuate based on underlying token performance and delivery expectations
+- Secondary market liquidity may be limited for some MirrorToken positions
 - Time decay and delivery probability affect forward contract pricing
-- No guarantee RAC values will correlate perfectly with underlying token values
+- No guarantee MirrorToken values will correlate perfectly with underlying token values
 
 ### Regulatory Risk
 
-**Classification Changes**:
+**Classification Changes:**
 
 - Regulatory interpretation of tokenized forwards may evolve
 - Changes in commodity forward treatment could affect legal status
 - International regulatory developments may impact cross-border trading
 - Legal opinions reflect current law and interpretation
 
-**Compliance Requirements**:
+**Compliance Requirements:**
 
-- Large RAC holders may face reporting or registration requirements
+- Large MirrorToken holders may face reporting or registration requirements
 - Tax treatment of forward positions may be complex
 - Anti-money laundering and know-your-customer rules may apply to large transactions
 - Consult qualified legal and tax professionals for specific situations
@@ -312,5 +307,7 @@ The Token Delivery Commitment framework provides a legally robust and operationa
 - **Regulatory Compliance**: CFTC commodity treatment avoiding SEC securities issues
 
 The framework represents a significant advancement in DeFi infrastructure by bridging traditional commodity trading principles with tokenized digital assets, creating new opportunities for both institutional and retail market participants.
+
+---
 
 _This documentation describes the legal and technical framework for Token Delivery Commitments. It is provided for informational purposes only and does not constitute legal, investment, or tax advice. Prospective participants should consult qualified professionals before engaging with the protocol._
