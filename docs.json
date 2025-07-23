@@ -23,7 +23,7 @@
             ]
           },
           {
-            "group": "RAC",
+            "group": "GTFO Protocol",
             "pages": [
               "rac/whitepaper",
               "rac/token-delivery-commitment",
