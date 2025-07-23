@@ -25,11 +25,11 @@
           {
             "group": "GTFO Protocol",
             "pages": [
-              "rac/whitepaper",
-              "rac/token-delivery-commitment",
-              "rac/token-delivery-commitment-template",
-              "rac/vault",
-              "overview/GTFO-DAO-LLC"
+              "gtfo-protocol/whitepaper",
+              "gtfo-protocol/token-delivery-commitment",
+              "gtfo-protocol/token-delivery-commitment-template",
+              "gtfo-protocol/vault",
+              "gtfo-protocol/GTFO-DAO-LLC"
             ]
           },
           {
