@@ -1,40 +1,44 @@
 ---
 title: "Whitepaper"
-description: "Redeemable Access Credits for Liquid Token Allocation Markets"
+description: "MirrorToken Liquidity Framework for Locked Token Allocations"
 ---
 
 ## Abstract
 
-RAC Forward Protocol introduces a novel liquidity solution for locked token allocations through tokenized commodity forward contracts. The protocol enables secondary markets for vesting token positions by creating tradeable digital representations of physically-settled forward agreements.
+GTFO Protocol introduces a novel liquidity solution for locked token allocations through tokenized commodity forward contracts. The protocol enables secondary markets for vesting token positions by creating tradeable digital representations of physically-settled forward agreements.
 
-The system operates through Redeemable Access Credits (RACs) - tokenized commodity forward contracts that represent legally enforceable delivery obligations for underlying tokens. Each RAC represents a forward position where venture capital funds commit to deliver specific tokens to an immutable settlement vault, and RAC holders have direct rights to withdraw their proportional share. This structure provides the liquidity benefits of tokenization while maintaining the legal characteristics of commodity forwards under established regulatory frameworks.
+The system operates through MirrorTokens - tokenized commodity forward contracts that represent legally enforceable delivery obligations for underlying tokens. Each MirrorToken represents a forward position where venture capital funds commit to deliver specific tokens to an immutable settlement vault, and MirrorToken holders have direct rights to withdraw their proportional share. This structure provides the liquidity benefits of tokenization while maintaining the legal characteristics of commodity forwards under established regulatory frameworks.
+
+---
 
 ## Table of Contents
 
- 1. [Introduction](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#1-introduction)
- 2. [Problem Statement](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#2-problem-statement)
- 3. [Solution Overview](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#3-solution-overview)
- 4. [Protocol Architecture](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#4-protocol-architecture)
- 5. [RAC Token Mechanics](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#5-rac-token-mechanics)
- 6. [Token Delivery Framework](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#6-token-delivery-framework)
- 7. [Smart Contract System](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#7-smart-contract-system)
- 8. [Economic Model](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#8-economic-model)
- 9. [Regulatory Framework](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#9-regulatory-framework)
-10. [Security Considerations](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#10-security-considerations)
-11. [Risk Assessment](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#11-risk-assessment)
-12. [Conclusion](https://claude.ai/chat/5c393c19-c008-4a50-8e21-0975df579fcd#12-conclusion)
+ 1. [Introduction](#1-introduction)
+ 2. [Problem Statement](#2-problem-statement)
+ 3. [Solution Overview](#3-solution-overview)
+ 4. [Protocol Architecture](#4-protocol-architecture)
+ 5. [MirrorToken Mechanics](#5-mirrortoken-mechanics)
+ 6. [Token Delivery Framework](#6-token-delivery-framework)
+ 7. [Smart Contract System](#7-smart-contract-system)
+ 8. [Economic Model](#8-economic-model)
+ 9. [Regulatory Framework](#9-regulatory-framework)
+10. [Security Considerations](#10-security-considerations)
+11. [Risk Assessment](#11-risk-assessment)
+12. [Conclusion](#12-conclusion)
+
+---
 
 ## 1. Introduction
 
 ### 1.1 Vision
 
-RAC Forward Protocol addresses the fundamental liquidity challenge in early-stage token allocations by creating compliant secondary markets through physically-settled commodity forwards with direct enforcement relationships.
+GTFO Protocol addresses the fundamental liquidity challenge in early-stage token allocations by creating compliant secondary markets through physically-settled commodity forwards with direct enforcement relationships.
 
 ### 1.2 Key Innovation
 
 The protocol's core innovation lies in tokenizing commodity forward positions through direct legal commitments:
 
-- **RAC Token**: Tokenized representation of commodity forward contract rights with physical settlement
+- **MirrorToken**: Tokenized representation of commodity forward contract rights with physical settlement
 - **Token Delivery Commitment (TDC)**: Unilateral legal commitment from VCs ensuring physical delivery
 
 This structure enables liquid secondary trading of forward positions while preserving direct legal relationships and physical settlement characteristics of commodity forwards. The tokenization allows for fractional ownership, continuous trading, and automated settlement without intermediary dependencies or complex bilateral agreements.
@@ -79,10 +83,10 @@ Existing liquidity solutions often trigger securities regulations (SEC) or deriv
 
 ### 3.1 Protocol Components
 
-RAC Forward Protocol consists of four primary components:
+GTFO Protocol consists of four primary components:
 
 1. **GTFO DAO LLC**: Marshall Islands DAO LLC that facilitates technical infrastructure deployment
-2. **RAC Token**: ERC-20 tokenized commodity forward contracts with physical settlement rights
+2. **MirrorToken**: ERC-20 tokenized commodity forward contracts with physical settlement rights
 3. **Immutable Settlement Vault**: Smart contract system handling physical delivery and proportional withdrawals
 4. **Token Delivery Commitment**: Unilateral legal commitment creating binding delivery obligations
 
@@ -96,21 +100,21 @@ RAC Forward Protocol consists of four primary components:
 
 2. Technical Infrastructure Deployment
    ├── GTFO DAO LLC deploys immutable settlement vault at specified address
-   ├── RAC tokens minted representing fractional forward contract rights
-   └── Documentation published linking RACs to underlying delivery commitment
+   ├── MirrorTokens minted representing fractional forward contract rights
+   └── Documentation published linking MirrorTokens to underlying delivery commitment
 
 3. Secondary Market Trading
-   ├── RAC holders trade tokenized forward positions on exchanges
+   ├── MirrorToken holders trade tokenized forward positions on exchanges
    ├── Market price discovery reflects delivery expectations and underlying token value
    └── Continuous liquidity without affecting delivery obligations
 
 4. Physical Settlement Process
    ├── VC deposits vested tokens directly to settlement vault per commitment schedule
    ├── Vault automatically calculates proportional entitlements
-   └── RAC holders withdraw underlying tokens based on proportional ownership
+   └── MirrorToken holders withdraw underlying tokens based on proportional ownership
 
 5. Direct Enforcement
-   ├── RAC holders can enforce delivery commitments directly against VCs
+   ├── MirrorToken holders can enforce delivery commitments directly against VCs
    └── Legal remedies include specific performance and cover damages
 ```
 
@@ -140,15 +144,17 @@ RAC Forward Protocol consists of four primary components:
 
 ### 4.1 System Overview
 
+mermaid
+
 ```
 graph TD
     A[VC Fund] -->|Signs TDC| B[Legal Commitment]
     B -->|References| C[Settlement Vault Address]
     D[GTFO DAO LLC] -->|Deploys| E[Smart Contract System]
-    E -->|Mints| F[RAC Tokens]
+    E -->|Mints| F[MirrorTokens]
     F -->|Represents| G[Forward Contract Rights]
     A -->|Delivers Tokens| C
-    H[RAC Holders] -->|Withdraw Proportionally| C
+    H[MirrorToken Holders] -->|Withdraw Proportionally| C
     B -->|Enforceable by| H
     G -->|Secondary Trading| I[DEX Markets]
 ```
@@ -158,8 +164,8 @@ graph TD
 **GTFO DAO LLC:**
 
 - Deploy immutable smart contract infrastructure for token settlement
-- Mint RAC tokens representing fractional interests in delivery commitments
-- Publish documentation linking RACs to underlying legal commitments
+- Mint MirrorTokens representing fractional interests in delivery commitments
+- Publish documentation linking MirrorTokens to underlying legal commitments
 - Provide technical infrastructure without ongoing operational responsibilities
 
 **Venture Capital Funds (VCs):**
@@ -167,9 +173,9 @@ graph TD
 - Execute unilateral Token Delivery Commitments for specific token quantities
 - Deliver vested tokens directly to settlement vault per predetermined schedule
 - Bear full legal liability for delivery performance under contract law
-- No involvement in RAC secondary trading, pricing, or market operations
+- No involvement in MirrorToken secondary trading, pricing, or market operations
 
-**RAC Token Holders:**
+**MirrorToken Holders:**
 
 - Own fractional interests in underlying Token Delivery Commitments
 - Trade tokenized forward positions on secondary markets without restriction
@@ -178,16 +184,16 @@ graph TD
 
 ### 4.3 Governance Model
 
-RAC Forward Protocol operates as a deterministic system with minimal governance:
+GTFO Protocol operates as a deterministic system with minimal governance:
 
 - **Immutable Contracts**: Settlement vault code cannot be modified post-deployment
-- **Direct Legal Relationships**: RAC holders enforce commitments directly against VCs
+- **Direct Legal Relationships**: MirrorToken holders enforce commitments directly against VCs
 - **Technical Service Model**: GTFO DAO LLC provides infrastructure without ongoing management
 - **Transparent Operations**: All settlements and calculations verifiable on-chain
 
 ---
 
-## 5. RAC Token Mechanics
+## 5. MirrorToken Mechanics
 
 ### 5.1 Token Specification
 
@@ -197,28 +203,28 @@ RAC Forward Protocol operates as a deterministic system with minimal governance:
 
 **Physical Settlement Mandate**
 
-- Each RAC represents fractional ownership of a commodity forward position
+- Each MirrorToken represents fractional ownership of a commodity forward position
 - VCs legally obligated to deliver specified tokens to settlement vault
-- RAC holders have direct contractual rights to proportional shares of delivered tokens
+- MirrorToken holders have direct contractual rights to proportional shares of delivered tokens
 - No cash settlement option - obligations satisfied only through actual token delivery
 
 **Direct Legal Enforcement**
 
-- RAC holders can sue VCs directly for delivery failures under contract law
+- MirrorToken holders can sue VCs directly for delivery failures under contract law
 - Specific performance available as primary remedy for commodity delivery obligations
 - No dependency on GTFO DAO LLC for enforcement or dispute resolution
 - Standard commercial contract remedies apply to delivery commitments
 
 **Transferable Forward Positions**
 
-- RAC tokens enable secondary trading of forward contract rights
+- MirrorTokens enable secondary trading of forward contract rights
 - Transfers convey full legal enforcement rights to new holders
-- Forward commitment terms remain unchanged regardless of RAC ownership
+- Forward commitment terms remain unchanged regardless of MirrorToken ownership
 - Market pricing reflects delivery probability, timing, and underlying token value
 
 **No Financial Rights**
 
-- RACs confer no voting rights in protocols, organizations, or governance
+- MirrorTokens confer no voting rights in protocols, organizations, or governance
 - No dividend, yield, profit-sharing, or investment return entitlements
 - No management participation or discretionary decision-making rights
 - Value derives exclusively from commodity delivery rights, not business performance
@@ -228,13 +234,13 @@ RAC Forward Protocol operates as a deterministic system with minimal governance:
 **Commitment Phase:**
 
 - VC executes Token Delivery Commitment creating binding legal obligation
-- GTFO DAO LLC deploys settlement infrastructure and mints corresponding RAC tokens
-- Documentation published establishing connection between RACs and delivery commitment
+- GTFO DAO LLC deploys settlement infrastructure and mints corresponding MirrorTokens
+- Documentation published establishing connection between MirrorTokens and delivery commitment
 - Settlement vault becomes available for token deposits and proportional withdrawals
 
 **Trading Phase:**
 
-- RAC tokens trade on decentralized exchanges and OTC markets
+- MirrorTokens trade on decentralized exchanges and OTC markets
 - Price discovery reflects delivery expectations, timing, and underlying token performance
 - Secondary market activity independent of delivery obligations and settlement operations
 - Liquidity provided through standard market-making and trading activities
@@ -243,14 +249,14 @@ RAC Forward Protocol operates as a deterministic system with minimal governance:
 
 - VCs deposit vested tokens directly to settlement vault according to commitment schedule
 - Smart contract automatically updates available balances and proportional entitlements
-- RAC holders can verify delivery status independently through on-chain data
+- MirrorToken holders can verify delivery status independently through on-chain data
 - No human intervention required for settlement calculations or token distribution
 
 **Settlement Phase:**
 
-- RAC holders withdraw proportional token amounts through direct smart contract interaction
-- Withdrawal calculations performed automatically based on delivered tokens and RAC ownership
-- No token burning required - RACs remain valid until voluntarily redeemed
+- MirrorToken holders withdraw proportional token amounts through direct smart contract interaction
+- Withdrawal calculations performed automatically based on delivered tokens and MirrorToken ownership
+- No token burning required - MirrorTokens remain valid until voluntarily redeemed
 - Process continues until all committed tokens delivered and claimed by holders
 
 ---
@@ -265,7 +271,7 @@ The Token Delivery Commitment (TDC) framework replaces complex bilateral agreeme
 
 - **Unilateral Promise**: VC makes binding commitment without counterparty signature
 - **Physical Settlement**: Mandatory delivery of actual tokens to specified smart contract
-- **Direct Enforcement**: RAC holders can sue VCs directly for delivery failures
+- **Direct Enforcement**: MirrorToken holders can sue VCs directly for delivery failures
 - **Standard Contract Law**: Enforceable under established commercial contract principles
 
 ### 6.2 Core Legal Elements
@@ -279,7 +285,7 @@ The Token Delivery Commitment (TDC) framework replaces complex bilateral agreeme
 
 **Legal Enforceability:**
 
-- Binding commitment enforceable by any RAC token holder
+- Binding commitment enforceable by any MirrorToken holder
 - Specific performance available as primary remedy for delivery failures
 - Cover damages available for replacement token purchases
 - Standard commercial contract dispute resolution procedures
@@ -288,7 +294,7 @@ The Token Delivery Commitment (TDC) framework replaces complex bilateral agreeme
 
 - VC signs commitment document without GTFO DAO LLC signature or involvement
 - No artificial intermediary relationships or fake counterparty structures
-- Direct legal relationships between VCs and RAC holders through commitment
+- Direct legal relationships between VCs and MirrorToken holders through commitment
 - Simplified documentation reducing legal complexity and transaction costs
 
 ### 6.3 Commitment Template Structure
@@ -299,7 +305,7 @@ The Token Delivery Commitment (TDC) framework replaces complex bilateral agreeme
 - Token specifications including contract addresses and quantities
 - Delivery schedule with specific dates and amounts
 - Settlement vault address for physical delivery
-- Legal enforceability clause for RAC holders
+- Legal enforceability clause for MirrorToken holders
 
 **Standardized Provisions:**
 
@@ -332,7 +338,7 @@ The Token Delivery Commitment (TDC) framework replaces complex bilateral agreeme
 
 The protocol employs immutable smart contracts designed for direct user interaction without administrative control or third-party dependencies:
 
-**RAC Token Contract**
+**MirrorToken Contract**
 
 - Standard ERC-20 implementation with EIP-2612 gasless approval support
 - Fixed supply corresponding to total tokens subject to delivery commitments
@@ -369,8 +375,8 @@ The protocol employs immutable smart contracts designed for direct user interact
 
 **Proportional Withdrawal Process:**
 
-1. RAC holder calls withdrawal function directly on settlement vault contract
-2. Contract calculates available withdrawal amount based on delivered tokens and RAC ownership
+1. MirrorToken holder calls withdrawal function directly on settlement vault contract
+2. Contract calculates available withdrawal amount based on delivered tokens and MirrorToken ownership
 3. Proportional token amount transferred automatically to holder's address
 4. Contract updates internal accounting and emits transaction events for transparency
 
@@ -387,9 +393,11 @@ The protocol employs immutable smart contracts designed for direct user interact
 
 ### 8.1 Commodity Forward Pricing
 
-RAC value reflects standard commodity forward pricing dynamics with adjustments for tokenization and delivery risk:
+MirrorToken value reflects standard commodity forward pricing dynamics with adjustments for tokenization and delivery risk:
 
-**Forward Pricing Framework:** Forward Price = Expected Spot Price at Delivery × Delivery Probability - Risk Premium
+**Forward Pricing Framework:** 
+
+$Forward Price = Expected Spot Price at Delivery × Delivery Probability - Risk Premium$
 
 **Market Value Drivers:**
 
@@ -402,7 +410,7 @@ RAC value reflects standard commodity forward pricing dynamics with adjustments 
 
 **Supply Factors:**
 
-- Fixed RAC supply equals total tokens subject to delivery commitments
+- Fixed MirrorToken supply equals total tokens subject to delivery commitments
 - No additional issuance possible - supply decreases only through voluntary redemption
 - Settlement activity does not affect outstanding token supply or proportional rights
 
@@ -432,7 +440,7 @@ RAC value reflects standard commodity forward pricing dynamics with adjustments 
 
 **Fee Structure:**
 
-- **Protocol Fees**: None - RAC Forward Protocol operates without protocol-level fees
+- **Protocol Fees**: None - GTFO Protocol operates without protocol-level fees
 - **Transaction Costs**: Standard blockchain gas fees for smart contract interactions
 - **Third-Party Costs**: DEX trading fees and potential market-making spreads
 
@@ -442,14 +450,14 @@ RAC value reflects standard commodity forward pricing dynamics with adjustments 
 
 ### 9.1 Commodity Forward Classification
 
-RAC Forward Protocol operates within established commodity forward regulatory frameworks through direct delivery commitments:
+GTFO Protocol operates within established commodity forward regulatory frameworks through direct delivery commitments:
 
 **CFTC Jurisdiction (United States)**
 
-- RACs represent tokenized commodity forward positions under CFTC regulatory authority
+- MirrorTokens represent tokenized commodity forward positions under CFTC regulatory authority
 - Physical settlement requirement satisfied through actual token delivery to smart contracts
 - Forward contracts for digital commodities exempt from swap dealer regulations when physically settled
-- End users (RAC holders) face minimal regulatory requirements as commodity forward buyers
+- End users (MirrorToken holders) face minimal regulatory requirements as commodity forward buyers
 
 **Commodity Forward Characteristics**
 
@@ -460,7 +468,7 @@ RAC Forward Protocol operates within established commodity forward regulatory fr
 
 ### 9.2 Securities Law Analysis
 
-RACs avoid securities classification through commodity forward structure and direct delivery rights:
+MirrorTokens avoid securities classification through commodity forward structure and direct delivery rights:
 
 **Howey Test Analysis:**
 
@@ -482,7 +490,7 @@ RACs avoid securities classification through commodity forward structure and dir
 
 - Technical infrastructure provider without ongoing management or investment activities
 - No handling of customer funds, investment advice, or discretionary trading
-- RAC issuance represents tokenization of existing legal commitments, not new investment products
+- MirrorToken issuance represents tokenization of existing legal commitments, not new investment products
 - Standard corporate liability protection through proper entity maintenance and operations
 
 **Potential Registration Considerations:**
@@ -496,7 +504,7 @@ RACs avoid securities classification through commodity forward structure and dir
 
 **European Union (MiCA)**
 
-- RACs likely classified as Asset-Referenced Tokens under EU regulatory framework
+- MirrorTokens likely classified as Asset-Referenced Tokens under EU regulatory framework
 - Traditional commodity forwards may qualify for exemptions, but tokenization creates classification uncertainty
 - Regulatory authorization and ongoing compliance requirements for EU resident access
 - Consider restricting EU marketing and access pending regulatory clarity
@@ -642,11 +650,11 @@ RACs avoid securities classification through commodity forward structure and dir
 
 ### 12.1 Protocol Innovation
 
-RAC Forward Protocol represents a significant advancement in DeFi infrastructure by providing the first compliant solution for tokenizing locked token allocations. The protocol's innovative use of direct delivery commitments eliminates artificial intermediary structures while maintaining full regulatory compliance within established commodity forward frameworks.
+GTFO Protocol represents a significant advancement in DeFi infrastructure by providing the first compliant solution for tokenizing locked token allocations. The protocol's innovative use of direct delivery commitments eliminates artificial intermediary structures while maintaining full regulatory compliance within established commodity forward frameworks.
 
 ### 12.2 Market Impact
 
-The addressable market for locked token allocations represents billions of dollars in illiquid value across venture capital funds, institutional investors, and individual SAFT holders. RAC Forward Protocol unlocks this value through a simple, enforceable legal structure that creates direct relationships between allocation holders and market participants.
+The addressable market for locked token allocations represents billions of dollars in illiquid value across venture capital funds, institutional investors, and individual SAFT holders. GTFO Protocol unlocks this value through a simple, enforceable legal structure that creates direct relationships between allocation holders and market participants.
 
 ### 12.3 Regulatory Achievement
 
@@ -658,9 +666,11 @@ The protocol's immutable smart contract architecture ensures reliable, transpare
 
 ### 12.5 Future Development
 
-RAC Forward Protocol establishes the foundation for comprehensive liquidity solutions in digital asset markets. Future developments may include support for additional asset types, integration with traditional financial infrastructure, and expansion to international markets with appropriate regulatory frameworks.
+GTFO Protocol establishes the foundation for comprehensive liquidity solutions in digital asset markets. Future developments may include support for additional asset types, integration with traditional financial infrastructure, and expansion to international markets with appropriate regulatory frameworks.
 
 The protocol's success will advance the broader DeFi ecosystem by demonstrating how sophisticated financial instruments can operate compliantly within existing legal structures, paving the way for institutional adoption and mainstream market integration.
+
+---
 
 ## Appendices
 
@@ -687,6 +697,8 @@ The protocol's success will advance the broader DeFi ecosystem by demonstrating 
 - Complete audit reports and security assessment findings
 - Bug bounty program results and vulnerability disclosures
 - Incident response procedures and emergency protocols
+
+---
 
 **Document Information**
 
