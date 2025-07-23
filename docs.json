@@ -27,7 +27,7 @@
               "gtfo-protocol/whitepaper",
               {
                 "group": "Token Delivery Commitment",
-                "pages": ["gtfo-protocol/token-delivery-commitment", "token-delivery-commitment-template"]
+                "pages": ["gtfo-protocol/token-delivery-commitment", "gtfo-protocol/token-delivery-commitment-template"]
               },
               "gtfo-protocol/GTFO-DAO-LLC"
             ]
