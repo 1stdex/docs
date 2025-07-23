@@ -46,23 +46,6 @@
                 "pages": ["watchlist", "portfolio"]
               }
             ]
-          },
-          {
-            "group": "Trading platform",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
           }
         ]
       },
@@ -103,8 +86,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/logo-gtfo.svg",
+    "dark": "/logo/logo-gtfo.svg"
   },
   "navbar": {
     "links": [
