@@ -25,11 +25,22 @@
             "group": "GTFO Protocol",
             "pages": [
               "gtfo-protocol/whitepaper",
-              {
-                "title": "Token Delivery Commitment",
-                "pages": ["gtfo-protocol/token-delivery-commitment", "gtfo-protocol/token-delivery-commitment-template"]
-              },
               "gtfo-protocol/GTFO-DAO-LLC"
+            ]
+          },
+          {
+            "group": "Trading Platform",
+            "pages": [
+              "deposit",
+              "withdraw",
+              {
+                "group": "Order Types",
+                "pages": ["market", "limit", "dca"]
+              },
+              {
+                "group": "Finding Tokens",
+                "pages": ["watchlist", "portfolio"]
+              }
             ]
           },
           {
