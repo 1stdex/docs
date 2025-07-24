@@ -40,7 +40,7 @@
               "withdraw",
               {
                 "group": "Order Types",
-                "pages": ["market", "limit", "dca"]
+                "pages": ["market", "limit"]
               },
               {
                 "group": "Finding Tokens",
