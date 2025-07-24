@@ -35,7 +35,7 @@
                 "group": "Token Delivery Commitment",
                 "pages": ["gtfo-protocol/token-delivery-commitment", "gtfo-protocol/token-delivery-commitment-template"]
               },
-              "gtfo-protocol/mirrortoken-issuance-agreement",
+              "gtfo-protocol/mirrortoken-issuance-agreement"
             ]
           },
           {
