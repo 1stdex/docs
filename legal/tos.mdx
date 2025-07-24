@@ -48,11 +48,42 @@ You assign to us all rights in any feedback or suggestions you provide, and agre
 
 ### 2.7 Protocol Interface Disclaimer
 
-The Site is a user interface provided by GTFO DAO LLC for interacting with decentralized smart contracts deployed on public blockchain networks. The Company does not control, operate, own, or custody any such smart contracts or the assets that may be exchanged through them. Transactions are final and irreversible. The Company is not a counterparty to any onchain transaction and does not act as a broker, dealer, exchange, or money services business.
+The Site is a user interface provided by GTFO DAO LLC for interacting with decentralized smart contracts deployed on public blockchain networks. The Company does not control, operate, own, or custody any such smart contracts or the assets that may be exchanged through them. Transactions are final and irreversible. Users are responsible for all network gas fees. The Company may charge trading fees as displayed on the Site, which may change at any time. The Company is not a counterparty to any onchain transaction and does not act as a broker, dealer, exchange, or money services business.
 
 ### 2.8 No Investment Advice or Securities Offering
 
 Nothing on the Site constitutes legal, tax, investment, or financial advice. The Site is not a solicitation or offer to buy or sell any security or digital asset. You are solely responsible for evaluating your decisions in consultation with legal and financial advisors.
+
+### 2.9 **Embedded Wallet Functionality**
+
+The Site utilizes embedded wallet technology provided by [Privy.io](http://Privy.io) ("Privy"). By using the Site:
+
+- (a) Wallets are programmatically created and managed through Privy's infrastructure;
+- (b) Private keys are sharded and secured across multiple security boundaries;
+- (c) During normal operations, private keys are only temporarily reconstructed in secure execution environments;
+- (d) You CAN export your wallet's private key through the Site's export functionality or by contacting support;
+- (e) Wallet recovery depends on Privy's authentication and recovery mechanisms;
+- (f) The Company relies on Privy for wallet infrastructure and is not responsible for Privy service interruptions;
+- (g) Additional terms at privy.io/terms may apply;
+- (h) All user wallet data, including keys, can be exported at any time.
+
+### 2.10 Third-Party Wallet Infrastructure Provider
+
+The Company utilizes [Privy.io](http://Privy.io) as its wallet infrastructure provider. You acknowledge and agree that:
+
+- (a) Your use of wallet services is also subject to Privy's Terms of Service and Privacy Policy;
+- (b) The Company is not liable for any failures, interruptions, or security breaches in Privy's infrastructure;
+- (c) Privy processes certain personal data as described in their Privacy Policy;
+- (d) The Company acts as a controller, and Privy acts as a processor of wallet-related data;
+- (e) You release the Company from any claims arising from Privy's services or infrastructure.
+
+### Section 2.11 - Non-Custodial Nature
+
+- (a) The Company NEVER has access to your complete private keys;
+- (b) This is a non-custodial service despite embedded wallet architecture;
+- (c) Only you can export and control your private keys;
+- (d) The Company cannot recover lost authentication credentials;
+- (e) You bear full responsibility for wallet security and access.
 
 ## 3. User Representations and Warranties
 
@@ -88,11 +119,21 @@ You acknowledge and agree that: (a) all transactions conducted through the Site 
 
 ### 7.2 Data Collection and Use
 
-We may: (a) collect and analyze blockchain data, including wallet addresses and transaction patterns; (b) use analytics tools to monitor Site usage and improve our services; (c) collect technical information such as IP addresses, browser type, and device information; (d) share information with law enforcement or regulatory authorities when required by law; (e) use third-party services for analytics, security, and compliance purposes.
+We may: (a) collect and analyze blockchain data, including wallet addresses and transaction patterns; (b) use analytics tools to monitor Site usage and improve our services; (c) collect technical information such as IP addresses, browser type, and device information; (d) share information with law enforcement or regulatory authorities when required by law; (e) use third-party services for analytics, security, and compliance purposes. (f) send you promotional communications about new features, products, or services, with the ability to opt-out of such communications
 
 ### 7.3 No Right to Deletion
 
 Due to the immutable nature of blockchain technology, you cannot request the deletion of any on-chain data or transaction history.
+
+### Section 7.4 - Privy Data Sharing
+
+By using embedded wallets:
+
+- (a) Authentication data is shared with Privy for wallet access;
+- (b) Transaction patterns may be analyzed by Privy for security;
+- (c) Wallet addresses and metadata are processed by Privy;
+- (d) You consent to data processing as described in Privy's Privacy Policy;
+- (e) Data portability includes wallet key export capabilities.
 
 ## 8. Technical Access Controls
 
@@ -129,6 +170,28 @@ You acknowledge and accept the following risks: (a) smart contract vulnerabiliti
 ### 11.5 CLOB-Specific Risks
 
 You further acknowledge and accept these central limit order book specific risks: (a) order collision and race conditions where multiple users attempt to fill the same order; (b) latency issues causing orders to fail or execute at unexpected prices; (c) front-running and sandwich attacks by other users or bots; (d) order griefing where malicious actors manipulate the order book; (e) gas fee spikes that make placing or canceling orders expensive; (f) partial order fills that may leave positions incompletely executed; (g) stale orders remaining on-chain that require gas to cancel; (h) MEV extraction through transaction reordering; (i) stop-loss or conditional orders may not execute as expected due to blockchain mechanics; (j) oracle price manipulation if price feeds are used; and (k) order book depth and liquidity may vary significantly.
+
+### 11.6 Embedded Wallet Specific Risk
+
+You acknowledge these embedded wallet risks:
+
+- (a) Dependency on Privy's infrastructure for normal wallet operations;
+- (b) Different user experience compared to traditional self-custody wallets;
+- (c) Account recovery requires Privy's authentication mechanisms;
+- (d) Potential smart wallet upgrade risks if applicable;
+- (e) Session-based signing and delegated action vulnerabilities;
+- (f) Authentication provider failures may temporarily affect wallet access;
+- (g) While you can export private keys, the export process requires web browser access;
+- (h) Secure execution environments (TEE or on-device) add complexity to key management.
+
+### Section 11.7 - Authentication-Specific Risks
+
+When using social logins or email authentication:
+
+- (a) Loss of access to your email or social account may result in permanent wallet inaccessibility;
+- (b) Compromised authentication providers could lead to unauthorized wallet access;
+- (c) The Company is not responsible for third-party authentication provider failures;
+- (d) Multi-factor authentication adds security but does not eliminate all risks.
 
 ## 12. Limitation of Liability
 
@@ -185,6 +248,43 @@ Our failure to enforce any right or provision of these Terms will not be conside
 ### 15.7 Assignment
 
 You may not assign or transfer these Terms without our prior written consent. We may assign our rights under these Terms without restriction.
+
+### 16. Wallet Creation and Management
+
+16.1 By using the Site, you authorize the Company to create embedded wallets on your behalf through Privy's infrastructure.
+
+16.2 Your wallet keys are sharded and only temporarily reconstructed in secure environments for operations.
+
+16.3 You retain the right to export your full private key at any time through the Site or [support@privy.io](mailto:support@privy.io)
+
+16.4 The Company may implement transaction policies limiting certain wallet functionality.
+
+16.5 You acknowledge that while Privy provides self-custodial wallets, the user experience differs from traditional wallet applications.
+
+16.6 Smart wallet features may include batched transactions, gas sponsorship, and spending limits where applicable.
+
+### **Section 16.7 - Data Portability and Export Rights**
+
+You have the right to export your wallet private keys and associated data at any time. This ensures you maintain ultimate control over your digital assets and can migrate to other wallet solutions if desired. Export functionality is available through the Site's user interface or by contacting [support@privy.io](mailto:support@privy.io)
+
+### Section 16.8 - Delegated Transaction Authority
+
+If enabled, the Site may utilize session signers that allow server-side transaction execution:
+
+- (a) Time-limited signing permissions may be granted to the Company's servers;
+- (b) Policy constraints limit what actions can be taken on your behalf;
+- (c) You can revoke session permissions at any time;
+- (d) You remain responsible for all transactions executed via session signers.
+
+### Section 17 - Infrastructure Dependencies
+
+The Company is not liable for:
+
+- (a) Privy infrastructure outages or failures;
+- (b) TEE vulnerabilities or compromises;
+- (c) Authentication provider service interruptions;
+- (d) Blockchain network congestion affecting wallet operations;
+- (e) Changes in Privy's service offerings or pricing.
 
 ## Contact Information:
 
