@@ -25,12 +25,17 @@
             "group": "GTFO Protocol",
             "pages": [
               "gtfo-protocol/whitepaper",
+              "gtfo-protocol/GTFO-DAO-LLC"
+            ]
+          },
+          {
+            "group": "MirrorToken",
+            "pages": [
               {
                 "group": "Token Delivery Commitment",
                 "pages": ["gtfo-protocol/token-delivery-commitment", "gtfo-protocol/token-delivery-commitment-template"]
               },
               "gtfo-protocol/mirrortoken-issuance-agreement",
-              "gtfo-protocol/GTFO-DAO-LLC"
             ]
           },
           {
