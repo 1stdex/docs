@@ -52,6 +52,13 @@
                 "pages": ["watchlist", "portfolio"]
               }
             ]
+          },
+          {
+            "group": "Legal",
+            "pages": [
+              "legal/tos",
+              "legal/privacy-policy"
+            ]
           }
         ]
       },
@@ -99,7 +106,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:dao@gtfo.vc"
       }
     ],
     "primary": {
@@ -110,8 +117,7 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/gtfo_vc",
-      "github": "https://github.com/gtfolabs"
+      "x": "https://x.com/gtfo_vc"
     }
   }
 }
