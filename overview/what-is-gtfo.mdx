@@ -2,87 +2,100 @@
 title: "What is GTFO?"
 sidebarTitle: "What is GTFO?"
 icon: "house"
+description: "GTFO is a decentralized protocol that unlocks liquidity for locked token allocations."
 ---
 
-**GTFO is a decentralized protocol for trading locked token allocations.**
+It enables compliant, enforceable, and onchain secondary markets for vesting positions through a new mechanism: **MirrorTokens** — tokenized commodity forward contracts.
 
-It creates liquid secondary markets for vesting positions using tokenized forward contracts — called MirrorTokens — that are legally enforceable and settled on-chain.
+## 🚧 The Problem: Locked Allocations = Trapped Capital
 
-## Why it matters
+In every cycle, billions in value sit idle in locked token allocations:
 
-Early-stage token allocations are often locked for years behind SAFTs and vesting cliffs. This creates massive friction for:
+- VCs hold illiquid paper until vesting completes
+- Contributors can’t rebalance or realize upside
+- Traders can’t get exposure to pre-TGE deals
+- OTC trades are manual, opaque, and legally risky
 
-- 📉 VC funds that need to rebalance
-- 💸 Early contributors who want liquidity
-- 🤝 Market makers seeking pre-TGE exposure
+SAFTs and token grant agreements weren’t designed for liquidity — and most trading of locked allocations today happens in legal gray zones.
 
-Today, these allocations are traded OTC with legal gray zones, zero transparency, and no enforceability.
+> GTFO turns this problem into an opportunity — by reimagining how vesting rights are represented and exchanged.
 
-GTFO changes that.
+## 🧬 The Solution: MirrorTokens
 
-## How it works
+GTFO introduces **MirrorTokens** — ERC-20 tokens that represent enforceable rights to future token delivery.
 
-GTFO introduces a new standard:
+Each MirrorToken:
 
-```mermaid
-flowchart TD
-  VC[VC or Token Issuer\nsigns Tokenization Agreement] --> Agreement[Legal Agreement with\nGTFO DAO LLC]
-  Agreement --> TDC[Signs Token Delivery Commitment (TDC)]
-  TDC --> Deploy[GTFO DAO deploys\nMirrorToken contract]
-  Deploy --> Mint[MirrorTokens minted\nto issuer wallet]
-  Mint --> List[MirrorToken listed\non GTFO.vc DEX]
-  List --> Trade[Traders buy/sell\nMirrorTokens]
-  TDC -->|Vesting begins| Delivery[VC delivers tokens\nto vault contract]
-  Delivery --> Vault[Contract updates\nentitlements]
-  Vault --> Claim[MirrorToken holders\nclaim tokens]
-```
+- Is backed by a **legally binding Token Delivery Commitment (TDC)**
+- Is **physically settled** — tokens must be delivered on-chain
+- Is **enforceable** directly by holders under commercial contract law
+- Can be **traded freely** on any secondary market or DEX
 
+MirrorTokens are **not derivatives, not securities, and not synthetic exposure**. They are tokenized forward contracts for actual delivery.
 
+## ⚖️ Designed for Legal Clarity
 
-**MirrorTokens** — tokenized **commodity forward contracts** that grant the holder a legally enforceable right to future token delivery.
+The foundation of GTFO is the **Token Delivery Commitment (TDC)** — a signed, one-sided agreement where the issuer commits to deliver tokens to a smart contract vault on a fixed schedule.
 
-Here's what makes it different:
+This structure:
 
-| Feature                  | GTFO Protocol                                                                                               |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| 🔐 Legal Enforcement     | MirrorTokens are backed by signed Token Delivery Commitments from VCs — legally binding forward contracts.  |
-| 🔄 Onchain Settlement    | Tokens are delivered to smart contract vaults and distributed automatically based on MirrorToken ownership. |
-| 📈 Liquid Trading        | MirrorTokens can be traded freely on DEXs — enabling price discovery for vesting allocations.               |
-| ⚖️ Regulatory Compliance | Operates under commodity forward law (CFTC), not securities regulation (SEC).                               |
+- Creates a new legal asset: the **delivery right**
+- Avoids investment contract status (Howey test)
+- Qualifies as a **physically settled commodity forward contract** under U.S. CFTC precedent
+- Establishes a **direct legal relationship** between issuer and MirrorToken holders
 
-## Who is GTFO for?
+The protocol never takes custody. There are no intermediaries, no pooled investment schemes, and no discretionary managers.
 
-- **Venture Funds** with locked token allocations that want liquidity without triggering SAFT clauses or regulatory risk
-- **Traders** seeking exposure to locked post-TGE allocations via enforceable, transparent markets
-- **Projects**  who want to help VCs unlock capital without dumping their price
+## 🔐 How the Protocol Works
 
-## What’s a MirrorToken?
+1. **A VC or token issuer signs a TDC**\
+   Specifies the token, amount, delivery timeline, and settlement address.
+2. **GTFO DAO deploys the MirrorToken contract**\
+   An ERC-20 with vault logic. Immutable, permissionless, non-upgradeable.
+3. **MirrorTokens are minted**\
+   Issued to the signer, ready to be listed, transferred, or sold.
+4. **Secondary trading begins**\
+   Anyone can acquire forward rights via MirrorToken swaps.
+5. **Tokens are delivered on-chain**\
+   At each unlock, the issuer sends tokens to the vault.
+6. **Holders claim their share**\
+   Based on proportional MirrorToken ownership, directly via smart contract.
 
-MirrorTokens are ERC-20 tokens that represent **fractional rights** to future token delivery, backed by a signed, legally enforceable commitment from the original token holder.
+→ [See full protocol architecture](./gtfo-protocol)
 
-They are **not derivatives**, **not investments**, and **not governed by the GTFO DAO**.
+## 📈 What This Unlocks
 
-They are legally sound forward contracts with **mandatory physical settlement**.
+- ✅ Liquidity for early-stage token allocations
+- ✅ Price discovery for vesting positions
+- ✅ Compliant trading with enforceable delivery rights
+- ✅ Simplicity for issuers, clarity for buyers
 
-→ [Learn how MirrorTokens work](./mirror-token)
+Whether you're a fund, a contributor, or a trader — GTFO makes locked allocations **liquid, legal, and usable.**
 
-## The Legal Backbone: TDCs
+## 💡 Who GTFO Is For
 
-A TDC:
+| Audience           | Value                                                      |
+| ------------------ | ---------------------------------------------------------- |
+| **VCs**            | Monetize locked positions without triggering security risk |
+| **Contributors**   | Rebalance portfolios or gain liquidity pre-vesting         |
+| **Market Makers**  | Arbitrage vesting prices vs. forward delivery expectations |
+| **Protocol Teams** | Distribute tokens with clear mechanics and future unlocks  |
+| **Traders**        | Get early exposure to top-tier token allocations           |
 
-- Specifies the token, amounts, and delivery schedule
-- Creates a **direct legal obligation**
-- Requires physical delivery to the GTFO smart contract vault
-- Can be enforced by **any MirrorToken holder**, directly
+## 📄 Learn More
 
-→ [Read about Token Delivery Commitments](./token-delivery-commitment)
+- → [How MirrorTokens work](./mirror-token)
+- → [What is a Token Delivery Commitment (TDC)?](./token-delivery-commitment)
+- → [Legal framework & enforceability](./legal)
+- → [Trading MirrorTokens on DEXs](./trading-platform)
 
 ## TL;DR
 
-GTFO creates a **legal, liquid, and trustless market** for locked token allocations.
+**GTFO is the infrastructure layer for trading locked token allocations.**
 
-You don’t need a new protocol to reinvent vesting.
+- Legally enforceable
+- Onchain automated
+- Designed for funds, contributors, and traders
+- Backed by real delivery, not hope
 
-You just need enforceable forward contracts, automated settlement, and open trading.
-
-→ [Dive into the Protocol Overview](./gtfo-protocol)
+**This is how vesting markets get unlocked.**
