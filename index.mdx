@@ -1,19 +1,16 @@
 ---
-title: "Documentation"
+title: "GTFO Protocol"
 mode: "wide"
+description: "The first legally-enforced secondary market for locked token allocations."
 ---
 
-## What is GTFO?
-
-**Legally-enforced secondary markets for locked token allocations.**
-
-GTFO turns venture token allocations into tradeable forward contracts — with real legal rights, direct enforcement, and automated settlement.
+GTFO turns vesting positions into tradable, enforceable ERC-20 tokens — unlocking billions in stuck capital through real delivery rights and onchain automation.
 
 <Columns cols={2}>
   <Card title="Explore the Protocol" icon="network-wired" href="/development" cta="Understand the GTFO architecture">
     How MirrorTokens, Vaults, and Delivery Commitments work together.
   </Card>
-  <Card title="Trade MirrorTokens" icon="swap" href="/essentials/settings" cta="Explore MirrorToken mechanics">
+  <Card title="How MirrorTokens work" icon="swap" href="/essentials/settings" cta="Explore MirrorToken mechanics">
     Learn how to find, trade, and redeem MirrorTokens for real token delivery.
   </Card>
   <Card title="Token Delivery Commitment (TDC)" icon="signature" href="/essentials/navigation" cta="Read how TDCs work">
@@ -21,75 +18,79 @@ GTFO turns venture token allocations into tradeable forward contracts — with r
   </Card>
 </Columns>
 
-## Why GTFO?
+## 🧨 Billions Are Locked. GTFO Unlocks Them.
 
-Billions in early-stage token allocations are locked behind vesting schedules, SAFT restrictions, and illiquid OTC deals.
+Early-stage token allocations are vesting for years — while the world trades around them.
 
-GTFO introduces MirrorTokens — tokenized forward contracts backed by legal delivery commitments from VCs.
+Funds want to rebalance. Contributors want liquidity. Traders want access.\
+Today, they get nothing — or go OTC, off-chain, and into legal gray zones.
 
-You get:
+**GTFO creates liquidity with clarity**:
 
-- ✅ Liquid secondary trading of vesting positions
-- ✅ Direct legal rights to enforce token delivery
-- ✅ Automated on-chain withdrawal with no intermediaries
+- 📜 Legally binding delivery commitments from VCs
+- 🔄 Tradable ERC-20 forward contracts (MirrorTokens)
+- 🔐 On-chain vault settlement, no intermediaries
+- ⚖️ Commodity classification, not securities
 
-## Protocol Overview
+## 🧬 MirrorTokens: Enforceable, Tradable, Final
 
-GTFO combines legal certainty with smart contract automation.
+Each MirrorToken is:
 
-| Component        | Description                                                        |
-| ---------------- | ------------------------------------------------------------------ |
-| MirrorTokens     | ERC-20 tokens that represent legal rights to future token delivery |
-| TDC              | Token Delivery Commitment — a binding legal contract signed by VCs |
-| Settlement Vault | Immutable smart contracts that receive and distribute tokens       |
-| GTFO DAO LLC     | Marshall Islands legal entity deploying the infrastructure         |
+- A **fractional legal right** to a future token delivery
+- Backed by a signed **Token Delivery Commitment (TDC)**
+- **Enforceable in court** under commodity forward law
+- **Settled automatically** by smart contracts, no admin keys
 
-## Not a Derivative. Not a Security.
+They’re **not derivatives, not securities, not synthetic exposure** — they’re the **real deal**, wrapped in ERC-20 and ready to trade.
 
-MirrorTokens are not investments. They’re not SAFTs. They’re not synthetic.
+→ [Explore MirrorToken Mechanics](./mirror-token)
 
-They are **tokenized forward contracts** with **mandatory physical delivery** and **enforceable legal rights** under U.S. commodity law (CFTC jurisdiction).
+## 📄 What Is a TDC?
 
-## Dive Deeper
+A **Token Delivery Commitment** is a one-sided legal contract signed by the token issuer.\
+It defines what gets delivered, when, and to which vault — no counterparties needed.
 
-Design a docs site that looks great and empowers your users.
+It turns locked allocations into something real, transferable, and enforceable.
 
-<Columns cols={2}>
-  <Card title="Edit locally" icon="pen-to-square" href="/development">
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card title="Customize your site" icon="palette" href="/essentials/settings">
-    Customize the design and colors of your site to match your brand.
-  </Card>
-  <Card title="Set up navigation" icon="map" href="/essentials/navigation">
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card title="API documentation" icon="terminal" href="/api-reference/introduction">
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+→ [Read about the TDC Framework](./token-delivery-commitment)
 
-## Create beautiful pages
+## ⚙️ How It Works
 
-Everything you need to create world-class documentation.
+```mermaid
+flowchart TD
+  VC[VC or Token Issuer\nsigns Tokenization Agreement] --> Agreement[Legal Agreement with\nGTFO DAO LLC]
+  Agreement --> TDC[Signs Token Delivery Commitment (TDC)]
+  TDC --> Deploy[GTFO DAO deploys\nMirrorToken contract]
+  Deploy --> Mint[MirrorTokens minted\nto issuer wallet]
+  Mint --> List[MirrorToken listed\non GTFO.vc DEX]
+  List --> Trade[Traders buy/sell\nMirrorTokens]
+  TDC -->|Vesting begins| Delivery[VC delivers tokens\nto vault contract]
+  Delivery --> Vault[Contract updates\nentitlements]
+  Vault --> Claim[MirrorToken holders\nclaim tokens]
+```
 
-<Columns cols={2}>
-  <Card title="Write with MDX" icon="pen-fancy" href="/essentials/markdown">
-    Use MDX to style your docs pages.
-  </Card>
-  <Card title="Code samples" icon="code" href="/essentials/code">
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card title="Images" icon="image" href="/essentials/images">
-    Display images and other media.
-  </Card>
-  <Card title="Reusable snippets" icon="recycle" href="/essentials/reusable-snippets">
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## 🧠 Why This Matters
 
-## Need inspiration?
+GTFO combines:
 
-<Card title="See complete examples" icon="stars" href="https://mintlify.com/customers">
-  Browse our showcase of exceptional documentation sites.
-</Card>
+- 💸 Secondary market liquidity
+- ⚖️ Regulatory clarity
+- 🔂 Immutable, non-custodial design
+- 📈 Price discovery for token unlocks
+
+This isn’t a proxy or a hope.\
+It’s a **new asset class** backed by real delivery, real law, and real automation.
+
+## 🎯 Join Early
+
+GTFO launches soon.\
+MirrorToken trading. Real unlocks. No KYC. No intermediaries. Just on-chain performance.
+
+→ [Join the early list](#)
+
+## TL;DR
+
+GTFO is how the next wave of token markets will work:\
+**Enforceable. Liquid. Onchain. No bullshit.**
+
+→ [Dive into the Protocol Overview](./gtfo-protocol)
