@@ -1,0 +1,124 @@
+---
+title: "MirrorTokens"
+description: "MirrorTokens are ERC-20 forward contracts backed by enforceable legal delivery rights."
+icon: "coins"
+---
+
+They represent fractional claims to future token delivery, issued by token holders who have signed a Token Delivery Commitment (TDC). 
+
+MirrorTokens are fully transferable, non-custodial, and settled onchain.
+
+## 🧠 What Does a MirrorToken Represent?
+
+Each MirrorToken gives its holder:
+
+- ✅ A **proportional right** to a fixed amount of tokens, scheduled for future delivery
+- ✅ A **direct legal claim** under contract law (via the TDC)
+- ✅ **Access to onchain redemption** once tokens are delivered to the smart contract
+- ✅ The ability to **transfer or trade** those rights like any ERC-20 asset
+
+They are **not synthetic**, **not pooled**, and **not tied to protocol governance**. They are one-to-one representations of a delivery obligation — like a tokenized IOU that is enforceable and automatable.
+
+## ⚙️ Key Properties
+
+| Property          | Description                                                                  |
+| ----------------- | ---------------------------------------------------------------------------- |
+| **Standard**      | ERC-20 with EIP-2612 gasless approval                                        |
+| **Supply**        | Fixed at issuance based on committed delivery quantity                       |
+| **Transferable**  | Yes — tokens can be bought, sold, LP’d, or transferred freely                |
+| **Settlement**    | Physical (on-chain) delivery only — no cash or synthetic settlement          |
+| **Enforceable**   | Backed by a signed TDC, enforceable under commercial contract law            |
+| **Non-custodial** | No protocol or DAO custody — tokens flow from issuer to smart contract vault |
+
+---
+
+## 🔐 How MirrorTokens Settle
+
+1. **VC signs a Token Delivery Commitment (TDC)**\
+   Legally binding promise to deliver tokens to a smart contract vault on a schedule.
+2. **GTFO DAO deploys the MirrorToken contract**\
+   Vault-enabled ERC-20 contract with fixed supply and immutable logic.
+3. **Issuer receives MirrorTokens**\
+   These represent the full future obligation. The issuer can now sell or transfer them.
+4. **Tokens are delivered over time**\
+   The issuer sends tokens to the contract at each unlock milestone.
+5. **Holders withdraw tokens**\
+   Anyone holding MirrorTokens can redeem a proportional share of what’s been delivered.
+
+→ [See full protocol flow](./gtfo-protocol)\
+→ [Read about TDCs](./token-delivery-commitment)
+
+---
+
+## ⚖️ Why They’re Legally Sound
+
+MirrorTokens are **not securities** or pooled investments.\
+They are **commodity forward contracts** with physical settlement and no dependency on issuer performance.
+
+Legally speaking:
+
+- The value comes from **delivery of tokens**, not from any business or DAO activity
+- The issuer has **no voting rights, no profit rights, no equity representation**
+- Holders have **direct enforcement rights** against the signer of the TDC
+
+→ [Read Legal Framework](./legal)
+
+---
+
+## 📈 How MirrorTokens Are Valued
+
+MirrorTokens are priced like real-world forward contracts:
+
+> **Value = (Expected Spot Price × Delivery Probability) – Risk Premium**
+
+Factors that affect pricing:
+
+- ⏱️ Time until delivery
+- 📉 Underlying token volatility
+- 🧾 Issuer creditworthiness
+- 📊 Liquidity in secondary markets
+- ⚠️ Enforcement confidence
+
+As delivery gets closer, uncertainty decreases — and the value of a MirrorToken converges toward the spot price of the underlying token.
+
+→ [Explore Economic Model](./economic-model)
+
+---
+
+## 🤝 What You Can Do with a MirrorToken
+
+- 🛒 **Buy exposure** to pre-TGE or vesting tokens on secondary markets
+- 💸 **Sell vesting rights** for liquidity — without custody or legal ambiguity
+- 🧮 **Integrate** with vaults, AMMs, or structured products
+- 🧑‍⚖️ **Enforce delivery** in court if the issuer fails to perform
+
+MirrorTokens are designed to be **interoperable**, **enforceable**, and **simple to reason about**.
+
+---
+
+## 🧠 Frequently Asked
+
+**Q: Is this like a wrapped SAFT?**\
+No. MirrorTokens don’t represent the SAFT itself — they represent delivery rights created by a new legal contract (TDC). That’s what gives them clarity and enforceability.
+
+**Q: Can MirrorTokens expire?**\
+No. They are valid until all committed tokens are delivered. There’s no forced redemption or burn.
+
+**Q: What happens if the VC doesn’t deliver?**\
+MirrorToken holders have legal standing to enforce the TDC directly — including specific performance or damages.
+
+**Q: Can MirrorTokens be used in DeFi?**\
+Yes. They’re ERC-20 tokens and can be integrated into vaults, DEXs, lending markets, etc.
+
+---
+
+## TL;DR
+
+MirrorTokens are ERC-20 forward contracts for token vesting — clean, enforceable, and on-chain.
+
+- Not derivatives
+- Not pooled
+- Not synthetic
+- Just delivery
+
+→ [Next: Read about Token Delivery Commitments →](./token-delivery-commitment)
