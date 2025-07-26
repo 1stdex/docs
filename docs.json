@@ -39,10 +39,6 @@
               {
                 "group": "Order Types",
                 "pages": ["market", "limit"]
-              },
-              {
-                "group": "Finding Tokens",
-                "pages": ["watchlist", "portfolio"]
               }
             ]
           },
