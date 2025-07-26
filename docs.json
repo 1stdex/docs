@@ -1,4 +1,4 @@
-{
+ {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "GTFO Protocol Documentation",
@@ -14,22 +14,25 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Overview",
+            "group": "Start Here",
             "pages": [
-              "overview/about",
-              "overview/non-custodial",
-              "overview/fees"
+              "overview/what-is-gtfo",
+              "overview/why-gtfo-exists",
+              "overview/protocol-overview",
+              "overview/whitepaper"
             ]
           },
           {
-            "group": "GTFO Protocol",
+            "group": "Core Concepts",
             "pages": [
-              "gtfo-protocol/whitepaper",
-              "gtfo-protocol/GTFO-DAO-LLC"
+              "core/mirrortokens",
+              "core/token-delivery-commitment",
+              "core/settlement-vaults",
+              "core/smart-contracts"
             ]
           },
           {
-            "group": "MirrorToken",
+            "group": "Trading & Use",
             "pages": [
               {
                 "group": "Token Delivery Commitment",
@@ -39,7 +42,7 @@
             ]
           },
           {
-            "group": "Trading Platform",
+            "group": "Legal & Compliance",
             "pages": [
               "deposit",
               "withdraw",
