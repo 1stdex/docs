@@ -1,0 +1,90 @@
+---
+title: "What is GTFO?"
+description: "Description of your new file."
+---
+
+**GTFO is a decentralized protocol for trading locked token allocations.**
+
+It creates liquid secondary markets for vesting positions using tokenized forward contracts — called MirrorTokens — that are legally enforceable and settled on-chain.
+
+## Why it matters
+
+Early-stage token allocations are often locked for years behind SAFTs and vesting cliffs. This creates massive friction for:
+
+- 📉 VC funds that need to rebalance
+- 💸 Early contributors who want liquidity
+- 🤝 Market makers seeking pre-TGE exposure
+
+Today, these allocations are traded OTC with legal gray zones, zero transparency, and no enforceability.
+
+GTFO changes that.
+
+## How it works
+
+GTFO introduces a new standard:
+
+```mermaid
+:::diagram
+flowchart TD
+  VC[VC / Token Issuer<br>Signs MirrorToken Tokenization Agreement] --> Agreement[→ Legal Agreement Executed with<br>GTFO DAO LLC or issuer]
+  Agreement --> TDC[Signs Token Delivery Commitment (TDC)]
+  TDC --> DAO[GTFO DAO LLC Deploys<br>MirrorToken Contract (ERC-20 + Vault)]
+  DAO --> Mint[→ MirrorTokens Minted to VC/Issuer Wallet]
+  Mint --> DEX[List MirrorTokens<br>on GTFO.vc or other DEX]
+  DEX --> Trade[Traders Buy/Sell<br>MirrorTokens]
+  TDC -->|Vesting Schedule Begins| Delivery[VC Delivers Underlying Tokens<br>to MirrorToken Vault]
+  Delivery --> Vault[MirrorToken Smart Contract Updates<br>Balances + Entitlements]
+  Vault --> Claim[MirrorToken Holders<br>Withdraw Proportional Tokens]
+
+  classDef strong fill=#f5f5f5,stroke=#000,stroke-width=1px
+  class VC,Agreement,TDC,DAO,Mint,DEX,Trade,Delivery,Vault,Claim strong
+:::
+```
+
+**MirrorTokens** — tokenized **commodity forward contracts** that grant the holder a legally enforceable right to future token delivery.
+
+Here's what makes it different:
+
+| Feature                  | GTFO Protocol                                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| 🔐 Legal Enforcement     | MirrorTokens are backed by signed Token Delivery Commitments from VCs — legally binding forward contracts.  |
+| 🔄 Onchain Settlement    | Tokens are delivered to smart contract vaults and distributed automatically based on MirrorToken ownership. |
+| 📈 Liquid Trading        | MirrorTokens can be traded freely on DEXs — enabling price discovery for vesting allocations.               |
+| ⚖️ Regulatory Compliance | Operates under commodity forward law (CFTC), not securities regulation (SEC).                               |
+
+## Who is GTFO for?
+
+- **Venture Funds** with locked token allocations that want liquidity without triggering SAFT clauses or regulatory risk
+- **Traders** seeking exposure to locked post-TGE allocations via enforceable, transparent markets
+- **Projects**  who want to help VCs unlock capital without dumping their price
+
+## What’s a MirrorToken?
+
+MirrorTokens are ERC-20 tokens that represent **fractional rights** to future token delivery, backed by a signed, legally enforceable commitment from the original token holder.
+
+They are **not derivatives**, **not investments**, and **not governed by the GTFO DAO**.
+
+They are legally sound forward contracts with **mandatory physical settlement**.
+
+→ [Learn how MirrorTokens work](./mirror-token)
+
+## The Legal Backbone: TDCs
+
+A TDC:
+
+- Specifies the token, amounts, and delivery schedule
+- Creates a **direct legal obligation**
+- Requires physical delivery to the GTFO smart contract vault
+- Can be enforced by **any MirrorToken holder**, directly
+
+→ [Read about Token Delivery Commitments](./token-delivery-commitment)
+
+## TL;DR
+
+GTFO creates a **legal, liquid, and trustless market** for locked token allocations.
+
+You don’t need a new protocol to reinvent vesting.
+
+You just need enforceable forward contracts, automated settlement, and open trading.
+
+→ [Dive into the Protocol Overview](./gtfo-protocol)

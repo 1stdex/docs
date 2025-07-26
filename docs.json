@@ -34,11 +34,16 @@
           {
             "group": "Trading & Use",
             "pages": [
+              "deposit",
+              "withdraw",
               {
-                "group": "Token Delivery Commitment",
-                "pages": ["gtfo-protocol/token-delivery-commitment", "gtfo-protocol/token-delivery-commitment-template"]
+                "group": "Order Types",
+                "pages": ["market", "limit"]
               },
-              "gtfo-protocol/mirrortoken-issuance-agreement"
+              {
+                "group": "Finding Tokens",
+                "pages": ["watchlist", "portfolio"]
+              }
             ]
           },
           {
