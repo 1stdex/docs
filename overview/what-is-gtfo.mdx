@@ -26,19 +26,17 @@ GTFO introduces a new standard:
 
 ```mermaid
 flowchart TD
-  VC[VC / Token Issuer\nSigns MirrorToken Tokenization Agreement] --> Agreement[Legal Agreement Executed\nwith GTFO DAO LLC]
+  VC[VC or Token Issuer\nsigns Tokenization Agreement] --> Agreement[Legal Agreement with\nGTFO DAO LLC]
   Agreement --> TDC[Signs Token Delivery Commitment (TDC)]
-  TDC --> DAO[GTFO DAO LLC Deploys\nMirrorToken (ERC-20 + Vault)]
-  DAO --> Mint[MirrorTokens Minted\nto VC / Issuer Wallet]
-  Mint --> DEX[MirrorToken Listed\non GTFO.vc or DEX]
-  DEX --> Trade[Secondary Trading\nof MirrorTokens]
-  TDC -->|Vesting Schedule| Delivery[VC Delivers Tokens\nto Smart Contract Vault]
-  Delivery --> Vault[Smart Contract Updates\nBalances + Entitlements]
-  Vault --> Claim[MirrorToken Holders\nWithdraw Proportional Tokens]
-
-  classDef strong fill=#f5f5f5,stroke=#000,stroke-width=1px
-  class VC,Agreement,TDC,DAO,Mint,DEX,Trade,Delivery,Vault,Claim strong
+  TDC --> Deploy[GTFO DAO deploys\nMirrorToken contract]
+  Deploy --> Mint[MirrorTokens minted\nto issuer wallet]
+  Mint --> List[MirrorToken listed\non GTFO.vc DEX]
+  List --> Trade[Traders buy/sell\nMirrorTokens]
+  TDC -->|Vesting begins| Delivery[VC delivers tokens\nto vault contract]
+  Delivery --> Vault[Contract updates\nentitlements]
+  Vault --> Claim[MirrorToken holders\nclaim tokens]
 ```
+
 
 
 **MirrorTokens** — tokenized **commodity forward contracts** that grant the holder a legally enforceable right to future token delivery.
