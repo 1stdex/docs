@@ -1,0 +1,90 @@
+---
+title: "Smart Contracts"
+description: "Immutable. Audited. Precision-engineered."
+icon: "code"
+---
+
+GTFO runs entirely on smart contracts — no backdoors, no upgradability, no human intervention. Every delivery, claim, and vesting unlock is governed by math, not trust.
+
+## 🧱 Core Contracts
+
+### 🪞 MirrorToken
+
+Every MirrorToken is more than an ERC-20. It’s a vault, vesting contract, and proportional claim engine rolled into one:
+
+- ✅ ERC-20 token with exact fairness math
+- ✅ Built-in checkpoint-based vesting logic
+- ✅ Self-contained vault for real token settlement
+- ✅ Claimable entitlements based on vesting schedule
+- ✅ Fully non-upgradeable \+ EIP-2612 permit support
+
+[→ See MirrorToken mechanics](./mirrortokens)
+
+### 🌉 Cross-Chain Claiming with CCIP
+
+GTFO supports **cross-chain delivery and claiming** via Chainlink CCIP.
+
+- VCs can deliver tokens on Chain A
+- Users can claim their share on Chain B
+- No bridges. No wrapped IOUs. No trust assumptions.
+
+MirrorTokens stay native. Claims stay trustless.
+
+[→ Learn about Vault Settlement](./settlement-vaults)
+
+## 🧠 Design Principles
+
+### 🔒 Immutability by Default
+
+- All core contracts are deployed once, forever
+- No proxy pattern, no upgrade risk
+- Vaults are final — not upgradable, not pausable, not censorable
+
+### 🧮 Math-Based Fairness
+
+- No loops per user
+- Vesting calculated at the exact checkpoint of each delivery
+- All claim calculations use exact proportional math
+
+### 🧪 Built for Security
+
+- Formal audits before launch
+- Zero backdoors
+- Open source and verifiable
+- Bug bounty via Immunefi
+
+## 🔧 Dev-Ready Functions
+
+Want to integrate with MirrorTokens?
+
+Key view functions include:
+
+- `getClaimable(address)` – amount claimable now
+- `getAllocated(address)` – total allocations so far
+- `getPendingAllocations(address)` – unprocessed checkpoint data
+- `userCheckpoints(address)` – last user sync
+- `totalDistributed()` – total real tokens delivered to vault
+
+→ [GitHub link coming soon]
+
+## ⚙️ Supported Features
+
+| Feature                    | Supported                          |
+| -------------------------- | ---------------------------------- |
+| ERC-20 Standard            | ✅                                  |
+| EIP-2612 Permit            | ✅                                  |
+| Gasless Approvals          | ✅                                  |
+| Immutable Architecture     | ✅                                  |
+| CCIP Cross-Chain Delivery  | ✅                                  |
+| View-Only Vault Monitoring | ✅                                  |
+| Emergency Token Recovery   | 🔒 (restricted to non-real tokens) |
+
+## TL;DR
+
+GTFO isn’t just a frontend.\
+It’s a full smart contract system — hardened, immutable, and designed to hold VC counterparties accountable through trustless delivery logic.
+
+> No wrappers. No rug switches. Just real programmable finance.
+
+→ Next: [Explore the Trading Platform (CLOB)](./clob-trading-platform)\
+→ Or: [How Vault Delivery Works](./settlement-vaults)
