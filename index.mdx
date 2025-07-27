@@ -62,8 +62,7 @@ It turns locked allocations into something real, transferable, and enforceable.
 
 ```mermaid
 flowchart TD
-  VC["VC or Token Issuer<br>signs Tokenization Agreement"] --> Agreement["Legal Agreement with<br>GTFO DAO LLC"]
-  Agreement --> TDC["Signs Token Delivery Commitment (TDC)"]
+  VC["Token Issuer<br>signs Tokenization Agreement"] --> TDC["Signs Token Delivery Commitment (TDC)"]
   TDC --> Deploy["GTFO DAO deploys<br>MirrorToken contract"]
   Deploy --> Mint["MirrorTokens minted<br>to issuer wallet"]
   Mint --> List["MirrorToken listed<br>on GTFO.vc DEX"]
