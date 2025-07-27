@@ -35,9 +35,7 @@
             "group": "Trading & Use",
             "pages": [
               "CLOB Trading Platform",
-              "USDC Vault",
-              "Deposit",
-              "Withdraw",
+              "Deposit & Withdraw",
               {
                 "group": "Order Types",
                 "pages": ["market", "limit"]
@@ -45,7 +43,7 @@
             ]
           },
           {
-            "group": "Legal",
+            "group": "Legal Framework",
             "pages": [
               "legal/token-delivery-commitment-template",
               "legal/mirrortoken-issuance-agreement",
