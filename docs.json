@@ -34,8 +34,9 @@
           {
             "group": "Trading & Use",
             "pages": [
-              "deposit",
-              "withdraw",
+              "CLOB Trading Platform",
+              "Deposit",
+              "Withdraw",
               {
                 "group": "Order Types",
                 "pages": ["market", "limit"]
