@@ -43,6 +43,13 @@
             ]
           },
           {
+            "group": "Community & Rewards",
+            "pages": [
+              "Referral Program",
+              "Quests & XP"
+            ]
+          },
+          {
             "group": "Legal Framework",
             "pages": [
               "legal/token-delivery-commitment-template",
