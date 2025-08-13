@@ -32,6 +32,13 @@
             ]
           },
           {
+            "group": "How-To Guides",
+            "pages": [
+              "how-to/issue-mirrortoken",
+              "how-to/run-distribution"
+            ]
+          },
+          {
             "group": "Trading & Use",
             "pages": [
               "trading-platform/clob-trading-platform",
