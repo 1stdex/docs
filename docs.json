@@ -1,7 +1,7 @@
  {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "GTFO Protocol Documentation",
+  "name": "1st Documentation",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -16,9 +16,9 @@
           {
             "group": "Start Here",
             "pages": [
-              "overview/what-is-gtfo",
-              "overview/why-gtfo-exists",
-              "overview/gtfo-protocol",
+              "overview/what-is-1st",
+              "overview/why-1st-exists",
+              "overview/1st",
               "overview/whitepaper"
             ]
           },
