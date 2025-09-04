@@ -81,7 +81,7 @@
       "anchors": [
         {
           "anchor": "X (Twitter)",
-          "href": "https://x.com/gtfolabs",
+          "href": "https://x.com/1st_app",
           "icon": "x-twitter"
         },
         {
@@ -111,7 +111,7 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/gtfolabs"
+      "x": "https://x.com/1st_app"
     }
   }
 }
