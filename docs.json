@@ -14,14 +14,17 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Start Here",
-            "pages": [
-              "overview/what-is-1st",
-              "overview/why-1st-exists",
-              "overview/1st-overview",
-              "overview/whitepaper"
-            ]
-          },
+  "group": "Start Here",
+  "pages": [
+    "overview/what-is-1st",
+    "overview/why-1st-exists",
+    "overview/1st-overview",
+    {
+      "path": "overview/whitepaper",
+      "hidden": true
+    }
+  ]
+},
           {
             "group": "Core Concepts",
             "pages": [
