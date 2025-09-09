@@ -21,20 +21,6 @@ It enables secondary markets for vesting positions using MirrorTokens — ERC-20
 → [Learn more about MirrorTokens](./mirror-token)\
 → [Read the Token Delivery Commitment structure](./token-delivery-commitment)
 
-## 🔁 Lifecycle Flow
-
-Here’s how 1st works from start to settlement:
-
-```mermaid
-flowchart TD
-  VC[Token Issuer\nsigns TDC] --> DAO[GTFO DAO deploys\nMirrorToken contract]
-  DAO --> Mint[MirrorTokens minted\nto issuer]
-  Mint --> Trade[MirrorTokens traded\non DEX (e.g. GTFO.vc)]
-  VC --> Delivery[Issuer sends vested tokens\nto vault per schedule]
-  Delivery --> Vault[Smart contract updates balances]
-  Vault --> Claim[MirrorToken holders\nclaim proportional tokens]
-```
-
 ## 🔐 Smart Contract Design
 
 1st smart contracts are:
