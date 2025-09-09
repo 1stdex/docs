@@ -19,7 +19,10 @@
               "overview/what-is-1st",
               "overview/why-1st-exists",
               "overview/1st-overview",
-              "overview/whitepaper"
+              {
+  "path": "overview/whitepaper",
+  "hidden": true
+}
             ]
           },
           {
