@@ -100,7 +100,7 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
+      "label": "1st.app",
       "href": "https://1st.app"
     }
   },
