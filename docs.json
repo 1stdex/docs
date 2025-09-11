@@ -78,11 +78,6 @@
           "anchor": "X (Twitter)",
           "href": "https://x.com/1st_app",
           "icon": "x-twitter"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://discord.gg/X78Azf6z",
-          "icon": "discord"
         }
       ]
     }
