@@ -25,9 +25,7 @@
             "group": "Core Concepts",
             "pages": [
               "core/mirrortokens",
-              "core/token-delivery-commitment",
-              "core/settlement-vaults",
-              "core/smart-contracts"
+              "core/token-delivery-commitment"
             ]
           },
           {
