@@ -48,8 +48,6 @@
           {
             "group": "Legal Framework",
             "pages": [
-              "legal/token-delivery-commitment-template",
-              "legal/mirrortoken-issuance-agreement",
               "legal/tos",
               "legal/privacy-policy"
             ]
