@@ -46,7 +46,9 @@
             "group": "Legal Framework",
             "pages": [
               "legal/tos",
-              "legal/privacy-policy"
+              "legal/privacy-policy",
+              "legal/mirrortoken-issuance-agreement",
+              "legal/token-delivery-commitment-template"
             ]
           }
         ]
