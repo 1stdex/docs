@@ -45,7 +45,7 @@ export const controllerAbi = [
 ] as const;
 ```
 
-## Make then cancel
+## Setup
 
 ```ts
 import {
@@ -60,6 +60,12 @@ const signer = createWalletClient({
   /* transport & account */
 });
 
+const ZERO = '0x0000000000000000000000000000000000000000';
+```
+
+## Make an order
+
+```ts
 // Struct used by Action.MAKE (IController.MakeOrderParams)
 const makeTypes = [
   { name: 'id', type: 'uint192' }, // BookId
@@ -67,22 +73,12 @@ const makeTypes = [
   { name: 'quoteAmount', type: 'uint256' },
   { name: 'provider', type: 'address' },
   { name: 'referrer', type: 'address' },
-  { name: 'owner', type: 'address' }, // current interface
 ] as const;
-
-const cancelTypes = [
-  { name: 'id', type: 'uint256' }, // OrderId
-  { name: 'leftQuoteAmount', type: 'uint256' },
-  { name: 'owner', type: 'address' },
-] as const;
-
-const ZERO = '0x0000000000000000000000000000000000000000';
 
 const bookId = 1n; // replace with real BookId
 const tick = 0; // int
 const makeQuote = parseUnits('50', 6); // e.g., 50 USDC
 const provider = '0xBuyOrSellProvider'; // set correctly per book
-const owner = '0xYourEOA'; // until PR #46 merges
 
 const makeParams = encodeAbiParameters(makeTypes, [
   bookId,
@@ -90,7 +86,6 @@ const makeParams = encodeAbiParameters(makeTypes, [
   makeQuote,
   provider,
   ZERO,
-  owner,
 ]);
 
 const deadline = BigInt(Math.floor(Date.now() / 1000) + 600); // +10m
@@ -103,9 +98,18 @@ const {
   functionName: 'execute',
   args: [[Action.MAKE], [makeParams], [], deadline],
 });
+```
 
-// Later, cancel fully (leftQuoteAmount = 0)
-const cancelParams = encodeAbiParameters(cancelTypes, [orderId, 0n, owner]);
+## Cancel an order
+
+```ts
+// Cancel fully (leftQuoteAmount = 0 means cancel everything)
+const cancelTypes = [
+  { name: 'id', type: 'uint256' }, // OrderId
+  { name: 'leftQuoteAmount', type: 'uint256' },
+] as const;
+
+const cancelParams = encodeAbiParameters(cancelTypes, [orderId, 0n]);
 
 await signer.writeContract({
   address: controller,

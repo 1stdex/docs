@@ -1,6 +1,6 @@
 ---
-title: "Books, ticks & units"
-description: "How to reason about price levels (ticks) and sizes (units)."
+title: 'Books, ticks & units'
+description: 'How to reason about price levels (ticks) and sizes (units).'
 ---
 
 ## Units
@@ -9,10 +9,67 @@ Every book has a fixed `unitSize` (an amount of **base** for that book). All mak
 
 ## Ticks
 
-Ticks are discrete signed integers (`int24`). Conversions:
+Ticks are discrete signed integers (`int24`) that represent price levels. Conversions:
 
 - `int24 MIN_TICK = -8_388_608`, `MAX_TICK = 8_388_607`.
 - ABI type is `int24` when encoding parameters.
 
-> Implementation note: see `Tick.sol` for the exact definition.
+### Converting tick to price
 
+To avoid placing orders at unintended prices, you can calculate the actual price from a tick value:
+
+```ts
+const R = [
+  79220240490215316061937756560n, // 0xfff97272373d413259a46990
+  79212319258289487113226433916n, // 0xfff2e50f5f656932ef12357c
+  79196479170490597288862688490n, // 0xffe5caca7e10e4e61c3624ea
+  79164808496886665658930780291n, // 0xffcb9843d60f6159c9db5883
+  79101505139923049997807806614n, // 0xff973b41fa98c081472e6896
+  78975050245229982702767995059n, // 0xff2ea16466c96a3843ec78b3
+  78722746600537056721934508529n, // 0xfe5dee046a99a2a811c461f1
+  78220554859095770638340573243n, // 0xfcbe86c7900a88aedcffc83b
+  77225761753129597550065289036n, // 0xf987a7253ac413176f2b074c
+  75273969370139069689486932537n, // 0xf3392b0822b70005940c7a39
+  71517125791179246722882903167n, // 0xe7159475a2c29b7443b29c7f
+  64556580881331167221767657719n, // 0xd097f3bdfd2022b8845ad8f7
+  52601903197458624361810746399n, // 0xa9f746462d870fdf8a65dc1f
+  34923947901690145425342545398n, // 0x70d869a156d2a1b890bb3df6
+  15394552875315951095595078917n, // 0x31be135f97d08fd981231505
+  2991262837734375505310244436n, // 0x9aa508b5b7a84e1c677de54
+  112935262922445818024280873n, // 0x5d6af8dedb81196699c329
+  160982827401375763736068n, // 0x2216e584f5fa1ea92604
+  327099227039063106n, // 0x48a170391f7dc42
+  1350452n, // 0x149b34
+];
+
+export function tickToPrice(tick: number): bigint {
+  if (tick > 524287 || tick < -524287) {
+    throw new Error('Invalid tick');
+  }
+
+  const absTick = BigInt(tick < 0 ? -tick : tick);
+  let price = 1n;
+
+  if ((absTick & 1n) !== 0n) {
+    price = R[0];
+  } else {
+    price = 1n << 96n;
+  }
+
+  for (let i = 1; i < 19; i++) {
+    if ((absTick & (1n << BigInt(i))) !== 0n) {
+      price = (price * R[i]) >> 96n;
+    }
+  }
+
+  if (tick > 0) {
+    price = 6277101735386680763835789423207666416102355444464034512896n / price;
+  }
+
+  return price;
+}
+```
+
+This function returns a fixed-point price with 96 bits of precision. Use it to verify that your tick values correspond to reasonable prices before placing orders, especially when working with tokens of different decimals.
+
+> Implementation note: see `Tick.sol` for the exact definition.

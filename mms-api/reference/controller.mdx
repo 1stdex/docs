@@ -1,6 +1,6 @@
 ---
-title: "Controller (on‑chain)"
-description: "Single entrypoint API and parameter encodings used by market makers."
+title: 'Controller (on‑chain)'
+description: 'Single entrypoint API and parameter encodings used by market makers.'
 ---
 
 All interactions go through `Controller.execute`. The enum and structs below reflect the current `main` branch.
@@ -33,7 +33,6 @@ struct MakeOrderParams {
   uint256 quoteAmount;
   address provider;
   address referrer;
-  address owner;      // to be dropped in a future update
 }
 
 struct LimitOrderParams {
@@ -44,7 +43,6 @@ struct LimitOrderParams {
   address makeReferrer;
   address takeProvider;
   address takeReferrer;
-  address owner;      // to be dropped in a future update
 }
 
 struct TakeOrderParams {
@@ -54,7 +52,6 @@ struct TakeOrderParams {
   uint256 maxBaseAmount;
   address provider;
   address referrer;
-  address owner;      // to be dropped in a future update
 }
 
 struct SpendOrderParams {
@@ -64,18 +61,15 @@ struct SpendOrderParams {
   uint256 minQuoteAmount;
   address provider;
   address referrer;
-  address owner;      // to be dropped in a future update
 }
 
 struct ClaimOrderParams {
   OrderId id;
-  address owner;      // to be dropped in a future update
 }
 
 struct CancelOrderParams {
   OrderId id;
   uint256 leftQuoteAmount;
-  address owner;      // to be dropped in a future update
 }
 ```
 
@@ -86,4 +80,3 @@ When you build `paramsDataList[i]`, encode the fields above in order using ABI p
 - `BookId` → `uint192`
 - `OrderId` → `uint256`
 - `Tick` → `int24`
-

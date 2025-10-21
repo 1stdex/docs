@@ -1,9 +1,8 @@
 ---
-title: "Distributions & auto–actions"
-description: "What happens on distributions and how it affects maker risk."
+title: 'Distributions & auto–actions'
+description: 'What happens on distributions and how it affects maker risk.'
 ---
 
-- **Claiming:** distributions move owed base/quote so makers can `CLAIM` their proceeds.
+- **Auto-claiming:** distributions **automatically claim** all owed base/quote proceeds on behalf of makers. You do not need to manually call `CLAIM` after a distribution.
 - **Auto‑cancel:** only **sell orders that became under‑collateralized after a distribution** are **auto‑cancelled** during the distribution process.
-- **Pause semantics:** books may be **paused** while a distribution runs; do not assume liveness during that window.
-
+- **Pause semantics:** During distributions, the market is **paused** and all orders that become undercollateralized after deflation will be automatically cancelled. Do not assume liveness during this window. Market makers should account for this downtime when calculating their uptime guarantees.
