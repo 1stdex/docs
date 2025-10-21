@@ -1,4 +1,4 @@
- {
+{
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "1st",
@@ -59,19 +59,34 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Getting Started",
+            "pages": ["mms-api/index", "mms-api/guides/quickstart"]
+          },
+          {
+            "group": "Concepts",
             "pages": [
-              "api-reference/introduction"
+              "mms-api/concepts/core",
+              "mms-api/concepts/books-ticks-units"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Guides",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "mms-api/guides/place-cancel",
+              "mms-api/guides/query-subgraph"
             ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "mms-api/reference/addresses",
+              "mms-api/reference/controller",
+              "mms-api/reference/subgraph"
+            ]
+          },
+          {
+            "group": "Appendix",
+            "pages": ["mms-api/appendix/distributions"]
           }
         ]
       }
