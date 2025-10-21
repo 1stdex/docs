@@ -1,0 +1,50 @@
+---
+title: 'Claim orders'
+description: 'Settle filled maker orders (CLAIM) through the Controller.execute batching API.'
+---
+
+All trading actions are batched via `Controller.execute`. For each item in `actionList` you provide an **ABI‑encoded** params struct in `paramsDataList`.
+
+## CLAIM (settle a filled maker)
+
+The CLAIM action allows you to settle a filled (or partially filled) maker order and receive the base tokens from your trade.
+
+When your limit order is matched, you need to claim it to:
+
+- Receive the base tokens you bought (or release the base tokens you sold)
+- Finalize the trade settlement
+- Free up the order ID for reuse
+
+### ClaimOrderParams struct
+
+```
+ClaimOrderParams(
+  id: uint256
+)
+```
+
+### Example
+
+```ts
+const claimTypes = [{ name: 'id', type: 'uint256' }] as const;
+
+const claimData = encodeAbiParameters(claimTypes, [orderId]);
+await writeExecute([Action.CLAIM], [claimData]);
+```
+
+### Parameters
+
+- **id**: The order ID (uint256) of the filled maker order you want to claim
+
+### When to claim
+
+You should claim an order when:
+
+- The order has been fully or partially filled
+- You want to receive the traded base tokens in your vault
+- You want to reuse the order ID for a new order
+
+<Note>
+  You can check the fill status of your orders by querying the subgraph. See the
+  [Query subgraph guide](/mms-api/guides/query-subgraph) for more details.
+</Note>

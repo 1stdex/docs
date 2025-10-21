@@ -1,0 +1,17 @@
+---
+title: 'Controller entrypoint'
+description: 'Single batch entrypoint for all trading actions.'
+---
+
+All contract calls are funneled via the **Controller**. The single method is:
+
+```solidity
+function execute(
+  Action[] calldata actionList,
+  bytes[] calldata paramsDataList,
+  ERC20PermitParams[] calldata erc20PermitParamsList,
+  uint64 deadline
+) external returns (OrderId[] memory ids);
+```
+
+The `paramsDataList` items are ABI‑encoded structs for each action. See [Controller reference](/mms-api/reference/controller).

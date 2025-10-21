@@ -1,0 +1,107 @@
+---
+title: 'Providers'
+description: 'Understanding provider addresses and when to use buy vs sell providers.'
+---
+
+## Overview
+
+Every order (both maker and taker) must specify a **provider** address. The provider receives a portion of the trading fees, and you must choose the correct provider type—**buy provider** or **sell provider**—based on two factors:
+
+1. **Which book you're trading in** (sell-base or sell-quote)
+2. **Your role** (maker or taker)
+
+## Provider selection
+
+The correct provider to use depends on what **you** are doing in the trade:
+
+- **Use buy provider** if you are **buying base currency**
+- **Use sell provider** if you are **selling base currency**
+
+## The two books
+
+The system has two separate order books for each pair:
+
+### Sell-base book
+
+In this book, **makers sell base** and **takers buy base**:
+
+- **Makers** (limit orders): Sell base, buy quote → use **sell provider**
+- **Takers** (market orders): Buy base, sell quote → use **buy provider**
+
+### Sell-quote book
+
+In this book, **makers sell quote** (i.e., buy base) and **takers sell base**:
+
+- **Makers** (limit orders): Buy base, sell quote → use **buy provider**
+- **Takers** (market orders): Sell base, buy quote → use **sell provider**
+
+## Examples
+
+### Example 1: TKN/USDC sell-quote book
+
+This is a book where makers want to buy TKN (base) with USDC (quote):
+
+```solidity
+// Alice places a limit order to BUY 1000 TKN at 2.0 USDC each
+Controller.make(MakeOrderParams({
+    id: sellQuoteBookId,
+    tick: tick,
+    quoteAmount: 2000e6,  // Offering 2000 USDC
+    provider: buyProvider,  // ✅ Use BUY provider (buying TKN)
+    referrer: address(0),
+    owner: msg.sender
+}));
+
+// Bob executes a market order to SELL 1000 TKN
+Controller.take(TakeOrderParams({
+    id: sellQuoteBookId,
+    tick: tick,
+    baseAmount: 1000e18,  // Selling 1000 TKN
+    provider: sellProvider,  // ✅ Use SELL provider (selling TKN)
+    referrer: address(0)
+}), deadline);
+```
+
+### Example 2: TKN/USDC sell-base book
+
+This is a book where makers want to sell TKN (base) for USDC (quote):
+
+```solidity
+// Alice places a limit order to SELL 1000 TKN at 2.0 USDC each
+Controller.make(MakeOrderParams({
+    id: sellBaseBookId,
+    tick: tick,
+    baseAmount: 1000e18,  // Offering 1000 TKN
+    provider: sellProvider,  // ✅ Use SELL provider (selling TKN)
+    referrer: address(0),
+    owner: msg.sender
+}));
+
+// Bob executes a market order to BUY 1000 TKN
+Controller.take(TakeOrderParams({
+    id: sellBaseBookId,
+    tick: tick,
+    quoteAmount: 2000e6,  // Offering 2000 USDC
+    provider: buyProvider,  // ✅ Use BUY provider (buying TKN)
+    referrer: address(0)
+}), deadline);
+```
+
+## Quick reference
+
+| Book       | Maker role | Maker provider | Taker role | Taker provider |
+| ---------- | ---------- | -------------- | ---------- | -------------- |
+| Sell-quote | Buy base   | Buy provider   | Sell base  | Sell provider  |
+| Sell-base  | Sell base  | Sell provider  | Buy base   | Buy provider   |
+
+## Getting provider addresses
+
+Provider addresses are protocol-specific and can be found in the [addresses reference](/mms-api/reference/addresses).
+
+## Referrers
+
+The `referrer` parameter should be set to `address(0)` (zero address):
+
+```solidity
+referrer: address(0)  // or 0x0000000000000000000000000000000000000000
+```

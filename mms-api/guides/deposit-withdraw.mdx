@@ -1,0 +1,241 @@
+---
+title: 'Deposit & withdraw'
+description: 'Step-by-step guide to deposit tokens, approve vaults, and withdraw funds.'
+---
+
+This guide shows you how to deposit tokens into vaults, set up the necessary approvals, and withdraw your funds.
+
+## Prerequisites
+
+You need:
+
+- Tokens to deposit (e.g., USDC, MirrorTokens)
+- The token addresses
+- The vault addresses (look up via `BookManager.getVault(currency)`)
+- The Controller and BookManager addresses
+
+See [Addresses](/mms-api/reference/addresses) for deployed contract addresses.
+
+## Step 1: Approve tokens for deposits
+
+The Controller needs permission to transfer your tokens to deposit them into vaults.
+
+### TypeScript (viem)
+
+```ts
+import { walletClient, CONTROLLER, USDC, MIRROR_TOKEN } from './config';
+
+// Approve USDC
+await walletClient.writeContract({
+  address: USDC,
+  abi: erc20Abi,
+  functionName: 'approve',
+  args: [CONTROLLER, 1000000000n], // 1000 USDC (6 decimals)
+});
+
+// Approve MirrorToken
+await walletClient.writeContract({
+  address: MIRROR_TOKEN,
+  abi: erc20Abi,
+  functionName: 'approve',
+  args: [CONTROLLER, parseEther('100')], // 100 tokens (18 decimals)
+});
+```
+
+### Solidity
+
+```solidity
+IERC20(USDC).approve(CONTROLLER, 1000e6);
+IERC20(mirrorToken).approve(CONTROLLER, 100e18);
+```
+
+## Step 2: Deposit into vaults
+
+Once approved, deposit your tokens into their respective vaults via the Controller.
+
+### TypeScript (viem)
+
+```ts
+import { walletClient, CONTROLLER, USDC, MIRROR_TOKEN } from './config';
+
+// Deposit USDC
+await walletClient.writeContract({
+  address: CONTROLLER,
+  abi: controllerAbi,
+  functionName: 'depositToVault',
+  args: [USDC, 1000000000n], // currency (as address), amount
+});
+
+// Deposit MirrorToken
+await walletClient.writeContract({
+  address: CONTROLLER,
+  abi: controllerAbi,
+  functionName: 'depositToVault',
+  args: [MIRROR_TOKEN, parseEther('100')],
+});
+```
+
+### Solidity
+
+```solidity
+IController(CONTROLLER).depositToVault(
+    Currency.wrap(address(USDC)),
+    1000e6
+);
+
+IController(CONTROLLER).depositToVault(
+    Currency.wrap(address(mirrorToken)),
+    100e18
+);
+```
+
+## Step 3: Approve vaults for trading
+
+The BookManager needs permission to manage your vault shares during trading operations (locking, settling, etc.).
+
+### Get vault addresses
+
+First, retrieve the vault addresses:
+
+```ts
+import { publicClient, BOOK_MANAGER, USDC, MIRROR_TOKEN } from './config';
+
+const vaultUSDC = await publicClient.readContract({
+  address: BOOK_MANAGER,
+  abi: bookManagerAbi,
+  functionName: 'getVault',
+  args: [USDC],
+});
+
+const vaultMirrorToken = await publicClient.readContract({
+  address: BOOK_MANAGER,
+  abi: bookManagerAbi,
+  functionName: 'getVault',
+  args: [MIRROR_TOKEN],
+});
+```
+
+### Approve vaults
+
+```ts
+import { walletClient, BOOK_MANAGER } from './config';
+
+// Approve USDC vault
+await walletClient.writeContract({
+  address: vaultUSDC,
+  abi: erc20Abi,
+  functionName: 'approve',
+  args: [BOOK_MANAGER, maxUint256],
+});
+
+// Approve MirrorToken vault
+await walletClient.writeContract({
+  address: vaultMirrorToken,
+  abi: erc20Abi,
+  functionName: 'approve',
+  args: [BOOK_MANAGER, maxUint256],
+});
+```
+
+### Solidity
+
+```solidity
+IDEXVault vaultUSDC = IBookManager(BOOK_MANAGER).getVault(Currency.wrap(address(USDC)));
+IDEXVault vaultMirrorToken = IBookManager(BOOK_MANAGER).getVault(Currency.wrap(address(mirrorToken)));
+
+IERC20(address(vaultUSDC)).approve(BOOK_MANAGER, type(uint256).max);
+IERC20(address(vaultMirrorToken)).approve(BOOK_MANAGER, type(uint256).max);
+```
+
+## Step 4: Check your vault balance
+
+You can check your vault balance at any time:
+
+```ts
+import { publicClient } from './config';
+
+const totalShares = await publicClient.readContract({
+  address: vaultUSDC,
+  abi: erc20Abi,
+  functionName: 'balanceOf',
+  args: [userAddress],
+});
+
+const availableToWithdraw = await publicClient.readContract({
+  address: vaultUSDC,
+  abi: vaultAbi,
+  functionName: 'maxWithdraw',
+  args: [userAddress],
+});
+
+const lockedInOrders = await publicClient.readContract({
+  address: vaultUSDC,
+  abi: vaultAbi,
+  functionName: 'getLockedAssets',
+  args: [userAddress],
+});
+```
+
+## Step 5: Withdraw from vaults
+
+To withdraw tokens back to your wallet:
+
+### TypeScript (viem)
+
+```ts
+import { walletClient, CONTROLLER, USDC } from './config';
+
+await walletClient.writeContract({
+  address: CONTROLLER,
+  abi: controllerAbi,
+  functionName: 'withdrawFromVault',
+  args: [USDC, 500000000n], // Withdraw 500 USDC
+});
+```
+
+### Solidity
+
+```solidity
+IController(CONTROLLER).withdrawFromVault(
+    Currency.wrap(address(USDC)),
+    500e6
+);
+```
+
+**Note**: Withdrawals will fail if you try to withdraw more than `maxWithdraw(user)`. Cancel your open orders first to unlock collateral.
+
+## Summary
+
+To start trading:
+
+1. **Approve Controller** on tokens (for deposits)
+2. **Deposit tokens** into vaults via Controller
+3. **Approve BookManager** on vaults (for trading)
+4. You're ready to place orders!
+
+To stop trading and withdraw:
+
+1. **Cancel all open orders** (to unlock collateral)
+2. **Withdraw funds** via `Controller.withdrawFromVault`
+
+## Troubleshooting
+
+**"Insufficient balance" when depositing:**
+
+- Check your token balance with `token.balanceOf(user)`
+- Ensure you've approved enough tokens
+
+**"Insufficient available balance" when withdrawing:**
+
+- Check `vault.maxWithdraw(user)`—you may have locked collateral
+- Cancel orders to unlock funds
+
+**"Transfer amount exceeds allowance" during trading:**
+
+- Ensure you've approved the BookManager on the **vault** (not the token)
+
+## See also
+
+- [Vaults & deposits concept](/mms-api/concepts/vaults-and-deposits) - detailed explanation
+- [Place & cancel orders](/mms-api/guides/place-cancel) - trading operations
+- [Controller reference](/mms-api/reference/controller) - Controller API

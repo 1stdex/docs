@@ -1,0 +1,229 @@
+---
+title: 'Claiming'
+description: 'How makers settle filled orders and receive proceeds.'
+---
+
+## Overview
+
+**Claiming** is how **makers** (limit order placers) settle their filled orders and receive their proceeds. Unlike takers who receive tokens immediately when executing market orders, makers must explicitly call `claim()` to:
+
+- Receive the tokens they bought
+- Unlock their remaining collateral
+- Trigger fee distribution to their provider and referrer
+
+## Maker vs Taker settlement
+
+The system handles settlement differently for makers and takers:
+
+| Aspect                | Maker (Limit Order)    | Taker (Market Order)        |
+| --------------------- | ---------------------- | --------------------------- |
+| **Settlement timing** | Deferred—on claim      | Immediate—on take           |
+| **Receives proceeds** | When calling `claim()` | Immediately during `take()` |
+| **Fee distribution**  | On claim               | Immediately during take     |
+| **Must call claim**   | Yes ✅                 | No ❌                       |
+
+## When to claim
+
+You should claim after your maker orders have been filled (fully or partially):
+
+1. **After a taker fills your order**: When someone executes a market order that matches your limit order
+2. **Partial fills**: You can claim partially filled orders to receive proceeds from the filled portion
+3. **Before canceling**: Claim any filled portions before canceling the remainder
+
+## The claiming flow
+
+### Step 1: Place limit order (make)
+
+```solidity
+Controller.make(MakeOrderParams({
+    id: bookId,
+    tick: tick,
+    quoteAmount: 1000e6,  // Lock 1000 USDC
+    provider: yourProvider,
+    referrer: yourReferrer,
+    owner: msg.sender
+}));
+```
+
+**What happens:**
+
+- Your quote currency (e.g., USDC) is **locked** in the vault
+- Order is added to the book at your specified price
+- Provider and referrer are stored with the order
+- You receive an `OrderId` for tracking
+
+### Step 2: Order gets filled (take)
+
+When a taker matches your order:
+
+- Taker receives their tokens **immediately**
+- Taker's provider/referrer receive fees **immediately**
+- Your order becomes **claimable**
+- You have **not** received anything yet
+
+### Step 3: Claim your proceeds
+
+```solidity
+Controller.claim(ClaimOrderParams({
+    id: orderId,
+    bookId: bookId,
+    to: msg.sender
+}), deadline);
+```
+
+**What happens:**
+
+1. Calculate your claimable amount and fees
+2. **Unlock** your collateral (minus maker fee)
+3. **Receive** the base currency you bought in your vault
+4. **Distribute** maker fees to your provider and referrer
+
+## Example: complete trade lifecycle
+
+### Setup
+
+```
+Book: TKN/USDC (makers BUY TKN, takers SELL TKN)
+- Maker fee: 0.1% (10 bp), referral rate: 40%
+- Taker fee: 0.2% (20 bp), referral rate: 50%
+
+Alice (Maker—wants to BUY TKN):
+- Places buy order: 1000 TKN at 2.0 USDC each
+- Locks: 2000 USDC
+- Provider: ProviderA
+- Referrer: ReferrerA
+
+Bob (Taker—wants to SELL TKN):
+- Sells 1000 TKN at market price
+- Provider: ProviderB
+- Referrer: ReferrerB
+```
+
+### Phase 1: Alice makes order
+
+```solidity
+// Alice locks 2000 USDC to buy 1000 TKN at 2.0 USDC each
+make(...)
+
+State:
+- Alice vault: 2000 USDC locked
+- Book: Buy order for 1000 TKN at 2.0 USDC
+```
+
+### Phase 2: Bob takes order (immediate settlement)
+
+```solidity
+// Bob sells 1000 TKN
+take(...)
+
+Immediate distribution:
+- Bob receives: 2000 USDC - 4 USDC (0.2% fee) = 1996 USDC ✅
+- Bob's referrer: 2 USDC (50% of taker fee) ✅
+- Bob's provider: 2 USDC (50% of taker fee) ✅
+
+State:
+- Alice's order: ✨ CLAIMABLE (but not claimed yet)
+- Alice has received: NOTHING yet ❌
+```
+
+### Phase 3: Alice claims (deferred settlement)
+
+```solidity
+// Alice claims her filled order
+claim(orderId)
+
+Calculation:
+- Alice is buying: 1000 TKN
+- Alice locked: 2000 USDC
+- Maker fee (in USDC): 2000 × 0.1% = 2 USDC
+- To Alice's referrer: 2 × 40% = 0.8 USDC
+- To Alice's provider: 2 × 60% = 1.2 USDC
+
+Final state:
+- Alice: 1000 TKN + 1998 USDC unlocked (net cost: 2 USDC fee)
+- Alice's referrer: 0.8 USDC
+- Alice's provider: 1.2 USDC
+- Bob: 1996 USDC
+- Bob's referrer: 2 USDC
+- Bob's provider: 2 USDC
+```
+
+## Claim checklist
+
+Before claiming:
+
+- ✅ Your order has been filled (partially or fully)
+- ✅ You have the `OrderId` from when you placed the order
+- ✅ You know which book the order is in (`bookId`)
+
+To claim:
+
+```solidity
+Controller.claim(
+    ClaimOrderParams({
+        id: orderId,
+        bookId: bookId,
+        to: yourAddress  // Where to send proceeds
+    }),
+    deadline  // Unix timestamp
+);
+```
+
+After claiming:
+
+- ✅ Check your vault balance for the base currency you bought
+- ✅ Your locked collateral is now unlocked (minus fees)
+- ✅ Your provider and referrer received their fees
+
+## Monitoring claimable orders
+
+To check if you have claimable orders, query the subgraph or contract:
+
+```typescript
+// Query your orders for a specific book
+const orders = await bookManager.getOrders(bookId, yourAddress);
+
+// Check claimable amount for each order
+for (const order of orders) {
+  const claimable = await bookManager.calculateClaimableAmount(
+    order.id,
+    order.tick,
+    order.index
+  );
+
+  if (claimable > 0) {
+    console.log(`Order ${order.id} has ${claimable} claimable`);
+  }
+}
+```
+
+## Gas optimization
+
+Claiming costs gas, so consider:
+
+- **Batch claims**: Claim multiple orders in one transaction
+- **Timing**: Wait for multiple fills before claiming
+- **Trade-off**: Balance gas costs vs. having access to your tokens
+
+```solidity
+// Batch claim multiple orders
+Controller.claim([
+    ClaimOrderParams({ id: orderId1, bookId: bookId1, to: msg.sender }),
+    ClaimOrderParams({ id: orderId2, bookId: bookId2, to: msg.sender }),
+    ClaimOrderParams({ id: orderId3, bookId: bookId1, to: msg.sender })
+], deadline);
+```
+
+## Security considerations
+
+- **Only you can claim**: Orders are tied to your address; others cannot claim your proceeds
+- **No time limit**: Claimable orders never expire—claim whenever convenient
+- **Locked until claimed**: Your locked collateral remains locked until you claim or cancel
+- **Fee calculation**: Maker fees are taken from your locked collateral, not from proceeds
+
+## See also
+
+- [Vaults & deposits](/mms-api/concepts/vaults-and-deposits) - vault mechanics and collateral
+- [Providers](/mms-api/concepts/providers) - understanding providers and referrers
+- [Controller](/mms-api/concepts/controller) - the main trading interface
+- [Place & cancel guide](/mms-api/guides/place-cancel) - how to place orders

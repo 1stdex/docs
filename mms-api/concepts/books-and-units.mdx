@@ -1,0 +1,14 @@
+---
+title: 'Books & units'
+description: 'Order book structure and unit-based sizing.'
+---
+
+## Books
+
+- Two books per pair: **base→quote** (sell base) and **quote→base** (sell quote). We refer to them by a deterministic `BookId`.
+- Each book is defined by a **BookKey**: `(base, quote, unitSize, makerPolicy, takerPolicy)`.
+- Orders in a book share the same `unitSize` and fee policies. Units are **integers**; the notional is `unit * unitSize` in the _book's base currency_.
+
+## Units
+
+Every book has a fixed `unitSize` (an amount of **base** for that book). All maker sizes are expressed in **units** (uint64). Actual base/quote amounts are derived from the `unitSize` and the tick's price.

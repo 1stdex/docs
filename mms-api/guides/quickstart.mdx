@@ -1,136 +1,64 @@
 ---
-title: 'Quickstart'
-description: 'Post/cancel a quote using the Controller and read it from the subgraph.'
+title: 'Setup guide'
+description: 'Steps required before you can start trading on 1st DEX.'
 ---
 
-## Prerequisites
+Before you can place, cancel, or claim orders on the 1st DEX, you need to complete these one-time setup steps.
 
-- Node.js 18+
-- `viem` or `ethers` for ABI encoding / RPC
-- RPC URL + private key with funds on the target network
-- Contract addresses (placeholders here; see [Addresses](/mms-api/reference/addresses))
+## 1. Obtain USDC
 
-```ts
-// install
-npm i viem
+You need **USDC** (or other quote currency) in your wallet to:
+
+- Post maker orders (quote is locked when you MAKE)
+- Execute taker orders (quote is spent when you TAKE/SPEND)
+
+Ensure you have sufficient USDC balance on the target network (Base Sepolia, etc.) before proceeding.
+
+## 2. Obtain tokens to trade
+
+Acquire the **base tokens** you want to trade:
+
+- For buying: you'll receive base tokens when your quote orders fill
+- For selling: you need base tokens in your wallet to sell
+
+The 1st DEX trades **MirrorTokens** representing real-world assets. Check the available markets on your target network.
+
+## 3. Approve tokens & deposit to vaults
+
+**All trading happens from vault balances**, not directly from your wallet.
+
+You must:
+
+1. **Approve** the vault contract to spend your tokens
+2. **Deposit** tokens into the vault for each currency you'll trade
+
+The vault system allows gas-efficient order management without repeated token approvals.
+
+→ See [Deposit & withdraw](/mms-api/guides/deposit-withdraw) for detailed instructions.
+
+## 4. Enable Controller as operator
+
+The **Controller** needs your approval to execute `CANCEL` and `CLAIM` actions on your behalf.
+
+This is a **one-time setup** per address. Call:
+
+```solidity
+bookManager.setOrderOperator(CONTROLLER_ADDRESS, true);
 ```
 
-## Constants
+Without this approval:
 
-```ts
-// Controller ABI fragment and enums you need
-export enum Action {
-  OPEN = 0,
-  MAKE = 1,
-  LIMIT = 2,
-  TAKE = 3,
-  SPEND = 4,
-  CLAIM = 5,
-  CANCEL = 6,
-}
+- ✅ You can create orders (MAKE, TAKE, LIMIT)
+- ❌ You cannot cancel or claim via the Controller
 
-export const controllerAbi = [
-  {
-    name: 'execute',
-    type: 'function',
-    stateMutability: 'nonpayable',
-    inputs: [
-      { name: 'actionList', type: 'uint8[]' }, // Action[]
-      { name: 'paramsDataList', type: 'bytes[]' }, // abi.encode of each params struct
-      { name: 'erc20PermitParamsList', type: 'tuple[]' }, // ERC20PermitParams[] (optional; pass [] if unused)
-      { name: 'deadline', type: 'uint64' },
-    ],
-    outputs: [{ name: 'ids', type: 'uint256[]' }], // OrderId[]
-  },
-] as const;
-```
+→ See [Enable Controller as operator](/mms-api/guides/enable-operator) for implementation details.
 
-## Setup
+---
 
-```ts
-import {
-  createWalletClient,
-  http,
-  parseUnits,
-  encodeAbiParameters,
-} from 'viem';
+## You're ready to trade
 
-const controller = '0xController'; // placeholder
-const signer = createWalletClient({
-  /* transport & account */
-});
+Once you've completed these steps, you can:
 
-const ZERO = '0x0000000000000000000000000000000000000000';
-```
-
-## Make an order
-
-```ts
-// Struct used by Action.MAKE (IController.MakeOrderParams)
-const makeTypes = [
-  { name: 'id', type: 'uint192' }, // BookId
-  { name: 'tick', type: 'int24' }, // Tick
-  { name: 'quoteAmount', type: 'uint256' },
-  { name: 'provider', type: 'address' },
-  { name: 'referrer', type: 'address' },
-] as const;
-
-const bookId = 1n; // replace with real BookId
-const tick = 0; // int
-const makeQuote = parseUnits('50', 6); // e.g., 50 USDC
-const provider = '0xBuyOrSellProvider'; // set correctly per book
-
-const makeParams = encodeAbiParameters(makeTypes, [
-  bookId,
-  tick,
-  makeQuote,
-  provider,
-  ZERO,
-]);
-
-const deadline = BigInt(Math.floor(Date.now() / 1000) + 600); // +10m
-
-const {
-  result: [orderId],
-} = await signer.writeContract({
-  address: controller,
-  abi: controllerAbi,
-  functionName: 'execute',
-  args: [[Action.MAKE], [makeParams], [], deadline],
-});
-```
-
-## Cancel an order
-
-```ts
-// Cancel fully (leftQuoteAmount = 0 means cancel everything)
-const cancelTypes = [
-  { name: 'id', type: 'uint256' }, // OrderId
-  { name: 'leftQuoteAmount', type: 'uint256' },
-] as const;
-
-const cancelParams = encodeAbiParameters(cancelTypes, [orderId, 0n]);
-
-await signer.writeContract({
-  address: controller,
-  abi: controllerAbi,
-  functionName: 'execute',
-  args: [[Action.CANCEL], [cancelParams], [], deadline],
-});
-```
-
-## Read your live order
-
-Use the subgraph:
-
-```graphql
-query MyOpenOrders($owner: Bytes!, $book: ID!) {
-  openOrders(where: { owner: $owner, book: $book }) {
-    id
-    orderIndex
-    tick
-    unitAmount
-    claimableQuoteAmount
-  }
-}
-```
+- [Place & cancel orders](/mms-api/guides/place-cancel)
+- [Query the subgraph](/mms-api/guides/query-subgraph) for order data
+- View [Controller reference](/mms-api/reference/controller) for all available actions

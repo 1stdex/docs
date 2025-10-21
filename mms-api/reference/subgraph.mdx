@@ -1,52 +1,574 @@
 ---
-title: "Subgraph (GraphQL schema)"
-description: "Types you will query from bots."
+title: 'Subgraph (GraphQL schema)'
+description: 'Complete GraphQL schema reference for querying the 1st subgraph.'
 ---
 
-### Core types
+## Core entities
+
+### Token
+
+Represents an ERC20 token tradeable on the platform.
 
 ```graphql
 type Token {
-  id: ID!
-  name: String!
-  symbol: String!
-  decimals: Int!
+  # Immutable values
+  id: Bytes! # Token address
+  symbol: String! # Token symbol
+  name: String! # Token name
+  decimals: BigInt! # Token decimals
+  # Mutable values
+  priceUSD: BigDecimal! # Current price in USD
+  volume: BigDecimal! # All-time volume in token units
+  volumeUSD: BigDecimal! # All-time volume in USD
+  protocolFees: BigDecimal! # All-time protocol fees in token units
+  protocolFeesUSD: BigDecimal! # All-time protocol fees in USD
+  bookCount: BigInt! # Number of books containing this token
+  totalValueLocked: BigDecimal! # TVL across all books in token units
+  totalValueLockedUSD: BigDecimal! # TVL across all books in USD
+  # Derived fields
+  tokenDayData: [TokenDayData!]! # Daily snapshots
+  books: [Book!]! # Books where this is the base token
 }
+```
 
-type FeePolicy {
-  id: ID!
-  fee: BigDecimal!
-  isFeeInQuote: Boolean!
-}
+### Book
 
+Represents an order book for a token pair.
+
+```graphql
 type Book {
-  id: ID!
-  base: Token!
-  quote: Token!
-  unitSize: BigInt!
-  makerPolicy: FeePolicy!
-  takerPolicy: FeePolicy!
-  depths: [Depth!]! @derivedFrom(field: "book")
-  openOrders: [OpenOrder!]! @derivedFrom(field: "book")
+  # Immutable values
+  id: ID! # Book ID
+  createdAtTimestamp: BigInt! # Creation timestamp
+  createdAtBlockNumber: BigInt! # Block number when created
+  quote: Token! # Quote token
+  base: Token! # Base token
+  unitSize: BigInt! # Minimum order unit size
+  makerPolicy: BigInt! # Maker fee policy ID
+  makerFee: BigDecimal! # Maker fee percentage
+  isMakerFeeInQuote: Boolean! # Whether maker fee is in quote token
+  takerPolicy: BigInt! # Taker fee policy ID
+  takerFee: BigDecimal! # Taker fee percentage
+  isTakerFeeInQuote: Boolean! # Whether taker fee is in quote token
+  pool: Pool # Associated liquidity pool (if any)
+  # Mutable values
+  priceRaw: BigInt! # Current raw price
+  price: BigDecimal! # Current price (quote per base)
+  inversePrice: BigDecimal! # Inverse price (base per quote)
+  tick: BigInt! # Current tick
+  volumeQuote: BigDecimal! # All-time quote volume
+  volumeBase: BigDecimal! # All-time base volume
+  volumeUSD: BigDecimal! # All-time USD volume
+  protocolFeesQuote: BigDecimal! # All-time protocol fees in quote
+  protocolFeesBase: BigDecimal! # All-time protocol fees in base
+  protocolFeesUSD: BigDecimal! # All-time protocol fees in USD
+  totalValueLocked: BigDecimal! # Total TVL in quote token units
+  totalValueLockedUSD: BigDecimal! # Total TVL in USD
+  lastTakenTimestamp: BigInt! # Last trade timestamp
+  lastTakenBlockNumber: BigInt! # Last trade block number
+  # Derived fields
+  depths: [Depth!]! # Order book depths by tick
+  openOrders: [OpenOrder!]! # All open orders
+  takes: [Take!]! # All trades
 }
+```
 
+### Depth
+
+Represents aggregated liquidity at a specific tick in a book.
+
+```graphql
 type Depth {
-  id: ID!
-  book: Book!
-  tick: BigInt!
-  unitAmount: BigInt!
-  baseAmount: BigInt!
-  quoteAmount: BigInt!
+  # Immutable values
+  id: ID! # Format: ${bookId}-${tick}
+  book: Book! # Parent book
+  tick: BigInt! # Price tick
+  priceRaw: BigInt! # Raw price at this tick
+  price: BigDecimal! # Price (quote per base)
+  inversePrice: BigDecimal! # Inverse price (base per quote)
+  # Mutable values
+  unitAmount: BigInt! # Total units at this tick
+  baseAmount: BigInt! # Total base amount
+  quoteAmount: BigInt! # Total quote amount
+  latestTakenOrderIndex: BigInt! # Index of last taken order
 }
+```
 
+### OpenOrder
+
+Represents an open limit order in a book.
+
+```graphql
 type OpenOrder {
-  id: ID!
-  book: Book!
-  owner: Bytes!
-  tick: BigInt!
-  orderIndex: Int!
-  unitAmount: BigInt!
-  claimableQuoteAmount: BigDecimal!
-  createdAt: Int!
+  # Immutable values
+  id: ID! # Order ID
+  transaction: Transaction! # Creation transaction
+  timestamp: BigInt! # Creation timestamp
+  book: Book! # Parent book
+  quote: Token! # Quote token
+  base: Token! # Base token
+  origin: Bytes! # Transaction origin (EOA)
+  priceRaw: BigInt! # Raw price
+  tick: BigInt! # Price tick
+  orderIndex: BigInt! # Order index within tick
+  price: BigDecimal! # Price (quote per base)
+  inversePrice: BigDecimal! # Inverse price (base per quote)
+  # Mutable values
+  owner: Bytes! # Current owner address
+  # Order size (decreases when cancelled)
+  amountUSD: BigDecimal! # Order size in USD
+  unitAmount: BigInt! # Units
+  baseAmount: BigInt! # Base amount
+  quoteAmount: BigInt! # Quote amount
+  # Filled amounts (increases when taken)
+  filledUnitAmount: BigInt! # Filled units
+  filledBaseAmount: BigInt! # Filled base amount
+  filledQuoteAmount: BigInt! # Filled quote amount
+  # Claimed amounts (increases when claimed)
+  claimedUnitAmount: BigInt! # Claimed units
+  claimedBaseAmount: BigInt! # Claimed base amount
+  claimedQuoteAmount: BigInt! # Claimed quote amount
+  # Claimable amounts (increases when taken)
+  claimableUnitAmount: BigInt! # Claimable units
+  claimableBaseAmount: BigInt! # Claimable base amount
+  claimableQuoteAmount: BigInt! # Claimable quote amount
+  # Cancelable amounts (decreases when filled or cancelled)
+  cancelableUnitAmount: BigInt! # Cancelable units
+  cancelableBaseAmount: BigInt! # Cancelable base amount
+  cancelableQuoteAmount: BigInt! # Cancelable quote amount
+}
+```
+
+### Transaction
+
+Represents an on-chain transaction.
+
+```graphql
+type Transaction {
+  id: ID! # Transaction hash
+  blockNumber: BigInt! # Block number
+  timestamp: BigInt! # Block timestamp
+  gasUsed: BigInt! # Gas used
+  gasPrice: BigInt! # Gas price
+  from: Bytes! # Sender address
+  to: Bytes # Receiver address
+  value: BigInt! # Transaction value
+  # Derived fields
+  takes: [Take!]! # Trades in this transaction
+}
+```
+
+## Trading events
+
+### Take
+
+Represents a trade (taker order) on a book.
+
+```graphql
+type Take {
+  id: ID! # Format: {txHash}-{logIndex}
+  transaction: Transaction! # Parent transaction
+  timestamp: BigInt! # Trade timestamp
+  book: Book! # Book where trade occurred
+  inputToken: Token! # Token sold
+  outputToken: Token! # Token bought
+  origin: Bytes! # Transaction origin (EOA)
+  inputAmount: BigInt! # Amount sold
+  outputAmount: BigInt! # Amount bought
+  amountUSD: BigDecimal! # Trade value in USD
+  logIndex: BigInt # Log index in transaction
+}
+```
+
+### Swap
+
+Represents a swap through the meta-aggregator router.
+
+```graphql
+type Swap {
+  id: ID! # Format: {txHash}-{logIndex}
+  transaction: Transaction! # Parent transaction
+  timestamp: BigInt! # Swap timestamp
+  inputToken: Bytes! # Token sold
+  outputToken: Bytes! # Token bought
+  origin: Bytes! # Transaction origin (EOA)
+  inputAmount: BigInt! # Amount sold
+  outputAmount: BigInt! # Amount bought
+  amountUSD: BigDecimal! # Swap value in USD
+  logIndex: BigInt # Log index in transaction
+  router: Bytes! # Router contract address
+  fee: BigInt! # Fee in output token wei
+}
+```
+
+## Liquidity pools
+
+### Pool
+
+Represents a liquidity pool with automated market making strategy.
+
+```graphql
+type Pool {
+  # Immutable values
+  id: Bytes! # Pool key
+  salt: Bytes! # Pool salt
+  strategy: Bytes! # Strategy contract address
+  createdAtTimestamp: BigInt! # Creation timestamp
+  createdAtBlockNumber: BigInt! # Creation block number
+  createdAtTransaction: Transaction! # Creation transaction
+  initialTokenAAmount: BigInt! # Initial tokenA deposit
+  initialTokenBAmount: BigInt! # Initial tokenB deposit
+  initialTotalSupply: BigInt! # Initial LP token supply
+  initialLPPriceUSD: BigDecimal! # Initial LP token price in USD
+  initialMintTransaction: Transaction # Initial mint transaction
+  tokenA: Token! # Token A
+  tokenB: Token! # Token B
+  bookA: Book! # Book for tokenA
+  bookB: Book! # Book for tokenB
+  # Mutable values
+  oraclePrice: BigInt! # Oracle price
+  totalSupply: BigInt! # Total LP token supply
+  liquidityA: BigInt! # Liquidity of tokenA
+  liquidityB: BigInt! # Liquidity of tokenB
+  lpPriceUSD: BigDecimal! # Current LP token price in USD
+  priceA: BigDecimal! # Current priceA
+  priceARaw: BigInt! # Raw priceA
+  tickA: BigInt! # Current tickA
+  priceB: BigDecimal! # Current priceB
+  priceBRaw: BigInt! # Raw priceB
+  tickB: BigInt! # Current tickB
+  volumeTokenA: BigDecimal! # All-time tokenA volume
+  volumeTokenB: BigDecimal! # All-time tokenB volume
+  volumeUSD: BigDecimal! # All-time USD volume
+  protocolFeesTokenA: BigDecimal! # Protocol fees in tokenA
+  protocolFeesTokenB: BigDecimal! # Protocol fees in tokenB
+  protocolFeesAUSD: BigDecimal! # Protocol fees tokenA in USD
+  protocolFeesBUSD: BigDecimal! # Protocol fees tokenB in USD
+  spreadProfitUSD: BigDecimal! # All-time spread profit in USD
+  totalValueLockedUSD: BigDecimal! # Total TVL in USD
+  # Derived fields
+  poolHourData: [PoolHourData!]! # Hourly snapshots
+  poolDayData: [PoolDayData!]! # Daily snapshots
+}
+```
+
+### PoolDayData
+
+Daily snapshot of pool statistics.
+
+```graphql
+type PoolDayData {
+  id: ID! # Format: ${poolKey}-{periodStartUnix}
+  date: Int! # Day timestamp
+  pool: Pool! # Parent pool
+  oraclePrice: BigInt! # Oracle price
+  totalSupply: BigInt! # LP token supply
+  liquidityA: BigInt! # TokenA liquidity
+  liquidityB: BigInt! # TokenB liquidity
+  lpPriceUSD: BigDecimal! # LP token price in USD
+  priceA: BigDecimal! # PriceA
+  priceARaw: BigInt! # Raw priceA
+  tickA: BigInt! # TickA
+  priceB: BigDecimal! # PriceB
+  priceBRaw: BigInt! # Raw priceB
+  tickB: BigInt! # TickB
+  volumeTokenA: BigDecimal! # Daily tokenA volume
+  volumeTokenB: BigDecimal! # Daily tokenB volume
+  volumeUSD: BigDecimal! # Daily USD volume
+  protocolFeesTokenA: BigDecimal! # Daily protocol fees in tokenA
+  protocolFeesTokenB: BigDecimal! # Daily protocol fees in tokenB
+  protocolFeesAUSD: BigDecimal! # Daily protocol fees tokenA in USD
+  protocolFeesBUSD: BigDecimal! # Daily protocol fees tokenB in USD
+  spreadProfitUSD: BigDecimal! # Daily spread profit in USD
+  totalValueLockedUSD: BigDecimal! # TVL in USD
+}
+```
+
+### PoolHourData
+
+Hourly snapshot of pool statistics.
+
+```graphql
+type PoolHourData {
+  id: ID! # Format: ${poolKey}-{periodStartUnix}
+  date: Int! # Hour timestamp
+  pool: Pool! # Parent pool
+  oraclePrice: BigInt! # Oracle price
+  totalSupply: BigInt! # LP token supply
+  liquidityA: BigInt! # TokenA liquidity
+  liquidityB: BigInt! # TokenB liquidity
+  lpPriceUSD: BigDecimal! # LP token price in USD
+  priceA: BigDecimal! # PriceA
+  priceARaw: BigInt! # Raw priceA
+  tickA: BigInt! # TickA
+  priceB: BigDecimal! # PriceB
+  priceBRaw: BigInt! # Raw priceB
+  tickB: BigInt! # TickB
+  volumeTokenA: BigDecimal! # Hourly tokenA volume
+  volumeTokenB: BigDecimal! # Hourly tokenB volume
+  volumeUSD: BigDecimal! # Hourly USD volume
+  protocolFeesTokenA: BigDecimal! # Hourly protocol fees in tokenA
+  protocolFeesTokenB: BigDecimal! # Hourly protocol fees in tokenB
+  protocolFeesAUSD: BigDecimal! # Hourly protocol fees tokenA in USD
+  protocolFeesBUSD: BigDecimal! # Hourly protocol fees tokenB in USD
+  spreadProfitUSD: BigDecimal! # Hourly spread profit in USD
+  totalValueLockedUSD: BigDecimal! # TVL in USD
+}
+```
+
+## Chart data
+
+### ChartLog
+
+Candlestick chart data for trading pairs.
+
+```graphql
+type ChartLog {
+  id: ID! # Format: ${baseToken}-${quoteToken}-${intervalType}-${timestamp}
+  base: Token! # Base token
+  quote: Token! # Quote token
+  marketCode: String! # Format: ${baseToken}-${quoteToken}
+  intervalType: String! # Interval: 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 1d, 1w
+  timestamp: BigInt! # Candle timestamp (seconds)
+  open: BigDecimal! # Opening price
+  high: BigDecimal! # High price
+  low: BigDecimal! # Low price
+  close: BigDecimal! # Closing price
+  baseVolume: BigDecimal! # Total volume in base token
+  bidBookBaseVolume: BigDecimal! # Bid book volume in base token
+  askBookBaseVolume: BigDecimal! # Ask book volume in base token
+}
+```
+
+## Analytics & statistics
+
+### User
+
+Represents a user (EOA) interacting with the protocol.
+
+```graphql
+type User {
+  id: Bytes! # Wallet address (EOA only)
+  firstSeenTimestamp: BigInt! # First interaction timestamp
+  firstSeenBlockNumber: BigInt! # First interaction block number
+  nativeVolume: BigDecimal! # Volume in native token units
+  # Derived fields
+  userDayData: [UserDayData!]! # Daily user statistics
+}
+```
+
+### BookDayData
+
+Daily snapshot of book statistics.
+
+```graphql
+type BookDayData {
+  id: ID! # Format: ${bookId}-{periodStartUnix}
+  date: Int! # Day timestamp
+  book: Book! # Parent book
+  price: BigDecimal! # Price (quote per base)
+  inversePrice: BigDecimal! # Inverse price (base per quote)
+  volumeQuote: BigDecimal! # Daily quote volume
+  volumeBase: BigDecimal! # Daily base volume
+  volumeUSD: BigDecimal! # Daily USD volume
+  protocolFeesQuote: BigDecimal! # Daily protocol fees in quote
+  protocolFeesBase: BigDecimal! # Daily protocol fees in base
+  protocolFeesUSD: BigDecimal! # Daily protocol fees in USD
+  totalValueLocked: BigDecimal! # TVL in quote token units
+  totalValueLockedUSD: BigDecimal! # TVL in USD
+  open: BigDecimal! # Opening price
+  high: BigDecimal! # High price
+  low: BigDecimal! # Low price
+  close: BigDecimal! # Closing price
+}
+```
+
+### TokenDayData
+
+Daily snapshot of token statistics.
+
+```graphql
+type TokenDayData {
+  id: ID! # Token address concatenated with date
+  date: Int! # Day timestamp
+  token: Token! # Parent token
+  cloberDayData: CloberDayData! # Protocol-wide day data
+  volume: BigDecimal! # Daily volume in token units
+  volumeUSD: BigDecimal! # Daily volume in USD
+  totalValueLocked: BigDecimal! # TVL in token units
+  totalValueLockedUSD: BigDecimal! # TVL in USD
+  priceUSD: BigDecimal! # Price in USD
+  protocolFees: BigDecimal! # Daily protocol fees in token units
+  protocolFeesUSD: BigDecimal! # Daily protocol fees in USD
+  open: BigDecimal! # Opening price USD
+  high: BigDecimal! # High price USD
+  low: BigDecimal! # Low price USD
+  close: BigDecimal! # Closing price USD
+}
+```
+
+### CloberDayData
+
+Protocol-wide daily statistics.
+
+```graphql
+type CloberDayData {
+  id: ID! # Day timestamp
+  date: Int! # Day timestamp
+  txCount: BigInt! # Number of daily transactions
+  walletCount: BigInt! # Number of daily active wallets
+  newWalletCount: BigInt! # Number of new wallets
+  # Derived fields
+  tokenDayData: [TokenDayData!]! # Token daily data
+  transactionTypes: [TransactionTypeDayData!]! # Transaction type breakdown
+  routerDayData: [RouterDayData!]! # Router usage data
+}
+```
+
+### TransactionTypeDayData
+
+Daily transaction count by type.
+
+```graphql
+type TransactionTypeDayData {
+  id: ID! # Format: ${type}-${dayTimestamp}
+  date: Int! # Day timestamp
+  cloberDayData: CloberDayData! # Parent day data
+  type: String! # Transaction type
+  txCount: BigInt! # Transaction count
+}
+```
+
+### RouterDayData
+
+Daily router usage statistics.
+
+```graphql
+type RouterDayData {
+  id: ID! # Format: ${router}-${dayTimestamp}
+  date: Int! # Day timestamp
+  cloberDayData: CloberDayData! # Parent day data
+  router: Bytes! # Router address
+  txCount: BigInt! # Transaction count
+}
+```
+
+### UserDayData
+
+Daily user activity statistics.
+
+```graphql
+type UserDayData {
+  id: ID! # Format: ${wallet}-{dayTimestamp}
+  date: Int! # Day timestamp
+  txCount: BigInt! # Number of daily transactions
+  user: User! # Parent user
+  # Derived fields
+  volumes: [UserDayVolume!]! # Volume by token
+}
+```
+
+### UserDayVolume
+
+Daily user volume per token.
+
+```graphql
+type UserDayVolume {
+  id: ID! # Format: ${wallet}-${token}-${dayTimestamp}
+  date: Int! # Day timestamp
+  user: Bytes! # User address
+  userDayData: UserDayData! # Parent user day data
+  token: Token! # Token
+  volume: BigDecimal! # Volume in token units
+  volumeUSD: BigDecimal! # Volume in USD
+}
+```
+
+## Fee tracking
+
+### Provider
+
+Tracks fees collected by order providers.
+
+```graphql
+type Provider {
+  id: Bytes! # Provider address
+  totalFeesCollectedUSD: BigDecimal! # Total fees in USD across all tokens
+  orderCount: BigInt! # Number of orders created
+  # Derived fields
+  feesByToken: [ProviderTokenFee!]! # Fees breakdown by token
+}
+```
+
+### ProviderTokenFee
+
+Provider fees per token.
+
+```graphql
+type ProviderTokenFee {
+  id: ID! # Format: provider-token
+  provider: Provider! # Parent provider
+  token: Token! # Fee token
+  totalFees: BigDecimal! # Total fees in token units
+  totalFeesUSD: BigDecimal! # Total fees in USD
+}
+```
+
+### Referrer
+
+Tracks fees collected by referrers.
+
+```graphql
+type Referrer {
+  id: Bytes! # Referrer address
+  totalFeesCollectedUSD: BigDecimal! # Total fees in USD across all tokens
+  referralCount: BigInt! # Number of referrals
+  # Derived fields
+  feesByToken: [ReferrerTokenFee!]! # Fees breakdown by token
+}
+```
+
+### ReferrerTokenFee
+
+Referrer fees per token.
+
+```graphql
+type ReferrerTokenFee {
+  id: ID! # Format: referrer-token
+  referrer: Referrer! # Parent referrer
+  token: Token! # Fee token
+  totalFees: BigDecimal! # Total fees in token units
+  totalFeesUSD: BigDecimal! # Total fees in USD
+}
+```
+
+### PayerReferrerFee
+
+Tracks fee relationship between payer and referrer.
+
+```graphql
+type PayerReferrerFee {
+  id: ID! # Format: payer-referrer-token
+  payer: Bytes! # Address who paid the fee
+  referrer: Referrer! # Address who received the fee
+  token: Token! # Fee token
+  totalFeesPaid: BigDecimal! # Total fees paid in token units
+  totalFeesPaidUSD: BigDecimal! # Total fees paid in USD
+}
+```
+
+### UserFee
+
+Tracks total fees paid by users.
+
+```graphql
+type UserFee {
+  id: ID! # Format: user-token
+  user: Bytes! # User address
+  token: Token! # Fee token
+  totalFeesPaid: BigDecimal! # Total fees (provider + referrer)
+  providerFeesPaid: BigDecimal! # Fees paid to providers
+  referrerFeesPaid: BigDecimal! # Fees paid to referrers
+  totalFeesPaidUSD: BigDecimal! # Total fees in USD
 }
 ```

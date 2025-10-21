@@ -1,20 +1,16 @@
 ---
-title: 'Books, ticks & units'
-description: 'How to reason about price levels (ticks) and sizes (units).'
+title: 'Ticks'
+description: 'Discrete price levels and tick-to-price conversion.'
 ---
 
-## Units
+Price levels are discrete **ticks** with type `Tick` (signed 24‑bit integer). Ticks are **global** (shared across books).
 
-Every book has a fixed `unitSize` (an amount of **base** for that book). All maker sizes are expressed in **units** (uint64). Actual base/quote amounts are derived from the `unitSize` and the tick’s price.
-
-## Ticks
-
-Ticks are discrete signed integers (`int24`) that represent price levels. Conversions:
+## Tick range
 
 - `int24 MIN_TICK = -8_388_608`, `MAX_TICK = 8_388_607`.
 - ABI type is `int24` when encoding parameters.
 
-### Converting tick to price
+## Converting tick to price
 
 To avoid placing orders at unintended prices, you can calculate the actual price from a tick value:
 
@@ -71,5 +67,3 @@ export function tickToPrice(tick: number): bigint {
 ```
 
 This function returns a fixed-point price with 96 bits of precision. Use it to verify that your tick values correspond to reasonable prices before placing orders, especially when working with tokens of different decimals.
-
-> Implementation note: see `Tick.sol` for the exact definition.

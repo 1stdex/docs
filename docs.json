@@ -65,14 +65,23 @@
           {
             "group": "Concepts",
             "pages": [
-              "mms-api/concepts/core",
-              "mms-api/concepts/books-ticks-units"
+              "mms-api/concepts/books-and-units",
+              "mms-api/concepts/ticks",
+              "mms-api/concepts/vaults-and-deposits",
+              "mms-api/concepts/claiming",
+              "mms-api/concepts/providers",
+              "mms-api/concepts/controller",
+              "mms-api/concepts/operators"
             ]
           },
           {
             "group": "Guides",
             "pages": [
-              "mms-api/guides/place-cancel",
+              "mms-api/guides/deposit-withdraw",
+              "mms-api/guides/place-orders",
+              "mms-api/guides/cancel-orders",
+              "mms-api/guides/claim-orders",
+              "mms-api/guides/enable-operator",
               "mms-api/guides/query-subgraph"
             ]
           },

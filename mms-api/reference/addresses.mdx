@@ -1,12 +1,87 @@
 ---
-title: "Addresses & networks"
-description: "Chain deployments and contract addresses."
+title: 'Addresses & networks'
+description: 'Chain deployments and contract addresses.'
 ---
 
 > **Note:** no deployments yet. Use placeholders while integrating. Replace these as soon as contracts are deployed.
 
+## Core contracts
+
 ```ts
+// Core protocol contracts
+export const BOOK_MANAGER = '0xBookManager';
 export const CONTROLLER = '0xController';
+export const BOOK_VIEWER = '0xBookViewer';
+
+// Providers for fee distribution
 export const BUY_PROVIDER = '0xBuyProvider';
 export const SELL_PROVIDER = '0xSellProvider';
 ```
+
+## Tokens and vaults
+
+### USDC (quote currency)
+
+```ts
+export const USDC = '0xUSDC';
+export const VAULT_USDC = '0xVaultUSDC';
+```
+
+### MirrorTokens and their vaults
+
+Each MirrorToken has a corresponding ClaimableDEXVault for trading:
+
+```ts
+// Example MirrorToken 1
+export const MIRROR_TOKEN_1 = '0xMirrorToken1';
+export const VAULT_MIRROR_TOKEN_1 = '0xVaultMirrorToken1';
+
+// Example MirrorToken 2
+export const MIRROR_TOKEN_2 = '0xMirrorToken2';
+export const VAULT_MIRROR_TOKEN_2 = '0xVaultMirrorToken2';
+
+// Add more as deployed...
+```
+
+## Networks
+
+### Base Sepolia (testnet)
+
+```ts
+export const CHAIN_ID = 84532;
+export const RPC_URL = 'https://sepolia.base.org';
+```
+
+Contract addresses on Base Sepolia will be published here once deployed.
+
+## Looking up vault addresses
+
+You can query vault addresses dynamically using the BookManager:
+
+```ts
+import { publicClient, BOOK_MANAGER } from './config';
+
+// Get vault for any currency
+const vaultAddress = await publicClient.readContract({
+  address: BOOK_MANAGER,
+  abi: bookManagerAbi,
+  functionName: 'getVault',
+  args: [currencyAddress], // Currency as address
+});
+```
+
+## BookIds
+
+BookIds are deterministically computed from a BookKey. Use the subgraph or BookManager to query active books:
+
+```ts
+// Query BookId from BookManager
+const bookId = await publicClient.readContract({
+  address: BOOK_MANAGER,
+  abi: bookManagerAbi,
+  functionName: 'getBookId',
+  args: [bookKey],
+});
+```
+
+See [Query subgraph](/mms-api/guides/query-subgraph) for how to fetch books and their IDs via GraphQL.

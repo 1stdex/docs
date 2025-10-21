@@ -1,0 +1,125 @@
+---
+title: 'Vaults & deposits'
+description: 'DEXVaults, collateral, and approval requirements for trading.'
+---
+
+## Overview
+
+Before placing orders, you must deposit tokens into **vaults**—ERC4626 vaults that hold your collateral for trading. Each tradeable token has its own vault:
+
+- USDC → USDC vault
+- MirrorToken → MirrorToken vault
+
+Your tokens stay in these vaults while you trade. When you place orders, the required collateral is locked; when you cancel or claim, it's unlocked.
+
+## Approval requirements
+
+To trade, you need approvals on **both tokens and vaults**:
+
+### For deposits
+
+Approve the **Controller** on each **token**:
+
+```solidity
+USDC.approve(CONTROLLER, amount);
+mirrorToken.approve(CONTROLLER, amount);
+```
+
+This allows the Controller to transfer tokens from your wallet into vaults.
+
+### For trading
+
+Approve the **BookManager** on each **vault**:
+
+```solidity
+vaultUSDC.approve(BOOK_MANAGER, type(uint256).max);
+vaultMirrorToken.approve(BOOK_MANAGER, type(uint256).max);
+```
+
+This allows the BookManager to lock/unlock your collateral and settle trades.
+
+## Required approvals checklist
+
+Before trading a pair (e.g., USDC/MirrorToken), set up these approvals:
+
+### 1. For USDC (quote currency)
+
+- ✅ Approve **Controller** on **USDC token** (for deposits)
+- ✅ Approve **BookManager** on **USDC vault** (for withdrawals and settlements)
+
+### 2. For MirrorToken (base currency)
+
+- ✅ Approve **Controller** on **MirrorToken** (for deposits)
+- ✅ Approve **BookManager** on **MirrorToken vault** (for withdrawals and settlements)
+
+### 3. Deposit funds
+
+- ✅ Deposit USDC into its vault via `Controller.depositToVault(USDC, amount)`
+- ✅ Deposit MirrorToken into its vault via `Controller.depositToVault(MirrorToken, amount)`
+
+Once these steps are complete, you can:
+
+- Place limit orders (make)
+- Execute market orders (take)
+- Cancel orders
+- Claim proceeds
+
+## Vault balances
+
+Check your balances:
+
+- `maxWithdraw(user)`: available to withdraw (excludes locked collateral)
+- `getLockedAssets(user)`: amount locked in open orders
+
+**Important**: You cannot withdraw locked collateral—cancel your orders first.
+
+## Basic operations
+
+### Deposit
+
+```solidity
+Controller.depositToVault(currency, amount);
+```
+
+### Withdraw
+
+```solidity
+Controller.withdrawFromVault(currency, amount);
+```
+
+### Check balance
+
+```solidity
+uint256 available = vault.maxWithdraw(user);     // Available to withdraw
+uint256 locked = vault.getLockedAssets(user);    // Locked in orders
+```
+
+## Example: full setup flow
+
+```solidity
+// 1. Approve tokens for deposits
+USDC.approve(CONTROLLER, 1000e6);           // 1000 USDC
+mirrorToken.approve(CONTROLLER, 100e18);    // 100 tokens
+
+// 2. Deposit into vaults
+Controller.depositToVault(Currency.wrap(address(USDC)), 1000e6);
+Controller.depositToVault(Currency.wrap(address(mirrorToken)), 100e18);
+
+// 3. Approve vaults for trading
+vaultUSDC.approve(BOOK_MANAGER, type(uint256).max);
+vaultMirrorToken.approve(BOOK_MANAGER, type(uint256).max);
+
+// Now ready to trade!
+```
+
+## Security
+
+- Approvals are persistent—set once and forget
+- Your tokens never leave the vaults during trading
+- Locked collateral cannot be withdrawn, even with approvals
+
+## See also
+
+- [Controller](/mms-api/concepts/controller) - user-facing trading interface
+- [Deposit & withdraw guide](/mms-api/guides/deposit-withdraw) - step-by-step instructions
+- [Addresses](/mms-api/reference/addresses) - deployed contract addresses
