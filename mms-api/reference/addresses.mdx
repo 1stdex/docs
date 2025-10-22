@@ -3,58 +3,15 @@ title: 'Addresses & networks'
 description: 'Chain deployments and contract addresses.'
 ---
 
-> **Note:** no deployments yet. Use placeholders while integrating. Replace these as soon as contracts are deployed.
+## Contract Addresses and Network Information
 
-## Core contracts
+The chain ID, relevant contract addresses, and subgraph URLs are provided separately to integrators and testers. Please refer to the information provided to you directly.
 
-```ts
-// Core protocol contracts
-export const BOOK_MANAGER = '0xBookManager';
-export const CONTROLLER = '0xController';
-export const BOOK_VIEWER = '0xBookViewer';
+If you need access to these addresses for testing or integration purposes, please contact 1st.
 
-// Providers for fee distribution
-export const BUY_PROVIDER = '0xBuyProvider';
-export const SELL_PROVIDER = '0xSellProvider';
-```
+## Dynamic Address Lookups
 
-## Tokens and vaults
-
-### USDC (quote currency)
-
-```ts
-export const USDC = '0xUSDC';
-export const VAULT_USDC = '0xVaultUSDC';
-```
-
-### MirrorTokens and their vaults
-
-Each MirrorToken has a corresponding ClaimableDEXVault for trading:
-
-```ts
-// Example MirrorToken 1
-export const MIRROR_TOKEN_1 = '0xMirrorToken1';
-export const VAULT_MIRROR_TOKEN_1 = '0xVaultMirrorToken1';
-
-// Example MirrorToken 2
-export const MIRROR_TOKEN_2 = '0xMirrorToken2';
-export const VAULT_MIRROR_TOKEN_2 = '0xVaultMirrorToken2';
-
-// Add more as deployed...
-```
-
-## Networks
-
-### Base Sepolia (testnet)
-
-```ts
-export const CHAIN_ID = 84532;
-export const RPC_URL = 'https://sepolia.base.org';
-```
-
-Contract addresses on Base Sepolia will be published here once deployed.
-
-## Looking up vault addresses
+### Looking up vault addresses
 
 You can query vault addresses dynamically using the BookManager:
 
@@ -70,7 +27,7 @@ const vaultAddress = await publicClient.readContract({
 });
 ```
 
-## BookIds
+### BookIds
 
 BookIds are deterministically computed from a BookKey. Use the subgraph or BookManager to query active books:
 

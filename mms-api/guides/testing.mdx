@@ -1,0 +1,53 @@
+---
+title: 'Testing'
+description: 'Testing guide for the MMS API on testnet'
+---
+
+## Getting Started with Testing
+
+The MMS API is deployed on testnet for testing and integration. For the chain ID, contract addresses, and subgraph URLs, please refer to the [Addresses & Networks](/mms-api/reference/addresses) page.
+
+## Important Testing Information
+
+### Contract Verification
+
+All contracts have been verified in the block explorer to facilitate testing. You can easily inspect contract code, read contract state, and verify transaction details directly in the explorer.
+
+### USDC (Mock Token)
+
+USDC is a mock ERC20 token with a **public open mint function**. You can freely mint USDC tokens for testing purposes without any restrictions.
+
+To mint USDC:
+
+1. Navigate to the USDC contract in the explorer
+2. Connect your wallet
+3. Call the `mint` function with your address and desired amount
+
+### Mirror Tokens
+
+Mirror tokens work differently from USDC. **Mirror tokens need to be issued by 1st** and cannot be minted directly by users.
+
+To obtain mirror tokens for testing:
+
+- **Contact 1st** with your wallet address and the desired amount for each mirror token you need
+- Mirror tokens will be issued to your specified address
+
+### Listed Trading Pairs
+
+By default, there are **5 listed pairs** available for testing, all starting with no trading activity.
+
+<Note>
+  Each pair has **2 books** - one for each side of the market. This means there
+  are 10 books total across the 5 pairs.
+</Note>
+
+### Token Decimals and Pricing
+
+<Warning>
+  **Important:** Token decimals affect how ticks translate to real prices.
+</Warning>
+
+- **mRTKN6**: 6 decimals (same as typical USDC)
+- **Other mirror tokens**: 18 decimals
+
+When working with ticks and prices, remember that the decimal difference between base and quote tokens affects the price calculation. For more information on how ticks work, see the [Ticks concept page](/mms-api/concepts/ticks).

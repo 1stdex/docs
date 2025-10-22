@@ -82,7 +82,8 @@
               "mms-api/guides/cancel-orders",
               "mms-api/guides/claim-orders",
               "mms-api/guides/enable-operator",
-              "mms-api/guides/query-subgraph"
+              "mms-api/guides/query-subgraph",
+              "mms-api/guides/testing"
             ]
           },
           {
