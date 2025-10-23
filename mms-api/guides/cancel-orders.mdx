@@ -16,7 +16,8 @@ The CANCEL action allows you to cancel an open limit order, either fully or part
 ```
 CancelOrderParams(
   id: uint256,
-  leftQuoteAmount: uint256
+  leftQuoteAmount: uint256,
+  owner: address
 )
 ```
 
@@ -24,25 +25,31 @@ CancelOrderParams(
 
 ```ts
 const cancelTypes = [
-  { name: 'id', type: 'uint256' }, // OrderId
+  { name: 'id', type: 'uint256' },
   { name: 'leftQuoteAmount', type: 'uint256' },
+  { name: 'owner', type: 'address' },
 ] as const;
 
-const cancelData = encodeAbiParameters(cancelTypes, [orderId, 0n]);
+const cancelData = encodeAbiParameters(cancelTypes, [orderId, 0n, userAddress]);
 await writeExecute([Action.CANCEL], [cancelData]);
 ```
 
 ### Parameters
 
-- **id**: The order ID (uint256)
+- **id**: The order ID
 - **leftQuoteAmount**: The amount of quote tokens you want to remain in the order after cancellation
   - Set to `0` for full cancellation
   - Set to a positive value for partial cancellation (the difference will be returned to your vault)
+- **owner**: The address that owns the order
 
 ### Partial cancellation example
 
 ```ts
 // If you have an order with 1000 quote tokens and want to cancel 400 tokens:
-const cancelData = encodeAbiParameters(cancelTypes, [orderId, 600n]); // Leave 600 tokens
+const cancelData = encodeAbiParameters(cancelTypes, [
+  orderId,
+  600n,
+  userAddress,
+]); // Leave 600 tokens
 await writeExecute([Action.CANCEL], [cancelData]);
 ```

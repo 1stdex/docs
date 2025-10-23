@@ -19,22 +19,27 @@ When your limit order is matched, you need to claim it to:
 
 ```
 ClaimOrderParams(
-  id: uint256
+  id: uint256,
+  owner: address
 )
 ```
 
 ### Example
 
 ```ts
-const claimTypes = [{ name: 'id', type: 'uint256' }] as const;
+const claimTypes = [
+  { name: 'id', type: 'uint256' },
+  { name: 'owner', type: 'address' },
+] as const;
 
-const claimData = encodeAbiParameters(claimTypes, [orderId]);
+const claimData = encodeAbiParameters(claimTypes, [orderId, userAddress]);
 await writeExecute([Action.CLAIM], [claimData]);
 ```
 
 ### Parameters
 
-- **id**: The order ID (uint256) of the filled maker order you want to claim
+- **id**: The order ID of the filled maker order you want to claim
+- **owner**: The address that owns the order
 
 ### When to claim
 
