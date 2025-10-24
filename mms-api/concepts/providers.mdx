@@ -48,8 +48,7 @@ Controller.make(MakeOrderParams({
     tick: tick,
     quoteAmount: 2000e6,  // Offering 2000 USDC
     provider: buyProvider,  // ✅ Use BUY provider (buying TKN)
-    referrer: address(0),
-    owner: msg.sender
+    referrer: address(0)
 }));
 
 // Bob executes a market order to SELL 1000 TKN
@@ -73,8 +72,7 @@ Controller.make(MakeOrderParams({
     tick: tick,
     baseAmount: 1000e18,  // Offering 1000 TKN
     provider: sellProvider,  // ✅ Use SELL provider (selling TKN)
-    referrer: address(0),
-    owner: msg.sender
+    referrer: address(0)
 }));
 
 // Bob executes a market order to BUY 1000 TKN

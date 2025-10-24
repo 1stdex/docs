@@ -78,7 +78,6 @@ const cancelData = encodeAbiParameters(cancelTypes, [
 await controller.write.execute([
   [Action.CANCEL], // actionList
   [cancelData], // paramsDataList
-  [], // erc20PermitParamsList
   BigInt(Math.floor(Date.now() / 1000) + 300), // deadline (5 min)
 ]);
 ```

@@ -40,8 +40,7 @@ Controller.make(MakeOrderParams({
     tick: tick,
     quoteAmount: 1000e6,  // Lock 1000 USDC
     provider: yourProvider,
-    referrer: yourReferrer,
-    owner: msg.sender
+    referrer: yourReferrer
 }));
 ```
 
@@ -65,10 +64,8 @@ When a taker matches your order:
 
 ```solidity
 Controller.claim(ClaimOrderParams({
-    id: orderId,
-    bookId: bookId,
-    to: msg.sender
-}), deadline);
+    id: orderId
+}));
 ```
 
 **What happens:**
@@ -154,18 +151,14 @@ Before claiming:
 
 - ✅ Your order has been filled (partially or fully)
 - ✅ You have the `OrderId` from when you placed the order
-- ✅ You know which book the order is in (`bookId`)
 
 To claim:
 
 ```solidity
 Controller.claim(
     ClaimOrderParams({
-        id: orderId,
-        bookId: bookId,
-        to: yourAddress  // Where to send proceeds
-    }),
-    deadline  // Unix timestamp
+        id: orderId
+    })
 );
 ```
 
@@ -208,10 +201,10 @@ Claiming costs gas, so consider:
 ```solidity
 // Batch claim multiple orders
 Controller.claim([
-    ClaimOrderParams({ id: orderId1, bookId: bookId1, to: msg.sender }),
-    ClaimOrderParams({ id: orderId2, bookId: bookId2, to: msg.sender }),
-    ClaimOrderParams({ id: orderId3, bookId: bookId1, to: msg.sender })
-], deadline);
+    ClaimOrderParams({ id: orderId1 }),
+    ClaimOrderParams({ id: orderId2 }),
+    ClaimOrderParams({ id: orderId3 })
+]);
 ```
 
 ## Security considerations

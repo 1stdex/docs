@@ -19,7 +19,6 @@ enum Action {
 function execute(
   Action[] calldata actionList,
   bytes[] calldata paramsDataList,
-  ERC20PermitParams[] calldata erc20PermitParamsList,
   uint64 deadline
 ) external returns (OrderId[] memory ids);
 ```
