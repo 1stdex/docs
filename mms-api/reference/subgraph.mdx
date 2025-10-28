@@ -69,7 +69,8 @@ type Book {
   # Derived fields
   depths: [Depth!]! # Order book depths by tick
   openOrders: [OpenOrder!]! # All open orders
-  takes: [Take!]! # All trades
+  takes: [Take!]! # All taker trades
+  makerFills: [MakerFill!]! # All maker order fills
 }
 ```
 
@@ -136,6 +137,8 @@ type OpenOrder {
   cancelableUnitAmount: BigInt! # Cancelable units
   cancelableBaseAmount: BigInt! # Cancelable base amount
   cancelableQuoteAmount: BigInt! # Cancelable quote amount
+  # Derived fields
+  fills: [MakerFill!]! # All fills for this order
 }
 ```
 
@@ -160,23 +163,75 @@ type Transaction {
 
 ## Trading events
 
-### Take
+### Trade (Interface)
 
-Represents a trade (taker order) on a book.
+Common interface for all trade types (both taker and maker).
 
 ```graphql
-type Take {
+interface Trade {
+  id: ID!
+  transaction: Transaction! # Transaction containing the trade
+  timestamp: BigInt! # Trade timestamp
+  book: Book! # Book where trade occurred
+  inputToken: Token! # Token received by trader
+  outputToken: Token! # Token given by trader
+  trader: Bytes! # The person executing or providing liquidity
+  inputAmount: BigInt! # Amount received
+  outputAmount: BigInt! # Amount given
+  amountUSD: BigDecimal! # Trade value in USD
+  logIndex: BigInt! # Log index in transaction
+  type: String! # Discriminator: "TAKE" or "MAKER"
+}
+```
+
+### Take
+
+Represents a taker trade (market order execution) on a book. Implements the `Trade` interface.
+
+```graphql
+type Take implements Trade {
   id: ID! # Format: {txHash}-{logIndex}
   transaction: Transaction! # Parent transaction
   timestamp: BigInt! # Trade timestamp
   book: Book! # Book where trade occurred
-  inputToken: Token! # Token sold
-  outputToken: Token! # Token bought
+  inputToken: Token! # Token sold by taker
+  outputToken: Token! # Token bought by taker
   origin: Bytes! # Transaction origin (EOA)
+  trader: Bytes! # Alias for origin (implements Trade interface)
   inputAmount: BigInt! # Amount sold
   outputAmount: BigInt! # Amount bought
   amountUSD: BigDecimal! # Trade value in USD
-  logIndex: BigInt # Log index in transaction
+  logIndex: BigInt! # Log index in transaction
+  type: String! # Always "TAKE"
+}
+```
+
+### MakerFill
+
+Represents a maker order fill. When a taker executes a trade, it may fill multiple maker orders. Each fill generates a `MakerFill` record. Implements the `Trade` interface.
+
+```graphql
+type MakerFill implements Trade {
+  id: ID! # Format: {txHash}-{logIndex}-{orderId}
+  transaction: Transaction! # Transaction that filled this order
+  timestamp: BigInt! # Fill timestamp
+  book: Book! # Book where fill occurred
+  inputToken: Token! # Token received by maker
+  outputToken: Token! # Token given by maker
+  trader: Bytes! # Maker address (order owner)
+  inputAmount: BigInt! # Amount received by maker
+  outputAmount: BigInt! # Amount given by maker
+  amountUSD: BigDecimal! # Fill value in USD
+  logIndex: BigInt! # Log index in transaction
+  type: String! # Always "MAKER"
+  # Maker-specific fields
+  orderIdString: String! # Original order ID
+  order: OpenOrder # Reference to order (may be null if closed)
+  maker: Bytes! # Order owner (same as trader)
+  tick: BigInt! # Price tick
+  price: BigDecimal! # Fill price (quote per base)
+  inversePrice: BigDecimal! # Inverse fill price (base per quote)
+  fillIndex: BigInt! # Sequential fill number (0 = first fill, etc.)
 }
 ```
 

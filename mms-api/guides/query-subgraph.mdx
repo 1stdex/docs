@@ -1,6 +1,6 @@
 ---
-title: "Query the subgraph"
-description: "Exact schema and working queries for books, depth, and your orders."
+title: 'Query the subgraph'
+description: 'Exact schema and working queries for books, depth, and your orders.'
 ---
 
 The subgraph exposes typed entities. Below are working examples aligned with the schema.
@@ -11,11 +11,25 @@ The subgraph exposes typed entities. Below are working examples aligned with the
 query Books($first: Int!, $skip: Int!) {
   books(first: $first, skip: $skip, orderBy: id) {
     id
-    base { id symbol decimals }
-    quote { id symbol decimals }
+    base {
+      id
+      symbol
+      decimals
+    }
+    quote {
+      id
+      symbol
+      decimals
+    }
     unitSize
-    makerPolicy { fee isFeeInQuote }
-    takerPolicy { fee isFeeInQuote }
+    makerPolicy {
+      fee
+      isFeeInQuote
+    }
+    takerPolicy {
+      fee
+      isFeeInQuote
+    }
   }
 }
 ```
@@ -40,14 +54,138 @@ query Depth($book: ID!, $first: Int!) {
 
 ```graphql
 query MyOpenOrdersInBook($owner: Bytes!, $book: ID!) {
-  openOrders(where: { owner: $owner, book: $book }, orderBy: tick, orderDirection: desc) {
+  openOrders(
+    where: { owner: $owner, book: $book }
+    orderBy: tick
+    orderDirection: desc
+  ) {
     id
     orderIndex
     tick
     unitAmount
     claimableQuoteAmount
-    createdAt
+    timestamp
   }
 }
 ```
 
+### Recent taker trades (takes) in a book
+
+```graphql
+query RecentTakes($book: ID!, $first: Int!) {
+  takes(
+    where: { book: $book }
+    first: $first
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    id
+    timestamp
+    trader
+    inputToken {
+      id
+      symbol
+    }
+    outputToken {
+      id
+      symbol
+    }
+    inputAmount
+    outputAmount
+    amountUSD
+    transaction {
+      id
+    }
+  }
+}
+```
+
+### Maker fills for a specific order
+
+```graphql
+query OrderFills($orderId: ID!) {
+  openOrder(id: $orderId) {
+    id
+    tick
+    price
+    fills(orderBy: timestamp, orderDirection: asc) {
+      id
+      timestamp
+      fillIndex
+      inputAmount
+      outputAmount
+      amountUSD
+      transaction {
+        id
+      }
+    }
+  }
+}
+```
+
+### Maker fills for a user across all books
+
+```graphql
+query MakerFillsByUser($maker: Bytes!, $first: Int!) {
+  makerFills(
+    where: { maker: $maker }
+    first: $first
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    id
+    timestamp
+    book {
+      id
+      base {
+        symbol
+      }
+      quote {
+        symbol
+      }
+    }
+    tick
+    price
+    inputAmount
+    outputAmount
+    amountUSD
+    orderIdString
+  }
+}
+```
+
+### All trades for a given user in a book
+
+```graphql
+query UserTradesInBook($user: Bytes!, $book: ID!, $first: Int!) {
+  trades(
+    where: { trader: $user, book: $book }
+    first: $first
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    id
+    type
+    timestamp
+    trader
+    book {
+      id
+    }
+    inputToken {
+      id
+      symbol
+    }
+    outputToken {
+      id
+      symbol
+    }
+    inputAmount
+    outputAmount
+    amountUSD
+    logIndex
+    transaction {
+      id
+    }
+  }
+}
+```
