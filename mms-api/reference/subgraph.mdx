@@ -235,6 +235,38 @@ type MakerFill implements Trade {
 }
 ```
 
+### Claim
+
+Represents a claim event when a maker withdraws filled orders from a book.
+
+```graphql
+type Claim {
+  id: ID! # Format: {txHash}-{logIndex}-{orderId}
+  transaction: Transaction! # Transaction containing the claim
+  timestamp: BigInt! # Claim timestamp
+  book: Book! # Book where claim occurred
+  quote: Token! # Quote token
+  base: Token! # Base token
+  claimer: Bytes! # Address that executed the claim
+  owner: Bytes! # Owner of the order being claimed
+  orderId: BigInt! # Order ID as BigInt
+  orderIdString: String! # Order ID as string
+  order: OpenOrder # Reference to order (may be null if closed)
+  tick: BigInt! # Order tick
+  price: BigDecimal! # Price at claim time (quote per base)
+  inversePrice: BigDecimal! # Inverse price (base per quote)
+  # Amounts claimed in this event
+  claimedUnitAmount: BigInt! # Claimed units
+  claimedBaseAmount: BigInt! # Claimed base amount
+  claimedQuoteAmount: BigInt! # Claimed quote amount
+  claimedAmountUSD: BigDecimal! # USD value of claimed amount
+  # Remaining amounts after claim
+  remainingClaimableUnitAmount: BigInt! # Remaining claimable units
+  remainingCancelableUnitAmount: BigInt! # Remaining cancelable units
+  logIndex: BigInt! # Log index in transaction
+}
+```
+
 ### Swap
 
 Represents a swap through the meta-aggregator router.
