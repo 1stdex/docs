@@ -87,7 +87,7 @@
             ]
           },
           {
-            "group": "References",
+            "group": "Reference",
             "pages": [
               "mms-api/reference/addresses",
               "mms-api/reference/controller",
