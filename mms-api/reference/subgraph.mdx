@@ -68,7 +68,7 @@ type Book {
   lastTakenBlockNumber: BigInt! # Last trade block number
   # Derived fields
   depths: [Depth!]! # Order book depths by tick
-  openOrders: [OpenOrder!]! # All open orders
+  orders: [Order!]! # All orders (use filters for open/claimable/cancelable)
   takes: [Take!]! # All taker trades
   makerFills: [MakerFill!]! # All maker order fills
 }
@@ -95,12 +95,12 @@ type Depth {
 }
 ```
 
-### OpenOrder
+### Order
 
-Represents an open limit order in a book.
+Represents a limit order in a book. Orders are never deleted from the subgraph; filter by `claimableUnitAmount` and/or `cancelableUnitAmount` to find active orders.
 
 ```graphql
-type OpenOrder {
+type Order {
   # Immutable values
   id: ID! # Order ID
   transaction: Transaction! # Creation transaction
@@ -139,8 +139,17 @@ type OpenOrder {
   cancelableQuoteAmount: BigInt! # Cancelable quote amount
   # Derived fields
   fills: [MakerFill!]! # All fills for this order
+  claims: [Claim!]! # All claims for this order
+  cancels: [Cancel!]! # All cancels for this order
 }
 ```
+
+<Note>
+  **Important**: Orders are no longer deleted when fully claimed or canceled. To
+  query active orders, filter by: - `claimableUnitAmount_gt: 0` for orders with
+  claimable amounts - `cancelableUnitAmount_gt: 0` for orders that can still be
+  canceled
+</Note>
 
 ### Transaction
 
@@ -162,6 +171,24 @@ type Transaction {
 ```
 
 ## Trading events
+
+### OrderMovement (Interface)
+
+Common interface for order movements (takes, claims, and cancels).
+
+```graphql
+interface OrderMovement {
+  id: ID!
+  transaction: Transaction! # Transaction containing the movement
+  timestamp: BigInt! # Movement timestamp
+  book: Book! # Book where movement occurred
+  quote: Token! # Quote token
+  base: Token! # Base token
+  trader: Bytes! # Address executing the movement
+  logIndex: BigInt! # Log index in transaction
+  type: String! # Discriminator: "TAKE", "CLAIM", or "CANCEL"
+}
+```
 
 ### Trade (Interface)
 
@@ -186,18 +213,20 @@ interface Trade {
 
 ### Take
 
-Represents a taker trade (market order execution) on a book. Implements the `Trade` interface.
+Represents a taker trade (market order execution) on a book. Implements the `Trade` and `OrderMovement` interfaces.
 
 ```graphql
-type Take implements Trade {
+type Take implements Trade & OrderMovement {
   id: ID! # Format: {txHash}-{logIndex}
   transaction: Transaction! # Parent transaction
   timestamp: BigInt! # Trade timestamp
   book: Book! # Book where trade occurred
+  quote: Token! # Quote token
+  base: Token! # Base token
   inputToken: Token! # Token sold by taker
   outputToken: Token! # Token bought by taker
   origin: Bytes! # Transaction origin (EOA)
-  trader: Bytes! # Alias for origin (implements Trade interface)
+  trader: Bytes! # Alias for origin (implements Trade/OrderMovement interfaces)
   inputAmount: BigInt! # Amount sold
   outputAmount: BigInt! # Amount bought
   amountUSD: BigDecimal! # Trade value in USD
@@ -226,21 +255,39 @@ type MakerFill implements Trade {
   type: String! # Always "MAKER"
   # Maker-specific fields
   orderIdString: String! # Original order ID
-  order: OpenOrder # Reference to order (may be null if closed)
+  order: Order # Reference to order
+  take: Take! # Reference to the Take that triggered this fill
   maker: Bytes! # Order owner (same as trader)
   tick: BigInt! # Price tick
   price: BigDecimal! # Fill price (quote per base)
   inversePrice: BigDecimal! # Inverse fill price (base per quote)
   fillIndex: BigInt! # Sequential fill number (0 = first fill, etc.)
+  # Amounts filled in this specific fill
+  amountFilledUnitAmount: BigInt!
+  amountFilledBaseAmount: BigInt!
+  amountFilledQuoteAmount: BigInt!
+  # Remaining amounts after this fill (snapshot)
+  remainingFilledUnitAmount: BigInt!
+  remainingFilledBaseAmount: BigInt!
+  remainingFilledQuoteAmount: BigInt!
+  remainingClaimedUnitAmount: BigInt!
+  remainingClaimedBaseAmount: BigInt!
+  remainingClaimedQuoteAmount: BigInt!
+  remainingClaimableUnitAmount: BigInt!
+  remainingClaimableBaseAmount: BigInt!
+  remainingClaimableQuoteAmount: BigInt!
+  remainingCancelableUnitAmount: BigInt!
+  remainingCancelableBaseAmount: BigInt!
+  remainingCancelableQuoteAmount: BigInt!
 }
 ```
 
 ### Claim
 
-Represents a claim event when a maker withdraws filled orders from a book.
+Represents a claim event when a maker withdraws filled orders from a book. Implements the `OrderMovement` interface.
 
 ```graphql
-type Claim {
+type Claim implements OrderMovement {
   id: ID! # Format: {txHash}-{logIndex}-{orderId}
   transaction: Transaction! # Transaction containing the claim
   timestamp: BigInt! # Claim timestamp
@@ -249,9 +296,10 @@ type Claim {
   base: Token! # Base token
   claimer: Bytes! # Address that executed the claim
   owner: Bytes! # Owner of the order being claimed
+  trader: Bytes! # Alias for owner (implements OrderMovement interface)
   orderId: BigInt! # Order ID as BigInt
   orderIdString: String! # Order ID as string
-  order: OpenOrder # Reference to order (may be null if closed)
+  order: Order # Reference to order
   tick: BigInt! # Order tick
   price: BigDecimal! # Price at claim time (quote per base)
   inversePrice: BigDecimal! # Inverse price (base per quote)
@@ -260,10 +308,65 @@ type Claim {
   claimedBaseAmount: BigInt! # Claimed base amount
   claimedQuoteAmount: BigInt! # Claimed quote amount
   claimedAmountUSD: BigDecimal! # USD value of claimed amount
-  # Remaining amounts after claim
-  remainingClaimableUnitAmount: BigInt! # Remaining claimable units
-  remainingCancelableUnitAmount: BigInt! # Remaining cancelable units
+  # Remaining amounts after claim (snapshot)
+  remainingFilledUnitAmount: BigInt!
+  remainingFilledBaseAmount: BigInt!
+  remainingFilledQuoteAmount: BigInt!
+  remainingClaimedUnitAmount: BigInt!
+  remainingClaimedBaseAmount: BigInt!
+  remainingClaimedQuoteAmount: BigInt!
+  remainingClaimableUnitAmount: BigInt!
+  remainingClaimableBaseAmount: BigInt!
+  remainingClaimableQuoteAmount: BigInt!
+  remainingCancelableUnitAmount: BigInt!
+  remainingCancelableBaseAmount: BigInt!
+  remainingCancelableQuoteAmount: BigInt!
   logIndex: BigInt! # Log index in transaction
+  type: String! # Always "CLAIM"
+}
+```
+
+### Cancel
+
+Represents a cancel event when a maker cancels an order. Implements the `OrderMovement` interface.
+
+```graphql
+type Cancel implements OrderMovement {
+  id: ID! # Format: {txHash}-{logIndex}-{orderId}
+  transaction: Transaction! # Transaction containing the cancel
+  timestamp: BigInt! # Cancel timestamp
+  book: Book! # Book where cancel occurred
+  quote: Token! # Quote token
+  base: Token! # Base token
+  canceller: Bytes! # Address that executed the cancel
+  owner: Bytes! # Owner of the order being canceled
+  trader: Bytes! # Alias for owner (implements OrderMovement interface)
+  orderId: BigInt! # Order ID as BigInt
+  orderIdString: String! # Order ID as string
+  order: Order # Reference to order
+  tick: BigInt! # Order tick
+  price: BigDecimal! # Price at cancel time (quote per base)
+  inversePrice: BigDecimal! # Inverse price (base per quote)
+  # Amounts canceled in this event
+  canceledUnitAmount: BigInt! # Canceled units
+  canceledBaseAmount: BigInt! # Canceled base amount
+  canceledQuoteAmount: BigInt! # Canceled quote amount
+  canceledAmountUSD: BigDecimal! # USD value of canceled amount
+  # Remaining amounts after cancel (snapshot)
+  remainingFilledUnitAmount: BigInt!
+  remainingFilledBaseAmount: BigInt!
+  remainingFilledQuoteAmount: BigInt!
+  remainingClaimedUnitAmount: BigInt!
+  remainingClaimedBaseAmount: BigInt!
+  remainingClaimedQuoteAmount: BigInt!
+  remainingClaimableUnitAmount: BigInt!
+  remainingClaimableBaseAmount: BigInt!
+  remainingClaimableQuoteAmount: BigInt!
+  remainingCancelableUnitAmount: BigInt!
+  remainingCancelableBaseAmount: BigInt!
+  remainingCancelableQuoteAmount: BigInt!
+  logIndex: BigInt! # Log index in transaction
+  type: String! # Always "CANCEL"
 }
 ```
 

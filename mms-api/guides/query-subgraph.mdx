@@ -5,6 +5,15 @@ description: 'Exact schema and working queries for books, depth, and your orders
 
 The subgraph exposes typed entities. Below are working examples aligned with the schema.
 
+<Note>
+  **Important schema changes**: - `OpenOrder` entity renamed to `Order` -
+  `openOrders` field renamed to `orders` - Orders are **never deleted** from the
+  subgraph - Filter by `claimableUnitAmount_gt: "0"` or
+  `cancelableUnitAmount_gt: "0"` to find active orders - New `Cancel` entity
+  tracks all cancellation events - New `OrderMovement` interface allows querying
+  takes, claims, and cancels together
+</Note>
+
 ### Books (paginate)
 
 ```graphql
@@ -50,11 +59,13 @@ query Depth($book: ID!, $first: Int!) {
 }
 ```
 
-### Open orders for a user in a book
+### Orders for a user in a book
+
+Query all orders for a user. Filter by `claimableUnitAmount` or `cancelableUnitAmount` to find active orders.
 
 ```graphql
-query MyOpenOrdersInBook($owner: Bytes!, $book: ID!) {
-  openOrders(
+query MyOrdersInBook($owner: Bytes!, $book: ID!) {
+  orders(
     where: { owner: $owner, book: $book }
     orderBy: tick
     orderDirection: desc
@@ -63,7 +74,48 @@ query MyOpenOrdersInBook($owner: Bytes!, $book: ID!) {
     orderIndex
     tick
     unitAmount
+    claimableUnitAmount
     claimableQuoteAmount
+    cancelableUnitAmount
+    cancelableQuoteAmount
+    timestamp
+  }
+}
+```
+
+### Active orders with claimable amounts
+
+```graphql
+query MyClaimableOrders($owner: Bytes!, $book: ID!) {
+  orders(
+    where: { owner: $owner, book: $book, claimableUnitAmount_gt: "0" }
+    orderBy: tick
+    orderDirection: desc
+  ) {
+    id
+    tick
+    claimableUnitAmount
+    claimableBaseAmount
+    claimableQuoteAmount
+    timestamp
+  }
+}
+```
+
+### Active orders that can be canceled
+
+```graphql
+query MyCancelableOrders($owner: Bytes!, $book: ID!) {
+  orders(
+    where: { owner: $owner, book: $book, cancelableUnitAmount_gt: "0" }
+    orderBy: tick
+    orderDirection: desc
+  ) {
+    id
+    tick
+    cancelableUnitAmount
+    cancelableBaseAmount
+    cancelableQuoteAmount
     timestamp
   }
 }
@@ -100,14 +152,19 @@ query RecentTakes($book: ID!, $first: Int!) {
 }
 ```
 
-### Maker fills for a specific order
+### Order details with fills, claims, and cancels
 
 ```graphql
-query OrderFills($orderId: ID!) {
-  openOrder(id: $orderId) {
+query OrderDetails($orderId: ID!) {
+  order(id: $orderId) {
     id
     tick
     price
+    unitAmount
+    filledUnitAmount
+    claimedUnitAmount
+    claimableUnitAmount
+    cancelableUnitAmount
     fills(orderBy: timestamp, orderDirection: asc) {
       id
       timestamp
@@ -115,6 +172,26 @@ query OrderFills($orderId: ID!) {
       inputAmount
       outputAmount
       amountUSD
+      transaction {
+        id
+      }
+    }
+    claims(orderBy: timestamp, orderDirection: asc) {
+      id
+      timestamp
+      claimer
+      claimedUnitAmount
+      claimedQuoteAmount
+      transaction {
+        id
+      }
+    }
+    cancels(orderBy: timestamp, orderDirection: asc) {
+      id
+      timestamp
+      canceller
+      canceledUnitAmount
+      canceledQuoteAmount
       transaction {
         id
       }
@@ -190,23 +267,23 @@ query UserTradesInBook($user: Bytes!, $book: ID!, $first: Int!) {
 }
 ```
 
-### Claims for a specific order
+### Cancels for a specific order
 
 ```graphql
-query OrderClaims($orderId: ID!) {
-  openOrder(id: $orderId) {
+query OrderCancels($orderId: ID!) {
+  order(id: $orderId) {
     id
     tick
     price
-    claims(orderBy: timestamp, orderDirection: asc) {
+    cancels(orderBy: timestamp, orderDirection: asc) {
       id
       timestamp
-      claimer
+      canceller
       owner
-      claimedUnitAmount
-      claimedBaseAmount
-      claimedQuoteAmount
-      claimedAmountUSD
+      canceledUnitAmount
+      canceledBaseAmount
+      canceledQuoteAmount
+      canceledAmountUSD
       remainingClaimableUnitAmount
       remainingCancelableUnitAmount
       transaction {
@@ -248,6 +325,89 @@ query ClaimsByOwner($owner: Bytes!, $first: Int!) {
     claimedAmountUSD
     transaction {
       id
+    }
+  }
+}
+```
+
+### Cancels by owner across all books
+
+```graphql
+query CancelsByOwner($owner: Bytes!, $first: Int!) {
+  cancels(
+    where: { owner: $owner }
+    first: $first
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    id
+    timestamp
+    book {
+      id
+      base {
+        symbol
+      }
+      quote {
+        symbol
+      }
+    }
+    canceller
+    orderIdString
+    tick
+    price
+    canceledUnitAmount
+    canceledBaseAmount
+    canceledQuoteAmount
+    canceledAmountUSD
+    transaction {
+      id
+    }
+  }
+}
+```
+
+### All order movements (takes, claims, cancels) for a user
+
+Using the `OrderMovement` interface to query all order movements:
+
+```graphql
+query UserOrderMovements($trader: Bytes!, $book: ID!, $first: Int!) {
+  orderMovements(
+    where: { trader: $trader, book: $book }
+    first: $first
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    id
+    type
+    timestamp
+    trader
+    book {
+      id
+    }
+    logIndex
+    transaction {
+      id
+    }
+    ... on Take {
+      inputToken {
+        symbol
+      }
+      outputToken {
+        symbol
+      }
+      inputAmount
+      outputAmount
+    }
+    ... on Claim {
+      orderIdString
+      claimedUnitAmount
+      claimedQuoteAmount
+    }
+    ... on Cancel {
+      orderIdString
+      canceledUnitAmount
+      canceledQuoteAmount
     }
   }
 }
