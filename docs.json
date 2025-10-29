@@ -8,10 +8,6 @@
     "dark": "#15803D"
   },
   "favicon": "/pwa-logo.png",
-  "logo": {
-    "light": "/pwa-logo.png",
-    "dark": "/pwa-logo.png"
-  },
   "navigation": {
     "tabs": [
       {
