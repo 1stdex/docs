@@ -6,13 +6,7 @@ description: 'Exact schema and working queries for books, depth, and your orders
 The subgraph exposes typed entities. Below are working examples aligned with the schema.
 
 <Note>
-  **Important schema changes**: - `OpenOrder` entity renamed to `Order` -
-  `openOrders` field renamed to `orders` - Orders are **never deleted** from the
-  subgraph - Use `pendingUnitAmount_gt: "0"` to find all active orders
-  (recommended) - `pendingUnitAmount` = sum of `claimableUnitAmount` +
-  `cancelableUnitAmount` - New `Cancel` entity tracks all cancellation events -
-  New `OrderMovement` interface allows querying takes, claims, and cancels
-  together
+  Use `openOrders` for active orders. Use `orders` for complete history.
 </Note>
 
 ### Books (paginate)
@@ -60,85 +54,21 @@ query Depth($book: ID!, $first: Int!) {
 }
 ```
 
-### Orders for a user in a book
-
-Query all orders for a user. Filter by `pendingUnitAmount` to find active orders.
+### Active orders for a user
 
 ```graphql
-query MyOrdersInBook($owner: Bytes!, $book: ID!) {
-  orders(
+query MyOpenOrders($owner: Bytes!, $book: ID!) {
+  openOrders(
     where: { owner: $owner, book: $book }
     orderBy: tick
     orderDirection: desc
   ) {
     id
-    orderIndex
     tick
     unitAmount
     pendingUnitAmount
     claimableUnitAmount
     cancelableUnitAmount
-    timestamp
-  }
-}
-```
-
-### Active orders (all pending orders)
-
-Use `pendingUnitAmount` to filter for all orders that are either claimable or still in the book.
-
-```graphql
-query MyActiveOrders($owner: Bytes!, $book: ID!) {
-  orders(
-    where: { owner: $owner, book: $book, pendingUnitAmount_gt: "0" }
-    orderBy: tick
-    orderDirection: desc
-  ) {
-    id
-    tick
-    pendingUnitAmount
-    pendingBaseAmount
-    pendingQuoteAmount
-    claimableUnitAmount
-    cancelableUnitAmount
-    timestamp
-  }
-}
-```
-
-### Orders with claimable amounts only
-
-```graphql
-query MyClaimableOrders($owner: Bytes!, $book: ID!) {
-  orders(
-    where: { owner: $owner, book: $book, claimableUnitAmount_gt: "0" }
-    orderBy: tick
-    orderDirection: desc
-  ) {
-    id
-    tick
-    claimableUnitAmount
-    claimableBaseAmount
-    claimableQuoteAmount
-    timestamp
-  }
-}
-```
-
-### Orders that can be canceled
-
-```graphql
-query MyCancelableOrders($owner: Bytes!, $book: ID!) {
-  orders(
-    where: { owner: $owner, book: $book, cancelableUnitAmount_gt: "0" }
-    orderBy: tick
-    orderDirection: desc
-  ) {
-    id
-    tick
-    cancelableUnitAmount
-    cancelableBaseAmount
-    cancelableQuoteAmount
     timestamp
   }
 }
@@ -175,27 +105,21 @@ query RecentTakes($book: ID!, $first: Int!) {
 }
 ```
 
-### Order details with fills, claims, and cancels
+### Order history with fills, claims, and cancels
 
 ```graphql
-query OrderDetails($orderId: ID!) {
+query OrderHistory($orderId: ID!) {
   order(id: $orderId) {
     id
     tick
     price
     unitAmount
-    filledUnitAmount
-    claimedUnitAmount
-    claimableUnitAmount
-    cancelableUnitAmount
     pendingUnitAmount
     fills(orderBy: timestamp, orderDirection: asc) {
       id
       timestamp
-      fillIndex
       inputAmount
       outputAmount
-      amountUSD
       transaction {
         id
       }
@@ -203,9 +127,7 @@ query OrderDetails($orderId: ID!) {
     claims(orderBy: timestamp, orderDirection: asc) {
       id
       timestamp
-      claimer
       claimedUnitAmount
-      claimedQuoteAmount
       transaction {
         id
       }
@@ -213,9 +135,7 @@ query OrderDetails($orderId: ID!) {
     cancels(orderBy: timestamp, orderDirection: asc) {
       id
       timestamp
-      canceller
       canceledUnitAmount
-      canceledQuoteAmount
       transaction {
         id
       }

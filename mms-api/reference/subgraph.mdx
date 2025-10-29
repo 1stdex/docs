@@ -68,7 +68,7 @@ type Book {
   lastTakenBlockNumber: BigInt! # Last trade block number
   # Derived fields
   depths: [Depth!]! # Order book depths by tick
-  orders: [Order!]! # All orders (use filters for open/claimable/cancelable)
+  orders: [Order!]! # All orders (includes historical)
   takes: [Take!]! # All taker trades
   makerFills: [MakerFill!]! # All maker order fills
 }
@@ -95,9 +95,30 @@ type Depth {
 }
 ```
 
+### OpenOrder
+
+Represents an active limit order. Automatically deleted when fully claimed or canceled.
+
+**Use this for querying active orders.**
+
+```graphql
+type OpenOrder {
+  id: ID!
+  book: Book!
+  owner: Bytes!
+  tick: BigInt!
+  price: BigDecimal!
+  unitAmount: BigInt!
+  claimableUnitAmount: BigInt!
+  cancelableUnitAmount: BigInt!
+  pendingUnitAmount: BigInt!
+  timestamp: BigInt!
+}
+```
+
 ### Order
 
-Represents a limit order in a book. Orders are never deleted from the subgraph; filter by `claimableUnitAmount` and/or `cancelableUnitAmount` to find active orders.
+Complete order history record. Never deleted from the subgraph.
 
 ```graphql
 type Order {
@@ -149,11 +170,8 @@ type Order {
 ```
 
 <Note>
-  **Important**: Orders are no longer deleted when fully claimed or canceled. To
-  query active orders, use: - `pendingUnitAmount_gt: 0` for all active orders
-  (recommended - includes both claimable and cancelable) -
-  `claimableUnitAmount_gt: 0` for orders with claimable amounts only -
-  `cancelableUnitAmount_gt: 0` for orders that can still be canceled
+  Use `OpenOrder` for active orders. Use `Order` for complete history including
+  fills, claims, and cancels.
 </Note>
 
 ### Transaction
