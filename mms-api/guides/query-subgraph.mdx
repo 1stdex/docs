@@ -8,10 +8,11 @@ The subgraph exposes typed entities. Below are working examples aligned with the
 <Note>
   **Important schema changes**: - `OpenOrder` entity renamed to `Order` -
   `openOrders` field renamed to `orders` - Orders are **never deleted** from the
-  subgraph - Filter by `claimableUnitAmount_gt: "0"` or
-  `cancelableUnitAmount_gt: "0"` to find active orders - New `Cancel` entity
-  tracks all cancellation events - New `OrderMovement` interface allows querying
-  takes, claims, and cancels together
+  subgraph - Use `pendingUnitAmount_gt: "0"` to find all active orders
+  (recommended) - `pendingUnitAmount` = sum of `claimableUnitAmount` +
+  `cancelableUnitAmount` - New `Cancel` entity tracks all cancellation events -
+  New `OrderMovement` interface allows querying takes, claims, and cancels
+  together
 </Note>
 
 ### Books (paginate)
@@ -61,7 +62,7 @@ query Depth($book: ID!, $first: Int!) {
 
 ### Orders for a user in a book
 
-Query all orders for a user. Filter by `claimableUnitAmount` or `cancelableUnitAmount` to find active orders.
+Query all orders for a user. Filter by `pendingUnitAmount` to find active orders.
 
 ```graphql
 query MyOrdersInBook($owner: Bytes!, $book: ID!) {
@@ -74,16 +75,38 @@ query MyOrdersInBook($owner: Bytes!, $book: ID!) {
     orderIndex
     tick
     unitAmount
+    pendingUnitAmount
     claimableUnitAmount
-    claimableQuoteAmount
     cancelableUnitAmount
-    cancelableQuoteAmount
     timestamp
   }
 }
 ```
 
-### Active orders with claimable amounts
+### Active orders (all pending orders)
+
+Use `pendingUnitAmount` to filter for all orders that are either claimable or still in the book.
+
+```graphql
+query MyActiveOrders($owner: Bytes!, $book: ID!) {
+  orders(
+    where: { owner: $owner, book: $book, pendingUnitAmount_gt: "0" }
+    orderBy: tick
+    orderDirection: desc
+  ) {
+    id
+    tick
+    pendingUnitAmount
+    pendingBaseAmount
+    pendingQuoteAmount
+    claimableUnitAmount
+    cancelableUnitAmount
+    timestamp
+  }
+}
+```
+
+### Orders with claimable amounts only
 
 ```graphql
 query MyClaimableOrders($owner: Bytes!, $book: ID!) {
@@ -102,7 +125,7 @@ query MyClaimableOrders($owner: Bytes!, $book: ID!) {
 }
 ```
 
-### Active orders that can be canceled
+### Orders that can be canceled
 
 ```graphql
 query MyCancelableOrders($owner: Bytes!, $book: ID!) {
@@ -165,6 +188,7 @@ query OrderDetails($orderId: ID!) {
     claimedUnitAmount
     claimableUnitAmount
     cancelableUnitAmount
+    pendingUnitAmount
     fills(orderBy: timestamp, orderDirection: asc) {
       id
       timestamp

@@ -137,6 +137,10 @@ type Order {
   cancelableUnitAmount: BigInt! # Cancelable units
   cancelableBaseAmount: BigInt! # Cancelable base amount
   cancelableQuoteAmount: BigInt! # Cancelable quote amount
+  # Pending amounts (sum of claimable and cancelable)
+  pendingUnitAmount: BigInt! # Pending units (claimable + cancelable)
+  pendingBaseAmount: BigInt! # Pending base amount (claimable + cancelable)
+  pendingQuoteAmount: BigInt! # Pending quote amount (claimable + cancelable)
   # Derived fields
   fills: [MakerFill!]! # All fills for this order
   claims: [Claim!]! # All claims for this order
@@ -146,9 +150,10 @@ type Order {
 
 <Note>
   **Important**: Orders are no longer deleted when fully claimed or canceled. To
-  query active orders, filter by: - `claimableUnitAmount_gt: 0` for orders with
-  claimable amounts - `cancelableUnitAmount_gt: 0` for orders that can still be
-  canceled
+  query active orders, use: - `pendingUnitAmount_gt: 0` for all active orders
+  (recommended - includes both claimable and cancelable) -
+  `claimableUnitAmount_gt: 0` for orders with claimable amounts only -
+  `cancelableUnitAmount_gt: 0` for orders that can still be canceled
 </Note>
 
 ### Transaction
