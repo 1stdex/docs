@@ -60,7 +60,10 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["mms-api/index", "mms-api/guides/quickstart"]
+            "pages": [
+              "mms-api/index",
+              "mms-api/guides/quickstart"
+            ]
           },
           {
             "group": "Concepts",
@@ -96,7 +99,9 @@
           },
           {
             "group": "Appendix",
-            "pages": ["mms-api/appendix/distributions"]
+            "pages": [
+              "mms-api/appendix/distributions"
+            ]
           }
         ]
       }
@@ -110,6 +115,7 @@
         },
         {
           "anchor": "Discord",
+          "displayName": "Discord",
           "href": "https://discord.gg/pzrEvzPwzA",
           "icon": "discord"
         }
