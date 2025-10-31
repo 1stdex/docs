@@ -605,7 +605,7 @@ type TokenDayData {
   id: ID! # Token address concatenated with date
   date: Int! # Day timestamp
   token: Token! # Parent token
-  cloberDayData: CloberDayData! # Protocol-wide day data
+  platformDayData: PlatformDayData! # Protocol-wide day data
   volume: BigDecimal! # Daily volume in token units
   volumeUSD: BigDecimal! # Daily volume in USD
   totalValueLocked: BigDecimal! # TVL in token units
@@ -620,12 +620,12 @@ type TokenDayData {
 }
 ```
 
-### CloberDayData
+### PlatformDayData
 
 Protocol-wide daily statistics.
 
 ```graphql
-type CloberDayData {
+type PlatformDayData {
   id: ID! # Day timestamp
   date: Int! # Day timestamp
   txCount: BigInt! # Number of daily transactions
@@ -646,7 +646,7 @@ Daily transaction count by type.
 type TransactionTypeDayData {
   id: ID! # Format: ${type}-${dayTimestamp}
   date: Int! # Day timestamp
-  cloberDayData: CloberDayData! # Parent day data
+  platformDayData: PlatformDayData! # Parent day data
   type: String! # Transaction type
   txCount: BigInt! # Transaction count
 }
@@ -660,7 +660,7 @@ Daily router usage statistics.
 type RouterDayData {
   id: ID! # Format: ${router}-${dayTimestamp}
   date: Int! # Day timestamp
-  cloberDayData: CloberDayData! # Parent day data
+  platformDayData: PlatformDayData! # Parent day data
   router: Bytes! # Router address
   txCount: BigInt! # Transaction count
 }
