@@ -30,17 +30,16 @@ struct MakeOrderParams {
   BookId id;
   Tick tick;
   uint256 quoteAmount;
-  address provider;
   address referrer;
 }
 
 struct LimitOrderParams {
-  BookId id;
+  BookId takeBookId;
+  BookId makeBookId;
+  uint256 limitPrice;
   Tick tick;
   uint256 quoteAmount;
-  address makeProvider;
   address makeReferrer;
-  address takeProvider;
   address takeReferrer;
 }
 
@@ -49,7 +48,6 @@ struct TakeOrderParams {
   uint256 limitPrice;
   uint256 quoteAmount;
   uint256 maxBaseAmount;
-  address provider;
   address referrer;
 }
 
@@ -58,7 +56,6 @@ struct SpendOrderParams {
   uint256 limitPrice;
   uint256 baseAmount;
   uint256 minQuoteAmount;
-  address provider;
   address referrer;
 }
 

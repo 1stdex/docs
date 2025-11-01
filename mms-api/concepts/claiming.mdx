@@ -9,7 +9,7 @@ description: 'How makers settle filled orders and receive proceeds.'
 
 - Receive the tokens they bought
 - Unlock their remaining collateral
-- Trigger fee distribution to their provider and referrer
+- Trigger fee distribution (to protocol and referrer)
 
 ## Maker vs Taker settlement
 
@@ -39,7 +39,6 @@ Controller.make(MakeOrderParams({
     id: bookId,
     tick: tick,
     quoteAmount: 1000e6,  // Lock 1000 USDC
-    provider: yourProvider,
     referrer: yourReferrer
 }));
 ```
@@ -48,7 +47,7 @@ Controller.make(MakeOrderParams({
 
 - Your quote currency (e.g., USDC) is **locked** in the vault
 - Order is added to the book at your specified price
-- Provider and referrer are stored with the order
+- Referrer (if specified) is stored with the order for fee sharing
 - You receive an `OrderId` for tracking
 
 ### Step 2: Order gets filled (take)
@@ -56,7 +55,7 @@ Controller.make(MakeOrderParams({
 When a taker matches your order:
 
 - Taker receives their tokens **immediately**
-- Taker's provider/referrer receive fees **immediately**
+- Protocol fee recipient and taker's referrer (if any) receive fees **immediately**
 - Your order becomes **claimable**
 - You have **not** received anything yet
 
@@ -73,7 +72,7 @@ Controller.claim(ClaimOrderParams({
 1. Calculate your claimable amount and fees
 2. **Unlock** your collateral (minus maker fee)
 3. **Receive** the base currency you bought in your vault
-4. **Distribute** maker fees to your provider and referrer
+4. **Distribute** maker fees to protocol fee recipient and your referrer (if specified)
 
 ## Example: complete trade lifecycle
 
@@ -81,18 +80,16 @@ Controller.claim(ClaimOrderParams({
 
 ```
 Book: TKN/USDC (makers BUY TKN, takers SELL TKN)
-- Maker fee: 0.1% (10 bp), referral rate: 40%
-- Taker fee: 0.2% (20 bp), referral rate: 50%
+- Maker fee: 0.1% (10 bp), referrer share: 40%
+- Taker fee: 0.2% (20 bp), referrer share: 50%
 
 Alice (Maker—wants to BUY TKN):
 - Places buy order: 1000 TKN at 2.0 USDC each
 - Locks: 2000 USDC
-- Provider: ProviderA
 - Referrer: ReferrerA
 
 Bob (Taker—wants to SELL TKN):
 - Sells 1000 TKN at market price
-- Provider: ProviderB
 - Referrer: ReferrerB
 ```
 
@@ -115,8 +112,8 @@ take(...)
 
 Immediate distribution:
 - Bob receives: 2000 USDC - 4 USDC (0.2% fee) = 1996 USDC ✅
-- Bob's referrer: 2 USDC (50% of taker fee) ✅
-- Bob's provider: 2 USDC (50% of taker fee) ✅
+- Bob's referrer (ReferrerB): 2 USDC (50% of taker fee) ✅
+- Protocol fee recipient: 2 USDC (50% of taker fee) ✅
 
 State:
 - Alice's order: ✨ CLAIMABLE (but not claimed yet)
@@ -133,16 +130,16 @@ Calculation:
 - Alice is buying: 1000 TKN
 - Alice locked: 2000 USDC
 - Maker fee (in USDC): 2000 × 0.1% = 2 USDC
-- To Alice's referrer: 2 × 40% = 0.8 USDC
-- To Alice's provider: 2 × 60% = 1.2 USDC
+- To Alice's referrer (ReferrerA): 2 × 40% = 0.8 USDC
+- To protocol fee recipient: 2 × 60% = 1.2 USDC
 
 Final state:
 - Alice: 1000 TKN + 1998 USDC unlocked (net cost: 2 USDC fee)
-- Alice's referrer: 0.8 USDC
-- Alice's provider: 1.2 USDC
+- Alice's referrer (ReferrerA): 0.8 USDC
+- Protocol fee recipient: 1.2 USDC (from maker side)
 - Bob: 1996 USDC
-- Bob's referrer: 2 USDC
-- Bob's provider: 2 USDC
+- Bob's referrer (ReferrerB): 2 USDC
+- Protocol fee recipient: 2 USDC (from taker side)
 ```
 
 ## Claim checklist
@@ -166,7 +163,7 @@ After claiming:
 
 - ✅ Check your vault balance for the base currency you bought
 - ✅ Your locked collateral is now unlocked (minus fees)
-- ✅ Your provider and referrer received their fees
+- ✅ Fee distribution completed (to protocol and your referrer if specified)
 
 ## Monitoring claimable orders
 
@@ -217,6 +214,6 @@ Controller.claim([
 ## See also
 
 - [Vaults & deposits](/mms-api/concepts/vaults-and-deposits) - vault mechanics and collateral
-- [Providers](/mms-api/concepts/providers) - understanding providers and referrers
+- [Referrers](/mms-api/concepts/providers) - understanding the referrer fee system
 - [Controller](/mms-api/concepts/controller) - the main trading interface
-- [Place & cancel guide](/mms-api/guides/place-cancel) - how to place orders
+- [Claim orders guide](/mms-api/guides/claim-orders) - how to claim filled orders

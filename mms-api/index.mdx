@@ -12,11 +12,11 @@ These docs cover how to **quote**, **update**, and **risk‑manage** orders prog
 
 > **Architecture:** each _pair_ has **two order books**, one per direction. Orders are denominated in **units** (multiples of `unitSize`) at discrete **ticks**. See [Books & units](/mms-api/concepts/books-and-units) and [Ticks](/mms-api/concepts/ticks).
 
-## What’s different vs AMM DEXes?
+## What's different vs AMM DEXes?
 
 - **Price–time priority** instead of pools and curves.
 - **Quote‑collateralized** makers: quote is locked when you `MAKE`, released when you `CANCEL` or after `CLAIM`.
-- **Fee model** via **providers** and (optional) referrers.
+- **Fee model** with protocol fees and optional **referrer** fee sharing.
 - **Single batch entrypoint**: all actions go through `Controller.execute(...)` so you can atomically make/take/cancel/claim in one tx.
 
 Get started with the **[Setup guide](/mms-api/guides/quickstart)**.

@@ -66,13 +66,11 @@ import { encodeAbiParameters } from 'viem';
 const cancelTypes = [
   { name: 'id', type: 'uint256' },
   { name: 'leftQuoteAmount', type: 'uint256' },
-  { name: 'owner', type: 'address' },
 ] as const;
 
 const cancelData = encodeAbiParameters(cancelTypes, [
   orderId,
   0n, // 0 = full cancel
-  YOUR_ADDRESS,
 ]);
 
 await controller.write.execute([

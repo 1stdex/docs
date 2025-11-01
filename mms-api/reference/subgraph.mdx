@@ -50,7 +50,6 @@ type Book {
   takerPolicy: BigInt! # Taker fee policy ID
   takerFee: BigDecimal! # Taker fee percentage
   isTakerFeeInQuote: Boolean! # Whether taker fee is in quote token
-  pool: Pool # Associated liquidity pool (if any)
   # Mutable values
   priceRaw: BigInt! # Current raw price
   price: BigDecimal! # Current price (quote per base)
@@ -106,6 +105,7 @@ type OpenOrder {
   id: ID!
   book: Book!
   owner: Bytes!
+  referrer: Bytes! # Referrer address for fee sharing
   tick: BigInt!
   price: BigDecimal!
   unitAmount: BigInt!
@@ -137,6 +137,7 @@ type Order {
   inversePrice: BigDecimal! # Inverse price (base per quote)
   # Mutable values
   owner: Bytes! # Current owner address
+  referrer: Bytes! # Referrer address for fee sharing
   # Order size (decreases when cancelled)
   amountUSD: BigDecimal! # Order size in USD
   unitAmount: BigInt! # Units
@@ -250,6 +251,7 @@ type Take implements Trade & OrderMovement {
   outputToken: Token! # Token bought by taker
   origin: Bytes! # Transaction origin (EOA)
   trader: Bytes! # Alias for origin (implements Trade/OrderMovement interfaces)
+  referrer: Bytes! # Referrer address for fee sharing
   inputAmount: BigInt! # Amount sold
   outputAmount: BigInt! # Amount bought
   amountUSD: BigDecimal! # Trade value in USD
@@ -390,142 +392,6 @@ type Cancel implements OrderMovement {
   remainingCancelableQuoteAmount: BigInt!
   logIndex: BigInt! # Log index in transaction
   type: String! # Always "CANCEL"
-}
-```
-
-### Swap
-
-Represents a swap through the meta-aggregator router.
-
-```graphql
-type Swap {
-  id: ID! # Format: {txHash}-{logIndex}
-  transaction: Transaction! # Parent transaction
-  timestamp: BigInt! # Swap timestamp
-  inputToken: Bytes! # Token sold
-  outputToken: Bytes! # Token bought
-  origin: Bytes! # Transaction origin (EOA)
-  inputAmount: BigInt! # Amount sold
-  outputAmount: BigInt! # Amount bought
-  amountUSD: BigDecimal! # Swap value in USD
-  logIndex: BigInt # Log index in transaction
-  router: Bytes! # Router contract address
-  fee: BigInt! # Fee in output token wei
-}
-```
-
-## Liquidity pools
-
-### Pool
-
-Represents a liquidity pool with automated market making strategy.
-
-```graphql
-type Pool {
-  # Immutable values
-  id: Bytes! # Pool key
-  salt: Bytes! # Pool salt
-  strategy: Bytes! # Strategy contract address
-  createdAtTimestamp: BigInt! # Creation timestamp
-  createdAtBlockNumber: BigInt! # Creation block number
-  createdAtTransaction: Transaction! # Creation transaction
-  initialTokenAAmount: BigInt! # Initial tokenA deposit
-  initialTokenBAmount: BigInt! # Initial tokenB deposit
-  initialTotalSupply: BigInt! # Initial LP token supply
-  initialLPPriceUSD: BigDecimal! # Initial LP token price in USD
-  initialMintTransaction: Transaction # Initial mint transaction
-  tokenA: Token! # Token A
-  tokenB: Token! # Token B
-  bookA: Book! # Book for tokenA
-  bookB: Book! # Book for tokenB
-  # Mutable values
-  oraclePrice: BigInt! # Oracle price
-  totalSupply: BigInt! # Total LP token supply
-  liquidityA: BigInt! # Liquidity of tokenA
-  liquidityB: BigInt! # Liquidity of tokenB
-  lpPriceUSD: BigDecimal! # Current LP token price in USD
-  priceA: BigDecimal! # Current priceA
-  priceARaw: BigInt! # Raw priceA
-  tickA: BigInt! # Current tickA
-  priceB: BigDecimal! # Current priceB
-  priceBRaw: BigInt! # Raw priceB
-  tickB: BigInt! # Current tickB
-  volumeTokenA: BigDecimal! # All-time tokenA volume
-  volumeTokenB: BigDecimal! # All-time tokenB volume
-  volumeUSD: BigDecimal! # All-time USD volume
-  protocolFeesTokenA: BigDecimal! # Protocol fees in tokenA
-  protocolFeesTokenB: BigDecimal! # Protocol fees in tokenB
-  protocolFeesAUSD: BigDecimal! # Protocol fees tokenA in USD
-  protocolFeesBUSD: BigDecimal! # Protocol fees tokenB in USD
-  spreadProfitUSD: BigDecimal! # All-time spread profit in USD
-  totalValueLockedUSD: BigDecimal! # Total TVL in USD
-  # Derived fields
-  poolHourData: [PoolHourData!]! # Hourly snapshots
-  poolDayData: [PoolDayData!]! # Daily snapshots
-}
-```
-
-### PoolDayData
-
-Daily snapshot of pool statistics.
-
-```graphql
-type PoolDayData {
-  id: ID! # Format: ${poolKey}-{periodStartUnix}
-  date: Int! # Day timestamp
-  pool: Pool! # Parent pool
-  oraclePrice: BigInt! # Oracle price
-  totalSupply: BigInt! # LP token supply
-  liquidityA: BigInt! # TokenA liquidity
-  liquidityB: BigInt! # TokenB liquidity
-  lpPriceUSD: BigDecimal! # LP token price in USD
-  priceA: BigDecimal! # PriceA
-  priceARaw: BigInt! # Raw priceA
-  tickA: BigInt! # TickA
-  priceB: BigDecimal! # PriceB
-  priceBRaw: BigInt! # Raw priceB
-  tickB: BigInt! # TickB
-  volumeTokenA: BigDecimal! # Daily tokenA volume
-  volumeTokenB: BigDecimal! # Daily tokenB volume
-  volumeUSD: BigDecimal! # Daily USD volume
-  protocolFeesTokenA: BigDecimal! # Daily protocol fees in tokenA
-  protocolFeesTokenB: BigDecimal! # Daily protocol fees in tokenB
-  protocolFeesAUSD: BigDecimal! # Daily protocol fees tokenA in USD
-  protocolFeesBUSD: BigDecimal! # Daily protocol fees tokenB in USD
-  spreadProfitUSD: BigDecimal! # Daily spread profit in USD
-  totalValueLockedUSD: BigDecimal! # TVL in USD
-}
-```
-
-### PoolHourData
-
-Hourly snapshot of pool statistics.
-
-```graphql
-type PoolHourData {
-  id: ID! # Format: ${poolKey}-{periodStartUnix}
-  date: Int! # Hour timestamp
-  pool: Pool! # Parent pool
-  oraclePrice: BigInt! # Oracle price
-  totalSupply: BigInt! # LP token supply
-  liquidityA: BigInt! # TokenA liquidity
-  liquidityB: BigInt! # TokenB liquidity
-  lpPriceUSD: BigDecimal! # LP token price in USD
-  priceA: BigDecimal! # PriceA
-  priceARaw: BigInt! # Raw priceA
-  tickA: BigInt! # TickA
-  priceB: BigDecimal! # PriceB
-  priceBRaw: BigInt! # Raw priceB
-  tickB: BigInt! # TickB
-  volumeTokenA: BigDecimal! # Hourly tokenA volume
-  volumeTokenB: BigDecimal! # Hourly tokenB volume
-  volumeUSD: BigDecimal! # Hourly USD volume
-  protocolFeesTokenA: BigDecimal! # Hourly protocol fees in tokenA
-  protocolFeesTokenB: BigDecimal! # Hourly protocol fees in tokenB
-  protocolFeesAUSD: BigDecimal! # Hourly protocol fees tokenA in USD
-  protocolFeesBUSD: BigDecimal! # Hourly protocol fees tokenB in USD
-  spreadProfitUSD: BigDecimal! # Hourly spread profit in USD
-  totalValueLockedUSD: BigDecimal! # TVL in USD
 }
 ```
 
@@ -701,13 +567,13 @@ type UserDayVolume {
 
 ### Provider
 
-Tracks fees collected by order providers.
+Tracks fees collected by the protocol fee recipient (the primary fee recipient address set on the BookManager).
 
 ```graphql
 type Provider {
-  id: Bytes! # Provider address
-  totalFeesCollectedUSD: BigDecimal! # Total fees in USD across all tokens
-  orderCount: BigInt! # Number of orders created
+  id: Bytes! # Protocol fee recipient address
+  totalFeesCollectedUSD: BigDecimal! # Total protocol fees in USD across all tokens
+  orderCount: BigInt! # Number of orders that generated fees
   # Derived fields
   feesByToken: [ProviderTokenFee!]! # Fees breakdown by token
 }
@@ -715,15 +581,15 @@ type Provider {
 
 ### ProviderTokenFee
 
-Provider fees per token.
+Protocol fee recipient's fees per token.
 
 ```graphql
 type ProviderTokenFee {
   id: ID! # Format: provider-token
-  provider: Provider! # Parent provider
+  provider: Provider! # Protocol fee recipient
   token: Token! # Fee token
-  totalFees: BigDecimal! # Total fees in token units
-  totalFeesUSD: BigDecimal! # Total fees in USD
+  totalFees: BigDecimal! # Total protocol fees in token units
+  totalFeesUSD: BigDecimal! # Total protocol fees in USD
 }
 ```
 
@@ -779,8 +645,8 @@ type UserFee {
   id: ID! # Format: user-token
   user: Bytes! # User address
   token: Token! # Fee token
-  totalFeesPaid: BigDecimal! # Total fees (provider + referrer)
-  providerFeesPaid: BigDecimal! # Fees paid to providers
+  totalFeesPaid: BigDecimal! # Total fees (protocol + referrer)
+  providerFeesPaid: BigDecimal! # Fees paid to protocol fee recipient
   referrerFeesPaid: BigDecimal! # Fees paid to referrers
   totalFeesPaidUSD: BigDecimal! # Total fees in USD
 }

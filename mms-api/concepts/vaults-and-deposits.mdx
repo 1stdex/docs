@@ -69,7 +69,7 @@ Once these steps are complete, you can:
 Check your balances:
 
 - `maxWithdraw(user)`: available to withdraw (excludes locked collateral)
-- `getLockedAssets(user)`: amount locked in open orders
+- `lockedBalances(user)`: amount locked in open orders
 
 **Important**: You cannot withdraw locked collateral—cancel your orders first.
 
@@ -90,8 +90,8 @@ Controller.withdrawFromVault(currency, amount);
 ### Check balance
 
 ```solidity
-uint256 available = vault.maxWithdraw(user);     // Available to withdraw
-uint256 locked = vault.getLockedAssets(user);    // Locked in orders
+uint256 available = vault.maxWithdraw(user);    // Available to withdraw
+uint256 locked = vault.lockedBalances(user);    // Locked in orders
 ```
 
 ## Example: full setup flow

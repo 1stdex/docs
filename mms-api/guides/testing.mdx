@@ -7,6 +7,97 @@ description: 'Testing guide for the MMS API on testnet'
 
 The MMS API is deployed on testnet for testing and integration. For the chain ID, contract addresses, and subgraph URLs, please refer to the [Addresses & Networks](/mms-api/reference/addresses) page.
 
+## API Breaking Changes
+
+<Warning>
+  **Breaking Changes:** Parameter structures have changed. Update your
+  integration before testing.
+</Warning>
+
+### Contract Parameter Changes
+
+#### MakeOrderParams
+
+```diff
+struct MakeOrderParams {
+  BookId id;
+  Tick tick;
+  uint256 quoteAmount;
+- address provider;
+  address referrer;
+}
+```
+
+#### LimitOrderParams
+
+```diff
+struct LimitOrderParams {
+  BookId takeBookId;
+  BookId makeBookId;
+  uint256 limitPrice;
+  Tick tick;
+  uint256 quoteAmount;
+- address makeProvider;
+  address makeReferrer;
+- address takeProvider;
+  address takeReferrer;
+}
+```
+
+#### TakeOrderParams
+
+```diff
+struct TakeOrderParams {
+  BookId id;
+  uint256 limitPrice;
+  uint256 quoteAmount;
+  uint256 maxBaseAmount;
+- address provider;
+  address referrer;
+}
+```
+
+#### SpendOrderParams
+
+```diff
+struct SpendOrderParams {
+  BookId id;
+  uint256 limitPrice;
+  uint256 baseAmount;
+  uint256 minQuoteAmount;
+- address provider;
+  address referrer;
+}
+```
+
+#### CancelOrderParams
+
+```diff
+struct CancelOrderParams {
+  OrderId id;
+  uint256 leftQuoteAmount;
+- address owner;
+}
+```
+
+### Vault API Changes
+
+```diff
+- uint256 locked = vault.getLockedAssets(user);
++ uint256 locked = vault.lockedBalances(user);
+```
+
+### Subgraph Schema Changes
+
+- Added `referrer` field to: `Order`, `OpenOrder`, `Take`
+
+### Migration Steps
+
+1. Remove all `provider` parameters from order calls
+2. Update `LimitOrderParams` to use `takeBookId`, `makeBookId`, and `limitPrice`
+3. Remove `owner` parameter from cancel calls
+4. Replace `vault.getLockedAssets(user)` with `vault.lockedBalances(user)`
+
 ## Important Testing Information
 
 ### Contract Verification

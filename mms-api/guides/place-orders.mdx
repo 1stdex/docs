@@ -5,8 +5,6 @@ description: 'Post limit orders (MAKE) through the Controller.execute batching A
 
 All trading actions are batched via `Controller.execute`. For each item in `actionList` you provide an **ABI‑encoded** params struct in `paramsDataList`.
 
-> **Providers:** Use the **buy provider** when you sell quote / buy base; use the **sell provider** when you sell base. Leave `referrer` empty.
-
 ## MAKE (post a limit)
 
 The MAKE action allows you to post a limit order on the book at a specific tick (price level).
@@ -18,7 +16,6 @@ MakeOrderParams(
   id: uint192,
   tick: int24,
   quoteAmount: uint256,
-  provider: address,
   referrer: address
 )
 ```
@@ -30,7 +27,6 @@ const makeTypes = [
   { name: 'id', type: 'uint192' },
   { name: 'tick', type: 'int24' },
   { name: 'quoteAmount', type: 'uint256' },
-  { name: 'provider', type: 'address' },
   { name: 'referrer', type: 'address' },
 ] as const;
 
@@ -38,8 +34,7 @@ const makeData = encodeAbiParameters(makeTypes, [
   bookId,
   tick,
   quoteAmount,
-  provider,
-  ZERO,
+  '0x0000000000000000000000000000000000000000', // referrer (use address(0) if none)
 ]);
 
 await writeExecute([Action.MAKE], [makeData]);
@@ -50,5 +45,4 @@ await writeExecute([Action.MAKE], [makeData]);
 - **id**: The book ID (uint192)
 - **tick**: The tick (price level) where you want to place the order
 - **quoteAmount**: The amount of quote tokens to place
-- **provider**: The provider address for fee distribution (use buy provider when buying base)
-- **referrer**: Referrer address (typically `address(0)` for market makers)
+- **referrer**: Optional referrer address for fee sharing (use `address(0)` if you don't have a referrer)
