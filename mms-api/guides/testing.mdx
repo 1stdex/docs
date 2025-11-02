@@ -38,9 +38,9 @@ struct LimitOrderParams {
   Tick tick;
   uint256 quoteAmount;
 - address makeProvider;
-  address makeReferrer;
+- address makeReferrer;
 - address takeProvider;
-  address takeReferrer;
+  address referrer;
 }
 ```
 
@@ -97,6 +97,7 @@ struct CancelOrderParams {
 2. Update `LimitOrderParams` to use `takeBookId`, `makeBookId`, and `limitPrice`
 3. Remove `owner` parameter from cancel calls
 4. Replace `vault.getLockedAssets(user)` with `vault.lockedBalances(user)`
+5. `limitOrderParams` gets single `referrer`, not `makeReferrer` and `takeReferrer`
 
 ## Important Testing Information
 

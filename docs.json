@@ -73,8 +73,7 @@
               "mms-api/concepts/vaults-and-deposits",
               "mms-api/concepts/claiming",
               "mms-api/concepts/providers",
-              "mms-api/concepts/controller",
-              "mms-api/concepts/operators"
+              "mms-api/concepts/controller"
             ]
           },
           {
@@ -84,7 +83,6 @@
               "mms-api/guides/place-orders",
               "mms-api/guides/cancel-orders",
               "mms-api/guides/claim-orders",
-              "mms-api/guides/enable-operator",
               "mms-api/guides/query-subgraph",
               "mms-api/guides/testing"
             ]

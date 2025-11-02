@@ -36,23 +36,6 @@ The vault system allows gas-efficient order management without repeated token ap
 
 → See [Deposit & withdraw](/mms-api/guides/deposit-withdraw) for detailed instructions.
 
-## 4. Enable Controller as operator
-
-The **Controller** needs your approval to execute `CANCEL` and `CLAIM` actions on your behalf.
-
-This is a **one-time setup** per address. Call:
-
-```solidity
-bookManager.setOrderOperator(CONTROLLER_ADDRESS, true);
-```
-
-Without this approval:
-
-- ✅ You can create orders (MAKE, TAKE, LIMIT)
-- ❌ You cannot cancel or claim via the Controller
-
-→ See [Enable Controller as operator](/mms-api/guides/enable-operator) for implementation details.
-
 ---
 
 ## You're ready to trade
