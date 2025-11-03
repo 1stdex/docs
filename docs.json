@@ -14,43 +14,10 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Start Here",
-            "pages": [
-              "overview/what-is-1st",
-              "overview/why-1st-exists",
-              "overview/1st-overview"
-            ]
-          },
-          {
-            "group": "Core Concepts",
-            "pages": [
-              "core/mirrortokens",
-              "core/token-delivery-commitment",
-              "core/settlement-vaults",
-              "core/smart-contracts"
-            ]
-          },
-          {
-            "group": "Trading & Use",
-            "pages": [
-              "trading-platform/clob-trading-platform",
-              "trading-platform/deposit-and-withdraw"
-            ]
-          },
-          {
-            "group": "Community & Rewards",
-            "pages": [
-              "community-and-rewards/referral-program",
-              "community-and-rewards/1st-points"
-            ]
-          },
-          {
             "group": "Legal Framework",
             "pages": [
               "legal/tos",
-              "legal/privacy-policy",
-              "legal/mirrortoken-issuance-agreement",
-              "legal/token-delivery-commitment-template"
+              "legal/privacy-policy"
             ]
           }
         ]
