@@ -108,10 +108,11 @@
           {
             "group": "Security",
             "pages": [
-              "legal/tos",
-              "legal/privacy-policy",
-              "legal/mirrortoken-issuance-agreement",
-              "legal/token-delivery-commitment-template"
+              "security/org-structure",
+              "security/audits",
+              "security/saft-safe-verifications",
+              "security/listing-verification",
+              "security/token-distribution-verification"
             ]
           }
         ]
