@@ -16,28 +16,28 @@
           {
             "group": "About 1st",
             "pages": [
-              "overview/what-is-1st",
-              "overview/what-are-mirror-tokens",
-              "overview/why-did-we-build-1st",
-              "overview/core-contributors"
+              "about-1st/what-is-1st",
+              "about-1st/what-are-mirror-tokens",
+              "about-1st/why-did-we-build-1st",
+              "about-1st/core-contributors"
             ]
           },
           {
             "group": "Trading",
             "pages": [
-              "core/how-to-start-trading",
-              "core/how-MPC-wallets-work",
-              "core/how-to-trade-with-a-Market-order",
-              "core/how-to-trade-with-a-Limit-order",
-              "core/how-to-deposit",
-              "core/how-to-withdraw",
-              "core/fees",
-              "core/liquidity",
-              "core/mirror-token-discounts",
-              "core/order-book",
-              "core/what-are-drops",
-              "core/how-frequent-do-tokens-drop",
-              "core/how-listings-are-determined"
+              "trading/how-to-start-trading",
+              "trading/how-mpc-wallets-work",
+              "trading/how-to-trade-with-a-market-order",
+              "trading/how-to-trade-with-a-limit-order",
+              "trading/how-to-deposit",
+              "trading/how-to-withdraw",
+              "trading/fees",
+              "trading/liquidity",
+              "trading/mirror-token-discounts",
+              "trading/order-book",
+              "trading/what-are-drops",
+              "trading/how-frequent-do-tokens-drop",
+              "trading/how-listings-are-determined"
             ]
           },
           {
