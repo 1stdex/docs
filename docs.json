@@ -26,7 +26,7 @@
             "group": "Trading",
             "pages": [
               "core/how-to-start-trading",
-              "core/"how-MPC-wallets-work",
+              "core/how-MPC-wallets-work",
               "core/how-to-trade-with-a-Market-order",
               "core/how-to-trade-with-a-Limit-order",
               "core/how-to-deposit",
