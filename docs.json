@@ -14,11 +14,12 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Start Here",
+            "group": "About 1st",
             "pages": [
               "overview/what-is-1st",
-              "overview/why-1st-exists",
-              "overview/1st-overview"
+              "overview/what-are-mirror-tokens",
+              "overview/why-did-we-build-1st",
+              "overview/core-contributors"
             ]
           },
           {
