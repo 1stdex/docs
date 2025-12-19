@@ -62,6 +62,16 @@
             ]
           },
           {
+            "group": "Refferrals",
+            "pages": [
+              "referrals/how-referrals-work",
+              "referrals/referral-usdc-rewards",
+              "referrals/referral-points-rewards",
+              "referrals/referral-codes",
+              "referrals/project-referrals"
+            ]
+          },
+          {
             "group": "Legal Framework",
             "pages": [
               "legal/tos",
