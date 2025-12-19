@@ -23,12 +23,14 @@
             ]
           },
           {
-            "group": "Core Concepts",
+            "group": "Trading",
             "pages": [
-              "core/mirrortokens",
-              "core/token-delivery-commitment",
-              "core/settlement-vaults",
-              "core/smart-contracts"
+              "core/how-to-start-trading",
+              "core/"how-MPC-wallets-work",
+              "core/how-to-trade-with-a-Market-order",
+              "core/how-to-trade-with-a-Limit-order",
+              "core/how-to-deposit",
+              "core/how-to-withdraw"
             ]
           },
           {
