@@ -41,10 +41,16 @@
             ]
           },
           {
-            "group": "Trading & Use",
+            "group": "1st DEX",
             "pages": [
-              "trading-platform/clob-trading-platform",
-              "trading-platform/deposit-and-withdraw"
+              "1st-dex/gas",
+              "1st-dex/overview",
+              "1st-dex/clob-dex",
+              "1st-dex/settlement",
+              "1st-dex/oracles",
+              "1st-dex/mpc-wallet-privy",
+              "1st-dex/spot-price-feeds-coingecko",
+              "1st-dex/interoperable-automated-claiming"
             ]
           },
           {
