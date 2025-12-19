@@ -84,12 +84,12 @@
           {
             "group": "1st for VC funds",
             "pages": [
-              "referrals/how-1st-benefits-vc-funds",
-              "referrals/fee-revenue-for-vc-funds",
-              "referrals/how-to-import-a-saft-safe-for-trading",
-              "referrals/token-forwarding-agreement",
-              "referrals/token-distributions",
-              "referrals/saft-safe-verification"
+              "1st-for-vc-funds/how-1st-benefits-vc-funds",
+              "1st-for-vc-funds/fee-revenue-for-vc-funds",
+              "1st-for-vc-funds/how-to-import-a-saft-safe-for-trading",
+              "1st-for-vc-funds/token-forwarding-agreement",
+              "1st-for-vc-funds/token-distributions",
+              "1st-for-vc-funds/saft-safe-verification"
             ]
           },
           {
