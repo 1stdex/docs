@@ -54,10 +54,11 @@
             ]
           },
           {
-            "group": "Community & Rewards",
+            "group": "1st Points",
             "pages": [
-              "community-and-rewards/referral-program",
-              "community-and-rewards/1st-points"
+              "1st-points/what-are-1st-points",
+              "1st-points/1st-points-seasons",
+              "1st-points/how-to-earn-1st-points-from-trading"
             ]
           },
           {
