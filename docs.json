@@ -93,7 +93,20 @@
             ]
           },
           {
-            "group": "Legal Framework",
+            "group": "Marketmaking",
+            "pages": [
+              "marketmaking/how-marketmaking-on-1st-works",
+              "marketmaking/saft-lending",
+              "marketmaking/revenue-from-spread",
+              "marketmaking/price-levels",
+              "marketmaking/apy-guarantees",
+              "marketmaking/api",
+              "marketmaking/liquidity-requirement",
+              "marketmaking/up-time"
+            ]
+          },
+          {
+            "group": "Security",
             "pages": [
               "legal/tos",
               "legal/privacy-policy",
