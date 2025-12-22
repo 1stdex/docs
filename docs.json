@@ -2,6 +2,12 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
   "name": "1st",
+
+  "appearance": {
+    "defaultTheme": "dark",
+    "disableThemeSwitch": false
+  },
+
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
