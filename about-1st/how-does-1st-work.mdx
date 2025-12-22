@@ -1,0 +1,135 @@
+---
+title: "How does 1st work?"
+sidebarTitle: "How does 1st work?"
+icon: "info"
+---
+
+1st works by converting locked token allocations into mirror tokens and enabling them to trade on a decentralized exchange with deep liquidity throughout the vesting period.
+
+At a high level, the system follows seven steps.
+
+### **1. The project approves trading and locks allocation terms**
+
+Before any market can be created, the token project signs an approval agreement with 1st.
+
+This approval confirms that trading of imported allocations on 1st is explicitly permitted and transparent. It also protects the mirror token asset class by locking key terms for any imported portion of an allocation.
+
+These protections include:
+
+- Imported allocations cannot be refunded
+- Vesting schedules and vesting mechanics cannot be changed
+- Token price terms for the imported portion cannot be modified
+
+Once an allocation is imported and tokenized, these terms become immutable.
+
+This guarantees that mirror tokens always represent stable and enforceable rights to future token unlocks.
+
+### **2. Liquidity is prepared through market makers**
+
+Before any VC or investor allocations are imported, 1st prepares liquidity for the market by onboarding a professional market maker.
+
+For each listing:
+
+- 1st sources and purchases a verified SAFT or SAFE with a token warrant for the listed project
+- This allocation represents supply that will be used to support liquidity once trading begins
+- The SAFT is lent to a professional market maker
+- The market maker supplies USDC on the other side of the pair
+
+This allocation is not listed or traded on its own. It is prepared in advance so that liquidity is ready when the market opens.
+
+Each market maker signs a market making agreement with 1st that defines how liquidity will be provided once trading goes live. This agreement specifies:
+
+- Expected bid ask spread
+- Number of price levels quoted
+- Minimum depth required at each level
+- Rebalancing behavior and uptime requirements
+
+Trading on a mirror token pair only goes live once two conditions are met:
+
+- Market maker liquidity is fully provisioned
+- One or more verified VC or investor allocations have been imported
+
+By preparing both the sell side through SAFT backed mirror tokens and the buy side through USDC provided by market makers, and only activating trading once verified allocations are imported, 1st ensures that markets launch with immediate, two sided liquidity.
+
+### **3. Locked allocations are verified and imported**
+
+Once liquidity is prepared, early investors and VC funds can import their locked allocations.
+
+These allocations originate from early investment rounds and are most commonly held through SAFT or SAFE agreements signed directly with the project.
+
+Before an allocation is imported, the allocation holder signs a set of agreements with 1st that govern how a specific portion of the allocation is converted into mirror tokens and how tokens are delivered over time.
+
+This includes:
+
+**Mirror token agreement**
+
+- A defined portion of the SAFT or SAFE is converted into mirror tokens on 1st
+- The future rights to receive tokens for the imported portion are represented by the issued mirror tokens
+- Ownership of future unlocks for that portion transfers automatically when mirror tokens are traded
+
+**Token forwarding agreement**
+
+- The exact vesting schedule of the imported portion is defined
+- Unlock dates and token amounts are specified
+- The allocation holder is obligated to send tokens received at each unlock, corresponding to the imported amount, to the 1st claiming contract
+
+Every import must meet strict verification requirements:
+
+- The SAFT or SAFE with token warrant must be signed directly with the project
+- The project verifies the imported amount, vesting schedule, and agreement details before approving the import
+
+Only the imported portion of the allocation is tokenized and eligible for trading on 1st. Any remaining portion of the SAFT or SAFE remains unchanged and continues under its original terms.
+
+### **4. Mirror tokens are issued**
+
+Once an allocation portion is approved and imported, 1st mints mirror tokens that represent that portion on chain.
+
+Mirror tokens:
+
+- Represent the right to receive future token unlocks for the imported amount
+- Follow the exact same vesting schedule as the underlying allocation
+- Exist only for the duration of the remaining vesting period
+
+If an allocation holder does nothing, they simply hold their mirror tokens and receive tokens over time as vesting occurs.
+
+### **5. Mirror tokens trade on the 1st DEX**
+
+Mirror tokens trade against USDC in an on chain order book on 1st.
+
+Because market makers are active and VC allocations are present:
+
+- Sellers can list allocations immediately
+- Buyers always face a liquid two sided market
+- Prices adjust continuously based on supply and demand
+
+Trades settle instantly. When a trade occurs, ownership of future unlocks transfers automatically through mirror token ownership.
+
+### **6. Ownership updates automatically**
+
+After a trade:
+
+- The buyer becomes the new holder of the mirror tokens
+- The seller permanently gives up rights to the future unlocks they sold
+
+Ownership records update automatically inside 1st. There is no manual reassignment, no off chain coordination, and no counterparty settlement risk.
+
+### **7. Tokens unlock and are distributed over time**
+
+As vesting unlocks occur:
+
+- Tokens are delivered to 1st according to the original vesting schedule
+- Tokens become claimable by whoever holds the mirror tokens at that moment
+- Corresponding mirror tokens are reduced or burned as unlocks are claimed
+
+This process continues until the full imported allocation has vested and all mirror tokens are exhausted.
+
+## **What this achieves**
+
+By combining:
+
+- Project level approval and immutable allocation terms
+- Prepared liquidity from professional market makers
+- Verified allocation imports
+- On chain ownership transfer through mirror tokens
+
+1st enables early liquidity, fair discounted entry, continuous price discovery during vesting, and reduced sell pressure on public exchanges, while preserving the project’s original token supply, vesting structure, and economic intent.
