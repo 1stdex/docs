@@ -4,8 +4,8 @@
   "name": "1st",
 
   "appearance": {
-    "defaultTheme": "dark",
-    "disableThemeSwitch": false
+    "default": "dark",
+    "strict": false
   },
 
   "colors": {
