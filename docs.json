@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": "mint",
   "name": "1st",
   "colors": {
     "primary": "#16A34A",
@@ -14,121 +14,107 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Documentation",
+            "group": "About 1st",
             "pages": [
-              {
-                "group": "About 1st",
-                "expanded": false,
-                "pages": [
-                  "about-1st/what-is-1st",
-                  "about-1st/what-are-mirror-tokens",
-                  "about-1st/why-did-we-build-1st",
-                  "about-1st/core-contributors"
-                ]
-              },
-              {
-                "group": "Trading",
-                "expanded": false,
-                "pages": [
-                  "trading/how-to-start-trading",
-                  "trading/how-mpc-wallets-work",
-                  "trading/how-to-trade-with-a-market-order",
-                  "trading/how-to-trade-with-a-limit-order",
-                  "trading/how-to-deposit",
-                  "trading/how-to-withdraw",
-                  "trading/fees",
-                  "trading/liquidity",
-                  "trading/mirror-token-discounts",
-                  "trading/order-book",
-                  "trading/what-are-drops",
-                  "trading/how-frequent-do-tokens-drop",
-                  "trading/how-listings-are-determined"
-                ]
-              },
-              {
-                "group": "1st DEX",
-                "expanded": false,
-                "pages": [
-                  "1st-dex/gas",
-                  "1st-dex/overview",
-                  "1st-dex/clob-dex",
-                  "1st-dex/settlement",
-                  "1st-dex/oracles",
-                  "1st-dex/mpc-wallet-privy",
-                  "1st-dex/spot-price-feeds-coingecko",
-                  "1st-dex/interoperable-automated-claiming"
-                ]
-              },
-              {
-                "group": "1st Points",
-                "expanded": false,
-                "pages": [
-                  "1st-points/what-are-1st-points",
-                  "1st-points/1st-points-seasons",
-                  "1st-points/how-to-earn-1st-points-from-trading"
-                ]
-              },
-              {
-                "group": "Referrals",
-                "expanded": false,
-                "pages": [
-                  "referrals/how-referrals-work",
-                  "referrals/referral-usdc-rewards",
-                  "referrals/referral-points-rewards",
-                  "referrals/referral-codes",
-                  "referrals/project-referrals"
-                ]
-              },
-              {
-                "group": "1st for Projects",
-                "expanded": false,
-                "pages": [
-                  "1st-for-projects/how-1st-benefits-projects",
-                  "1st-for-projects/fee-revenue-for-projects",
-                  "1st-for-projects/how-to-apply-for-a-listing",
-                  "1st-for-projects/listing-agreement",
-                  "1st-for-projects/co-marketing"
-                ]
-              },
-              {
-                "group": "1st for VC funds",
-                "expanded": false,
-                "pages": [
-                  "1st-for-vc-funds/how-1st-benefits-vc-funds",
-                  "1st-for-vc-funds/fee-revenue-for-vc-funds",
-                  "1st-for-vc-funds/how-to-import-a-saft-safe-for-trading",
-                  "1st-for-vc-funds/token-forwarding-agreement",
-                  "1st-for-vc-funds/token-distributions",
-                  "1st-for-vc-funds/saft-safe-verification"
-                ]
-              },
-              {
-                "group": "Marketmaking",
-                "expanded": false,
-                "pages": [
-                  "marketmaking/how-marketmaking-on-1st-works",
-                  "marketmaking/saft-lending",
-                  "marketmaking/revenue-from-spread",
-                  "marketmaking/price-levels",
-                  "marketmaking/apy-guarantees",
-                  "marketmaking/api",
-                  "marketmaking/liquidity-requirement",
-                  "marketmaking/up-time"
-                ]
-              },
-              {
-                "group": "Security",
-                "expanded": false,
-                "pages": [
-                  "security/org-structure",
-                  "security/audits",
-                  "security/saft-safe-verifications",
-                  "security/listing-verification",
-                  "security/token-distribution-verification",
-                  "security/privacy-policy",
-                  "security/terms-of-use"
-                ]
-              }
+              "about-1st/what-is-1st",
+              "about-1st/what-are-mirror-tokens",
+              "about-1st/why-did-we-build-1st",
+              "about-1st/core-contributors"
+            ]
+          },
+          {
+            "group": "Trading",
+            "pages": [
+              "trading/how-to-start-trading",
+              "trading/how-mpc-wallets-work",
+              "trading/how-to-trade-with-a-market-order",
+              "trading/how-to-trade-with-a-limit-order",
+              "trading/how-to-deposit",
+              "trading/how-to-withdraw",
+              "trading/fees",
+              "trading/liquidity",
+              "trading/mirror-token-discounts",
+              "trading/order-book",
+              "trading/what-are-drops",
+              "trading/how-frequent-do-tokens-drop",
+              "trading/how-listings-are-determined"
+            ]
+          },
+          {
+            "group": "1st DEX",
+            "pages": [
+              "1st-dex/gas",
+              "1st-dex/overview",
+              "1st-dex/clob-dex",
+              "1st-dex/settlement",
+              "1st-dex/oracles",
+              "1st-dex/mpc-wallet-privy",
+              "1st-dex/spot-price-feeds-coingecko",
+              "1st-dex/interoperable-automated-claiming"
+            ]
+          },
+          {
+            "group": "1st Points",
+            "pages": [
+              "1st-points/what-are-1st-points",
+              "1st-points/1st-points-seasons",
+              "1st-points/how-to-earn-1st-points-from-trading"
+            ]
+          },
+          {
+            "group": "Refferrals",
+            "pages": [
+              "referrals/how-referrals-work",
+              "referrals/referral-usdc-rewards",
+              "referrals/referral-points-rewards",
+              "referrals/referral-codes",
+              "referrals/project-referrals"
+            ]
+          },
+          {
+            "group": "1st for projects",
+            "pages": [
+              "1st-for-projects/how-1st-benefits-projects",
+              "1st-for-projects/fee-revenue-for-projects",
+              "1st-for-projects/how-to-apply-for-a-listing",
+              "1st-for-projects/listing-agreement",
+              "1st-for-projects/co-marketing"
+            ]
+          },
+          {
+            "group": "1st for VC funds",
+            "pages": [
+              "1st-for-vc-funds/how-1st-benefits-vc-funds",
+              "1st-for-vc-funds/fee-revenue-for-vc-funds",
+              "1st-for-vc-funds/how-to-import-a-saft-safe-for-trading",
+              "1st-for-vc-funds/token-forwarding-agreement",
+              "1st-for-vc-funds/token-distributions",
+              "1st-for-vc-funds/saft-safe-verification"
+            ]
+          },
+          {
+            "group": "Marketmaking",
+            "pages": [
+              "marketmaking/how-marketmaking-on-1st-works",
+              "marketmaking/saft-lending",
+              "marketmaking/revenue-from-spread",
+              "marketmaking/price-levels",
+              "marketmaking/apy-guarantees",
+              "marketmaking/api",
+              "marketmaking/liquidity-requirement",
+              "marketmaking/up-time"
+            ]
+          },
+          {
+            "group": "Security",
+            "pages": [
+              "security/org-structure",
+              "security/audits",
+              "security/saft-safe-verifications",
+              "security/listing-verification",
+              "security/token-distribution-verification",
+              "security/privacy-policy",
+              "security/terms-of-use"
             ]
           }
         ]
@@ -138,7 +124,10 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["mms-api/index", "mms-api/guides/quickstart"]
+            "pages": [
+              "mms-api/index",
+              "mms-api/guides/quickstart"
+            ]
           },
           {
             "group": "Concepts",
@@ -172,7 +161,9 @@
           },
           {
             "group": "Appendix",
-            "pages": ["mms-api/appendix/distributions"]
+            "pages": [
+              "mms-api/appendix/distributions"
+            ]
           }
         ]
       }
