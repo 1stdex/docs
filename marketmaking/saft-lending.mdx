@@ -2,3 +2,50 @@
 title: "SAFT lending"
 icon: "calendar-check"
 ---
+
+To ensure deep sell-side liquidity from launch, 1st uses a structured SAFT lending model for market makers.
+
+For each listed market, 1st acquires a SAFT or SAFE with a token warrant from an early investor who holds an allocation directly with the project. This acquisition is a secondary transaction between 1st and the investor.
+
+The SAFT itself is not used directly by the market maker. Instead, it serves as the legal and economic backing for mirror tokens issued by 1st to the market maker.
+
+### **Purpose of SAFT lending**
+
+SAFT lending exists to ensure that markets launch with real, immediately tradable supply.
+
+By preparing sell-side inventory in advance:
+
+- Markets open with depth from the first trade
+- Order books are populated across multiple price levels
+- Trading does not depend solely on VC imports or organic sellers
+
+This ensures that trading only begins once both sell-side and buy-side liquidity are properly provisioned.
+
+### **How SAFT lending works**
+
+- 1st acquires a SAFT or SAFE from an early investor
+- The SAFT is imported into 1st and used to mint mirror tokens representing the allocation
+- The mirror tokens are lent to the market maker under a market making agreement
+- The market maker uses the lent mirror tokens to quote sell-side liquidity
+- The market maker supplies USDC on the buy side of the pair
+
+Mirror tokens are the instrument used for market making. The underlying SAFT remains held by 1st and backs the issued mirror tokens.
+
+### **Token delivery and burn mechanics**
+
+As vesting unlocks occur, a corresponding portion of the lent mirror tokens is automatically burned.
+
+Underlying tokens are delivered according to the vesting schedule through the claiming contract. Because the market maker holds lent mirror tokens, it may receive unlocked tokens as part of these unlock events.
+
+Any unlocked tokens received by the market maker must be forwarded to 1st. 1st is the rightful owner of the underlying SAFT-backed allocation.
+
+### **Restrictions and safeguards**
+
+The lent mirror tokens:
+
+- May only be used for market making on 1st
+- Cannot be transferred or repurposed
+- Are subject to inventory, delivery, and return requirements
+- Do not accrue VC fee
+
+All obligations are enforced through the market making agreement and monitored by 1st.
