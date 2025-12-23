@@ -2,3 +2,54 @@
 title: "Order book"
 icon: "book-open"
 ---
+
+Trading on 1st uses a central limit order book (CLOB).
+
+This means buyers and sellers place orders at specific prices, and trades are executed by matching orders based on price and time priority. Unlike automated market makers, prices on 1st are determined directly by user orders and liquidity provided by market makers.
+
+Each trading pair on 1st has its own order book.
+
+### **How the order book works**
+
+The order book consists of two sides:
+
+- **Bids**, which are buy orders placed at specific prices
+- **Asks**, which are sell orders placed at specific prices
+
+Orders are matched when a bid and an ask overlap in price. The best available price is always executed first, and when multiple orders exist at the same price, they are matched in the order they were placed. This creates transparent, deterministic execution.
+
+### **Order types**
+
+1st supports standard order types used in professional trading environments:
+
+- **Limit orders**, which allow traders to specify the exact price at which they want to buy or sell
+- **Market orders**, which execute immediately against the best available prices in the order book
+
+All orders are visible in the order book and contribute to price discovery until they are filled or canceled.
+
+### **Execution and settlement**
+
+When an order is matched:
+
+- The trade executes instantly
+- Balances are updated immediately
+- Ownership of mirror tokens transfers automatically
+
+There is no batching, delayed settlement, or off-chain reconciliation. What you see in the order book reflects the live state of the market.
+
+### **Role of market makers**
+
+Professional market makers continuously quote both sides of the order book to ensure tight spreads and meaningful depth. Their liquidity complements real user orders and helps maintain stable execution, especially during periods of higher volatility.
+
+Market makers do not control prices. They compete alongside other participants, and all orders are matched under the same rules.
+
+### **Why a CLOB**
+
+Using an order book allows 1st to support:
+
+- Precise price discovery
+- Transparent liquidity
+- Deterministic execution
+- Fair matching rules
+
+This structure is well suited for trading mirror tokens, where prices reflect time, vesting risk, and market demand rather than algorithmic curves.
