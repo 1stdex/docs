@@ -2,3 +2,11 @@
 title: "Oracles"
 icon: "sitemap"
 ---
+
+Oracles provide external price references used by the 1st DEX.
+
+1st uses CoinGecko as a source of spot price data for underlying tokens. This data is used as a reference and for internal validations.
+
+Trading prices on 1st are determined through the order book. Mirror token prices emerge from bids and asks placed by market participants and are not derived from oracle feeds.
+
+Oracles do not participate in order matching or settlement. They exist to provide context and reference, not to control pricing.
