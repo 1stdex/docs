@@ -1,4 +1,36 @@
 ---
 title: "MPC wallet (Privy)"
-icon: wallet
+icon: "wallet"
 ---
+
+1st uses MPC-based smart wallets provided by Privy to manage user accounts and enable gasless trading.
+
+When a user signs up to 1st using email or a passkey, a self-custodial smart wallet is created automatically. This wallet is used to hold funds, execute trades, receive drops, and settle transactions on chain.
+
+Users do not need to connect an external wallet to trade on 1st.
+
+### **Self-custody and control**
+
+Although the wallet is created through the 1st interface, users retain full ownership and control.
+
+Private keys are managed using multi-party computation, meaning no single party holds the full key. Users can export their private key at any time and use their wallet with any compatible external interface.
+
+1st cannot move user funds unilaterally.
+
+### **Why MPC is used**
+
+MPC wallets allow 1st to combine self-custody with a simple user experience.
+
+This approach:
+
+- Allows instant onboarding
+- Reduces single-key risk
+- Enables gasless transactions
+- Enables automatic drops to be delivered without needs to claim
+- Removes the need for browser extensions or wallet connections
+
+From a user perspective, the wallet works like a normal on-chain account. The MPC setup operates in the background.
+
+### **Privy**
+
+Privy provides the MPC wallet infrastructure used by 1st. Privy is responsible for wallet key management and signing coordination, while all assets remain under user control on chain.
