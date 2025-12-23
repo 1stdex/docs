@@ -60,9 +60,7 @@
                   "1st-dex/clob-dex",
                   "1st-dex/settlement",
                   "1st-dex/oracles",
-                  "1st-dex/mpc-wallet-privy",
-                  "1st-dex/spot-price-feeds-coingecko",
-                  "1st-dex/interoperable-automated-claiming"
+                  "1st-dex/mpc-wallet-privy"
                 ]
               },
               {
