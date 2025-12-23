@@ -2,3 +2,37 @@
 title: "Settlement"
 icon: "arrow-down-to-square"
 ---
+
+Settlement on the 1st DEX is deterministic and happens on chain.
+
+When an order is matched in the order book, the trade settles immediately according to the agreed price and size. Balances update automatically, and ownership of assets is transferred without delays, batching, or off-chain reconciliation.
+
+### **How settlement works**
+
+For every matched trade:
+
+- USDC moves from the buyer to the seller
+- Mirror tokens move from the seller to the buyer
+- Account balances update immediately on-chain
+
+Settlement is atomic. Trades either complete fully or not at all.
+
+### **On-chain guarantees**
+
+Although trading uses a central limit order book, settlement is enforced through smart contracts.
+
+This ensures that:
+
+- Trades settle exactly as matched
+- Asset transfers are final once executed
+- No party can modify, delay, or reverse a settled trade
+
+There is no custody risk introduced by matching or settlement.
+
+### **Settlement and drops**
+
+Settlement and drops are independent processes.
+
+Trading determines who owns mirror tokens at any point in time. Drops determine when mirror tokens are burned and underlying tokens are delivered. When a drop occurs, the underlying tokens are delivered to whoever holds the mirror tokens at that moment.
+
+This separation allows trading to continue seamlessly throughout the vesting period.
