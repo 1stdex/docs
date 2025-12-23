@@ -56,8 +56,8 @@
                 "group": "1st DEX",
                 "expanded": false,
                 "pages": [
-                  "1st-dex/gas",
                   "1st-dex/overview",
+                  "1st-dex/gas",
                   "1st-dex/clob-dex",
                   "1st-dex/settlement",
                   "1st-dex/oracles",
