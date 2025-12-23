@@ -1,4 +1,33 @@
 ---
 title: "Fees"
-icon: percent
+icon: "percent"
 ---
+
+1st uses a transparent fee model that aligns incentives between traders, projects, allocation holders, and liquidity providers.
+
+All trading on 1st is gasless. Users do not pay gas fees when placing or filling orders. There are no fees for wallet creation, deposits, or withdrawals.
+
+### **Buy orders (USDC)**
+
+When a buy order is filled using USDC, fees are split as follows:
+
+- 0.5% to referrals, if applicable
+- 0.5% to the project
+- 0.5% to VC funds with imported allocations, shared pro rata
+- 1.5% to 1st
+
+Fees are deducted automatically at execution and shown in the interface before confirmation.
+
+### **Sell orders (tokens)**
+
+When a sell order is filled using tokens, fees are split as follows:
+
+- 0.5% to the project
+- 1.5% reserved for market making liquidity
+- 1.0% to 1st
+
+The portion reserved for market making is used to support liquidity in the same trading pair.
+
+### **Market maker fees**
+
+Market makers receive automatic fee rebates and do not accrue net trading fees when providing liquidity. These rebates are not part of the standard fee splits.
