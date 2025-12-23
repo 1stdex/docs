@@ -121,11 +121,6 @@
                 "group": "Security",
                 "expanded": false,
                 "pages": [
-                  "security/org-structure",
-                  "security/audits",
-                  "security/saft-safe-verifications",
-                  "security/listing-verification",
-                  "security/token-distribution-verification",
                   "security/privacy-policy",
                   "security/terms-of-use"
                 ]
