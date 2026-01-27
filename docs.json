@@ -131,8 +131,9 @@
               },
               {
                 "group": "Release Candidates",
+                "expanded": false,
                 "pages": [
-                  "documentation/documentation/release-candidates"
+                  "release-candidate/what-is-a-release-candidate"
                 ]
               },
               {
