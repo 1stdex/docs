@@ -130,7 +130,7 @@
                 ]
               },
               {
-                "group": "release-candidates",
+                "group": "Release Candidates",
                 "expanded": false,
                 "pages": [
                   "release-candidates/what-is-a-release-candidate"
