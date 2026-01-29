@@ -25,15 +25,90 @@ For example:
 
 ### **Season schedule**
 
-| **Season** | **Period**                                         | **Multiplier** |
-| :--------- | :------------------------------------------------- | :------------- |
-| 1          | Nov 3 – Nov 30, 2025                               | 3.0×           |
-| 2          | Dec 1 – Dec 31, 2025                               | 2.5×           |
-| 3          | Jan 1 – Jan 31, 2026                               | 2.0×           |
-| 4          | Feb 1 – Feb 28, 2026                               | 1.8×           |
-| 5          | Mar 1 – Mar 31, 2026                               | 1.6×           |
-| 6          | Apr 1 – Apr 30, 2026                               | 1.4×           |
-| 7          | May 1 – May 31, 2026                               | 1.2×           |
-| 8+         | Jun 1, 2026 until conclusion of the points program | 1.0×           |
+<table
+  style={{
+    width: "100%",
+    borderCollapse: "collapse",
+    marginTop: "20px",
+  }}
+>
+  <thead>
+    <tr>
+      <th style={headerStyle}>Season</th>
+      <th style={headerStyle}>Period</th>
+      <th style={headerStyle}>Multiplier</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td style={cellStyle}>1</td>
+      <td style={cellStyle}>Nov 3 – Nov 30, 2025</td>
+      <td style={cellStyle}>3.0×</td>
+    </tr>
+
+    <tr>
+      <td style={cellStyle}>2</td>
+      <td style={cellStyle}>Dec 1 – Dec 31, 2025</td>
+      <td style={cellStyle}>2.5×</td>
+    </tr>
+
+    <tr>
+      <td style={cellStyle}>3</td>
+      <td style={cellStyle}>Jan 1 – Jan 31, 2026</td>
+      <td style={cellStyle}>2.0×</td>
+    </tr>
+
+    <tr>
+      <td style={cellStyle}>4</td>
+      <td style={cellStyle}>Feb 1 – Feb 28, 2026</td>
+      <td style={cellStyle}>1.8×</td>
+    </tr>
+
+    <tr>
+      <td style={cellStyle}>5</td>
+      <td style={cellStyle}>Mar 1 – Mar 31, 2026</td>
+      <td style={cellStyle}>1.6×</td>
+    </tr>
+
+    <tr>
+      <td style={cellStyle}>6</td>
+      <td style={cellStyle}>Apr 1 – Apr 30, 2026</td>
+      <td style={cellStyle}>1.4×</td>
+    </tr>
+
+    <tr>
+      <td style={cellStyle}>7</td>
+      <td style={cellStyle}>May 1 – May 31, 2026</td>
+      <td style={cellStyle}>1.2×</td>
+    </tr>
+
+    <tr>
+      <td style={cellStyle}>8+</td>
+      <td style={cellStyle}>
+        Jun 1, 2026 until conclusion of the points program
+      </td>
+      <td style={cellStyle}>1.0×</td>
+    </tr>
+  </tbody>
+</table>
+
+{/* Styles */}
+{(() => {
+  const headerStyle = {
+    textAlign: "left",
+    padding: "14px 10px",
+    fontWeight: "600",
+    borderBottom: "1px solid rgba(255,255,255,0.15)",
+  };
+
+  const cellStyle = {
+    padding: "18px 10px",
+    borderBottom: "1px solid rgba(255,255,255,0.08)",
+    color: "rgba(255,255,255,0.75)",
+  };
+
+  return null;
+})()}
 
 Once the multiplier reaches **1.0×**, points are earned at a stable rate of **1 point per \$1 traded**, regardless of trade direction.
